@@ -50,7 +50,6 @@ $font-weight: 500;
   background-color: $bg;
   color: $fg;
   border-bottom: 2px solid $purple;
-  padding: 0 16px;
   min-height: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
@@ -135,18 +134,13 @@ $font-weight: 500;
 .clock {
   padding: 4px 8px;
   transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: rgba(139, 233, 253, 0.05);
-    border-radius: 8px;
-  }
 }
 
 .time {
   color: $cyan;
   font-size: 14px;
-  font-weight: 600;
   transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .date {
@@ -157,15 +151,6 @@ $font-weight: 500;
   transition: all 0.2s ease;
 }
 
-.clock:hover .date {
-  opacity: 1;
-}
-
-// Right Section
-.right {
-  margin-right: 16px;
-}
-
 .system-tray {
   margin: 0 16px;
 }
@@ -174,11 +159,6 @@ $font-weight: 500;
 .battery {
   padding: 8px 12px;
   transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: rgba(80, 250, 123, 0.1);
-    border-radius: 8px;
-  }
 }
 
 .battery-icon {
@@ -196,10 +176,6 @@ $font-weight: 500;
   transition: all 0.2s ease;
 }
 
-.battery:hover .battery-percent {
-  color: $green;
-  opacity: 1;
-}
 
 // WiFi - Minimal Style
 .wifi {
@@ -254,11 +230,6 @@ $font-weight: 500;
   opacity: 1;
 }
 
-// Power Menu
-.power-menu {
-
-}
-
 .power-button {
   color: $comment;
   padding: 4px 12px;
@@ -276,7 +247,7 @@ $font-weight: 500;
 }
 
 .power-options {
-  padding: 4px;
+  margin: 5px;
   background-color: rgba(68, 71, 90, 0.8);
   border-radius: 8px;
   border: 1px solid rgba(98, 114, 164, 0.3);

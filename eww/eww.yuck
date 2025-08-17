@@ -114,7 +114,6 @@
 
 ;; moved to components/power_menu.yuck
 
-
  (defwidget system-tray []
   (box :class "system-tray"
        :orientation "h"
