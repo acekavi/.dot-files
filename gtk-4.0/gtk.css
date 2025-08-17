@@ -22,10 +22,10 @@ terminal, textview, .monospace {
   text-rendering: optimizeLegibility;
 }
 
-/* Better contrast for readability */
+/* Better contrast for readability
 label, button, entry {
   color: #ffffff;
-}
+} */
 
 /* Improve button text readability */
 button {
