@@ -1,0 +1,332 @@
+// Dracula Theme Colors
+$bg: #282a36;
+$bg-alt: #44475a;
+$fg: #f8f8f2;
+$comment: #6272a4;
+$cyan: #8be9fd;
+$green: #50fa7b;
+$orange: #ffb86c;
+$pink: #ff79c6;
+$purple: #bd93f9;
+$red: #ff5555;
+$yellow: #f1fa8c;
+
+// Typography
+$font-family: "JetBrains Mono Nerd Font", "Noto Sans", sans-serif;
+$font-size: 12px;
+$font-weight: 500;
+
+// Animations
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-right {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+// Global Styles
+* {
+  all: unset;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+// Main Bar
+.bar {
+  background-color: $bg;
+  color: $fg;
+  border-bottom: 2px solid $purple;
+  padding: 0 16px;
+  min-height: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+// Left Section
+.left {
+  spacing: 12px;
+}
+
+.launcher {
+  background-color: $purple;
+  color: $bg;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $pink;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(189, 147, 249, 0.3);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.workspaces {
+  spacing: 4px;
+}
+
+.workspace {
+  background-color: transparent;
+  color: $comment;
+  padding: 6px 10px;
+  border-radius: 15px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  
+  &:hover {
+    background-color: $bg-alt;
+    color: $fg;
+    border-color: $purple;
+  }
+  
+  &.focused {
+    background-color: $purple;
+    color: $bg;
+    border-color: $purple;
+    box-shadow: 0 2px 6px rgba(189, 147, 249, 0.4);
+  }
+  
+  &.visible {
+    background-color: $bg-alt;
+    color: $cyan;
+    border-color: $cyan;
+  }
+  
+  &.urgent {
+    background-color: $red;
+    color: $bg;
+    border-color: $red;
+    animation: fade-in 0.5s ease;
+  }
+  
+  &.empty {
+    opacity: 0.5;
+  }
+}
+
+// Center Section
+.center {
+  margin: 0 20px;
+}
+
+.clock {
+  text-align: center;
+  spacing: 2px;
+}
+
+.time {
+  color: $cyan;
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.date {
+  color: $comment;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+// Right Section
+.right {
+  spacing: 8px;
+}
+
+.system-tray {
+  spacing: 12px;
+}
+
+// Battery
+.battery {
+  spacing: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: rgba(68, 71, 90, 0.6);
+  border: 1px solid $green;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $bg-alt;
+    transform: translateY(-1px);
+  }
+}
+
+.battery-icon {
+  color: $green;
+  font-size: 14px;
+}
+
+.battery-percent {
+  color: $fg;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// WiFi
+.wifi {
+  spacing: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: rgba(68, 71, 90, 0.6);
+  border: 1px solid $cyan;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $bg-alt;
+    transform: translateY(-1px);
+  }
+}
+
+.wifi-icon {
+  color: $cyan;
+  font-size: 14px;
+}
+
+.wifi-ssid {
+  color: $fg;
+  font-size: 11px;
+  font-weight: 600;
+  max-width: 120px;
+}
+
+// Bluetooth
+.bluetooth {
+  spacing: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: rgba(68, 71, 90, 0.6);
+  border: 1px solid $purple;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $bg-alt;
+    transform: translateY(-1px);
+  }
+}
+
+.bluetooth-icon {
+  color: $purple;
+  font-size: 14px;
+}
+
+// Power Menu
+.power-menu {
+  spacing: 4px;
+}
+
+.power-button {
+  background-color: $bg-alt;
+  color: $red;
+  padding: 6px 10px;
+  border-radius: 15px;
+  border: 1px solid $red;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $red;
+    color: $bg;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(255, 85, 85, 0.3);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.power-options {
+  spacing: 4px;
+  padding: 4px;
+  background-color: $bg-alt;
+  border-radius: 12px;
+  border: 1px solid $comment;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  animation: slide-right 0.3s ease;
+}
+
+.power-option {
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+  
+  &.lock {
+    color: $yellow;
+    &:hover {
+      background-color: $yellow;
+      color: $bg;
+    }
+  }
+  
+  &.sleep {
+    color: $cyan;
+    &:hover {
+      background-color: $cyan;
+      color: $bg;
+    }
+  }
+  
+  &.restart {
+    color: $orange;
+    &:hover {
+      background-color: $orange;
+      color: $bg;
+    }
+  }
+  
+  &.shutdown {
+    color: $red;
+    &:hover {
+      background-color: $red;
+      color: $bg;
+    }
+  }
+}
+
+// Tooltips
+tooltip {
+  background-color: $bg-alt;
+  color: $fg;
+  border-radius: 8px;
+  border: 1px solid $purple;
+  padding: 6px 10px;
+  font-size: 11px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+// Scrollbars (if any)
+scrollbar {
+  width: 8px;
+  background-color: $bg-alt;
+  border-radius: 4px;
+}
+
+scrollbar slider {
+  background-color: $purple;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: $pink;
+  }
+}

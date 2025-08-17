@@ -1,0 +1,172 @@
+;; Variables
+(defvar reveal-power false)
+
+;; Polls
+(defpoll time :interval "1s"
+  `date +'%H:%M'`)
+
+(defpoll date :interval "1m"
+  `date +'%A, %B %d'`)
+
+(defpoll battery-percent :interval "30s"
+  `cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1 || echo "100"`)
+
+(defpoll battery-status :interval "30s"
+  `cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1 || echo "Unknown"`)
+
+(defpoll wifi-status :interval "5s"
+  `nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2 | head -n1 || echo "Disconnected"`)
+
+(defpoll wifi-strength :interval "10s"
+  `nmcli -t -f active,signal dev wifi | grep '^yes' | cut -d: -f2 | head -n1 || echo "0"`)
+
+(defpoll bluetooth-status :interval "10s"
+  `bluetoothctl show | grep "Powered: yes" >/dev/null && echo "on" || echo "off"`)
+
+(defpoll workspaces :interval "100ms"
+  `scripts/get-workspaces`)
+
+;; Left Section - Application Launcher and Workspaces
+(defwidget launcher []
+  (button :class "launcher"
+          :onclick "walker &"
+    (label :text "")))
+
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+    (for workspace in workspaces
+      (button :class {workspace.urgent ? "workspace urgent" :
+                     workspace.focused ? "workspace focused" :
+                     workspace.visible ? "workspace visible" :
+                     workspace.output != "" ? "workspace" : "workspace empty"}
+              :onclick "scripts/workspace-switch ${workspace.name}"
+              :visible {workspace.windows > 0 || workspace.focused}
+        (label :text "${workspace.name}")))))
+
+(defwidget left []
+  (box :class "left"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+    (launcher)
+    (workspaces)))
+
+;; Center Section - Time and Date
+(defwidget clock []
+  (box :class "clock"
+       :orientation "v"
+       :space-evenly false
+    (label :class "time" :text time)
+    (label :class "date" :text date)))
+
+(defwidget center []
+  (box :class "center"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    (clock)))
+
+;; Right Section - System Tray, Battery, Network, and Power Menu
+(defwidget battery []
+  (box :class "battery"
+       :orientation "h"
+       :space-evenly false
+    (label :class "battery-icon"
+           :text {battery-status == "Charging" ? "󰂄" :
+                  battery-percent < 20 ? "󰁺" :
+                  battery-percent < 40 ? "󰁼" :
+                  battery-percent < 60 ? "󰁾" :
+                  battery-percent < 80 ? "󰂀" : "󰁹"})
+    (label :class "battery-percent" :text "${battery-percent}%")))
+
+(defwidget wifi []
+  (box :class "wifi"
+       :orientation "h"
+       :space-evenly false
+    (label :class "wifi-icon"
+           :text {wifi-status == "Disconnected" ? "󰖪" :
+                  wifi-strength < 25 ? "󰤟" :
+                  wifi-strength < 50 ? "󰤢" :
+                  wifi-strength < 75 ? "󰤥" : "󰤨"})
+    (label :class "wifi-ssid"
+           :text {wifi-status == "Disconnected" ? "Disconnected" :
+                  strlength(wifi-status) > 12 ? "${substring(wifi-status, 0, 12)}..." : wifi-status})))
+
+(defwidget bluetooth []
+  (box :class "bluetooth"
+       :orientation "h"
+       :space-evenly false
+    (label :class "bluetooth-icon"
+           :text {bluetooth-status == "on" ? "󰂯" : "󰂲"})))
+
+(defwidget power-menu []
+  (box :class "power-menu"
+       :orientation "h"
+       :space-evenly false
+    (button :class "power-button"
+            :onclick {reveal-power ? "eww update reveal-power=false" : "eww update reveal-power=true"}
+      (label :text "⏻"))
+    (revealer :transition "slideright"
+              :reveal reveal-power
+              :duration "300ms"
+      (box :class "power-options"
+           :orientation "h"
+           :space-evenly false
+        (button :class "power-option lock"
+                :onclick "scripts/power-menu lock"
+                :tooltip "Lock"
+          (label :text "󰍁"))
+        (button :class "power-option sleep"
+                :onclick "scripts/power-menu sleep"
+                :tooltip "Sleep"
+          (label :text "󰤄"))
+        (button :class "power-option restart"
+                :onclick "scripts/power-menu restart"
+                :tooltip "Restart"
+          (label :text "󰜉"))
+        (button :class "power-option shutdown"
+                :onclick "scripts/power-menu shutdown"
+                :tooltip "Shutdown"
+          (label :text "󰐥"))))))
+
+(defwidget system-tray []
+  (box :class "system-tray"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+    (battery)
+    (wifi)
+    (bluetooth)
+    (power-menu)))
+
+(defwidget right []
+  (box :class "right"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+    (system-tray)))
+
+;; Main Bar Widget
+(defwidget bar []
+  (centerbox :class "bar"
+             :orientation "h"
+    (left)
+    (center)
+    (right)))
+
+;; Window Definition
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0px"
+                      :width "100%"
+                      :height "30px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "30px")
+  :stacking "fg"
+  :exclusive true
+  (bar))

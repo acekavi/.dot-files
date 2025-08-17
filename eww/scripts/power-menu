@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Power menu script for eww bar
+
+action="$1"
+
+case "$action" in
+    "lock")
+        # Close power menu first
+        eww update reveal-power=false
+        # Lock the screen
+        if command -v hyprlock >/dev/null 2>&1; then
+            hyprlock &
+        elif command -v swaylock >/dev/null 2>&1; then
+            swaylock &
+        elif command -v i3lock >/dev/null 2>&1; then
+            i3lock -c 282a36 &
+        else
+            notify-send "Lock" "No screen locker found"
+        fi
+        ;;
+    "sleep")
+        eww update reveal-power=false
+        systemctl suspend
+        ;;
+    "restart")
+        eww update reveal-power=false
+        # Show confirmation dialog
+        if command -v zenity >/dev/null 2>&1; then
+            if zenity --question --text="Are you sure you want to restart?"; then
+                systemctl reboot
+            fi
+        else
+            systemctl reboot
+        fi
+        ;;
+    "shutdown")
+        eww update reveal-power=false
+        # Show confirmation dialog
+        if command -v zenity >/dev/null 2>&1; then
+            if zenity --question --text="Are you sure you want to shutdown?"; then
+                systemctl poweroff
+            fi
+        else
+            systemctl poweroff
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {lock|sleep|restart|shutdown}"
+        exit 1
+        ;;
+esac
