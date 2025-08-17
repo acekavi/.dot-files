@@ -1,0 +1,20 @@
+(defwidget left []
+  (box :class "left" :orientation "h" :space-evenly false :halign "start"
+    (launcher)
+    (separator)
+    (workspaces)))
+
+(defwidget center []
+  (box :class "center" :orientation "h" :space-evenly false :halign "center"
+    (clock)))
+
+(defwidget right []
+  (box :class "right" :orientation "h" :space-evenly false :halign "end"
+    (system-tray)))
+
+(defwidget bar []
+  (centerbox :class "bar" :orientation "h"
+    (left)
+    (center)
+    (right)))
+

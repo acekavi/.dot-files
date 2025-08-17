@@ -1,0 +1,30 @@
+(defwidget power-menu []
+  (box :class "power-menu"
+       :orientation "h"
+       :space-evenly false
+    (button :class "power-button"
+            :onclick {reveal-power ? "eww update reveal-power=false" : "eww update reveal-power=true"}
+      (label :text "⏻"))
+    (revealer :transition "slideright"
+              :reveal reveal-power
+              :duration "300ms"
+      (box :class "power-options"
+           :orientation "h"
+           :space-evenly false
+        (button :class "power-option lock"
+                :onclick "~/.config/eww/scripts/power-menu lock"
+                :tooltip "Lock"
+          (label :text "󰍁"))
+        (button :class "power-option sleep"
+                :onclick "~/.config/eww/scripts/power-menu sleep"
+                :tooltip "Sleep"
+          (label :text "󰤄"))
+        (button :class "power-option restart"
+                :onclick "~/.config/eww/scripts/power-menu restart"
+                :tooltip "Restart"
+          (label :text "󰜉"))
+        (button :class "power-option shutdown"
+                :onclick "~/.config/eww/scripts/power-menu shutdown"
+                :tooltip "Shutdown"
+          (label :text "󰐥"))))))
+

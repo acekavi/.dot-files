@@ -1,3 +1,13 @@
+// ===================================================================
+// EWW STATUS BAR STYLING - DRACULA THEME
+// Following official eww documentation: https://elkowar.github.io/eww/configuration.html
+//
+// IMPORTANT: eww uses GTK's CSS engine with limitations:
+// - No flexbox, float, or absolute positioning
+// - Width/height properties are limited - use padding/margin instead
+// - Some animations not supported - prefer opacity/color transitions
+// ===================================================================
+
 // Dracula Theme Colors
 $bg: #282a36;
 $bg-alt: #44475a;
@@ -23,8 +33,8 @@ $font-weight: 500;
 }
 
 @keyframes slide-right {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 // Global Styles
@@ -45,261 +55,331 @@ $font-weight: 500;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+// Separator - Using GTK-compatible properties only
+// Reference: https://elkowar.github.io/eww/configuration.html
+.separator {
+  background-color: $comment;
+  opacity: 0.2;
+  margin: 0 16px;
+  border-radius: 2px;
+  padding: 8px 1px;  /* Use padding to create visual size */
+}
+
 // Left Section
 .left {
-  spacing: 12px;
+  margin-left: 16px;
 }
 
 .launcher {
-  background-color: $purple;
-  color: $bg;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  margin: 4px 0;
   
   &:hover {
-    background-color: $pink;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(189, 147, 249, 0.3);
+    background-color: rgba(189, 147, 249, 0.1);
+    opacity: 1;
   }
   
-  &:active {
-    transform: scale(0.95);
+  image {
+    transition: all 0.2s ease;
   }
-}
-
-.workspaces {
-  spacing: 4px;
 }
 
 .workspace {
   background-color: transparent;
   color: $comment;
   padding: 6px 10px;
-  border-radius: 15px;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  font-weight: 600;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  min-width: 24px;
   
   &:hover {
-    background-color: $bg-alt;
+    background-color: rgba(98, 114, 164, 0.1);
     color: $fg;
-    border-color: $purple;
+    opacity: 0.9;
   }
   
   &.focused {
-    background-color: $purple;
-    color: $bg;
-    border-color: $purple;
-    box-shadow: 0 2px 6px rgba(189, 147, 249, 0.4);
+    background-color: rgba(189, 147, 249, 0.15);
+    color: $purple;
+    opacity: 1;
+    font-weight: 600;
   }
   
   &.visible {
-    background-color: $bg-alt;
     color: $cyan;
-    border-color: $cyan;
+    opacity: 0.8;
   }
   
   &.urgent {
-    background-color: $red;
-    color: $bg;
-    border-color: $red;
+    color: $red;
+    opacity: 1;
     animation: fade-in 0.5s ease;
   }
   
   &.empty {
-    opacity: 0.5;
+    opacity: 0.3;
   }
 }
 
-// Center Section
+// Center Section - Minimal Style
 .center {
   margin: 0 20px;
 }
 
 .clock {
-  text-align: center;
-  spacing: 2px;
+  padding: 4px 8px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(139, 233, 253, 0.05);
+    border-radius: 8px;
+  }
 }
 
 .time {
   color: $cyan;
   font-size: 14px;
-  font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .date {
   color: $comment;
   font-size: 10px;
   font-weight: 400;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.clock:hover .date {
+  opacity: 1;
 }
 
 // Right Section
 .right {
-  spacing: 8px;
+  margin-right: 16px;
 }
 
 .system-tray {
-  spacing: 12px;
+  margin: 0 16px;
 }
 
-// Battery
+// Battery - Minimal Style
 .battery {
-  spacing: 6px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  background-color: rgba(68, 71, 90, 0.6);
-  border: 1px solid $green;
-  transition: all 0.3s ease;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
   
   &:hover {
-    background-color: $bg-alt;
-    transform: translateY(-1px);
+    background-color: rgba(80, 250, 123, 0.1);
+    border-radius: 8px;
   }
 }
 
 .battery-icon {
   color: $green;
-  font-size: 14px;
+  font-size: 16px;
+  margin-right: 4px;
+  transition: all 0.2s ease;
 }
 
 .battery-percent {
-  color: $fg;
+  color: $comment;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
-// WiFi
+.battery:hover .battery-percent {
+  color: $green;
+  opacity: 1;
+}
+
+// WiFi - Minimal Style
 .wifi {
-  spacing: 6px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  background-color: rgba(68, 71, 90, 0.6);
-  border: 1px solid $cyan;
-  transition: all 0.3s ease;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
   
   &:hover {
-    background-color: $bg-alt;
-    transform: translateY(-1px);
+    background-color: rgba(139, 233, 253, 0.1);
+    border-radius: 8px;
   }
 }
 
 .wifi-icon {
   color: $cyan;
-  font-size: 14px;
+  font-size: 16px;
+  margin-right: 4px;
+  transition: all 0.2s ease;
 }
 
 .wifi-ssid {
-  color: $fg;
+  color: $comment;
   font-size: 11px;
-  font-weight: 600;
-  max-width: 120px;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
-// Bluetooth
+.wifi:hover .wifi-ssid {
+  color: $cyan;
+  opacity: 1;
+}
+
+// Bluetooth - Minimal Style
 .bluetooth {
-  spacing: 6px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  background-color: rgba(68, 71, 90, 0.6);
-  border: 1px solid $purple;
-  transition: all 0.3s ease;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
   
   &:hover {
-    background-color: $bg-alt;
-    transform: translateY(-1px);
+    background-color: rgba(189, 147, 249, 0.1);
+    border-radius: 8px;
   }
 }
 
 .bluetooth-icon {
   color: $purple;
-  font-size: 14px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+}
+
+.bluetooth:hover .bluetooth-icon {
+  opacity: 1;
 }
 
 // Power Menu
 .power-menu {
-  spacing: 4px;
+
 }
 
 .power-button {
-  background-color: $bg-alt;
-  color: $red;
-  padding: 6px 10px;
-  border-radius: 15px;
-  border: 1px solid $red;
-  font-size: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  color: $comment;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  margin: 4px 0;
   
   &:hover {
-    background-color: $red;
-    color: $bg;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(255, 85, 85, 0.3);
-  }
-  
-  &:active {
-    transform: scale(0.95);
+    background-color: rgba(255, 85, 85, 0.1);
+    color: $red;
+    opacity: 1;
   }
 }
 
 .power-options {
-  spacing: 4px;
   padding: 4px;
-  background-color: $bg-alt;
-  border-radius: 12px;
-  border: 1px solid $comment;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  animation: slide-right 0.3s ease;
+  background-color: rgba(68, 71, 90, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(98, 114, 164, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: fade-in 0.2s ease;
 }
 
 .power-option {
-  padding: 6px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
   
   &:hover {
-    transform: scale(1.1);
-  }
-  
-  &:active {
-    transform: scale(0.9);
+    opacity: 1;
+    border-radius: 6px;
   }
   
   &.lock {
     color: $yellow;
     &:hover {
-      background-color: $yellow;
-      color: $bg;
+      background-color: rgba(241, 250, 140, 0.1);
     }
   }
   
   &.sleep {
     color: $cyan;
     &:hover {
-      background-color: $cyan;
-      color: $bg;
+      background-color: rgba(139, 233, 253, 0.1);
     }
   }
   
   &.restart {
     color: $orange;
     &:hover {
-      background-color: $orange;
-      color: $bg;
+      background-color: rgba(255, 184, 108, 0.1);
     }
   }
   
   &.shutdown {
     color: $red;
     &:hover {
-      background-color: $red;
-      color: $bg;
+      background-color: rgba(255, 85, 85, 0.1);
+    }
+  }
+}
+
+// Confirmation Dialog (Dracula themed)
+.confirm-dialog {
+  background-color: $bg-alt;
+  color: $fg;
+  border-radius: 10px;
+  padding: 22px 24px; // extra spacing from border
+  // Use inset shadow to simulate a consistent 1px border on all sides
+  box-shadow: inset 0 0 0 1px rgba(189, 147, 249, 0.4), 0 10px 28px rgba(0, 0, 0, 0.6);
+  min-width: 360px;
+  animation: fade-in 0.12s ease;
+
+  .confirm-title {
+    color: $purple;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .confirm-text {
+    color: $fg;
+    opacity: 0.9;
+    margin-bottom: 16px;
+  }
+
+  .confirm-actions {
+    margin-top: 10px;
+
+    .confirm-cancel,
+    .confirm-yes {
+      background-color: rgba(40, 42, 54, 0.6);
+      padding: 8px 14px; // bigger click target and spacing
+      border-radius: 8px;
+      border: 1px solid rgba(98, 114, 164, 0.3);
+      transition: all 0.15s ease;
+      opacity: 0.9;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .confirm-cancel {
+      color: $comment;
+      margin-right: 10px; // space between buttons when gap is unsupported
+      &:hover {
+        background-color: rgba(98, 114, 164, 0.15);
+      }
+    }
+
+    .confirm-yes {
+      color: $red;
+      &:hover {
+        background-color: rgba(255, 85, 85, 0.12);
+        border-color: rgba(255, 85, 85, 0.25);
+      }
     }
   }
 }
@@ -315,18 +395,4 @@ tooltip {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-// Scrollbars (if any)
-scrollbar {
-  width: 8px;
-  background-color: $bg-alt;
-  border-radius: 4px;
-}
-
-scrollbar slider {
-  background-color: $purple;
-  border-radius: 4px;
-  
-  &:hover {
-    background-color: $pink;
-  }
-}
+// Scrollbars not supported in eww
