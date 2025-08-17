@@ -1,0 +1,188 @@
+{
+    // #######################################################################################
+    // DRACULA THEME - FASTFETCH CONFIGURATION
+    // Modern system information display with Dracula color scheme
+    // #######################################################################################
+    
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    
+    "logo": {
+        "source": "auto",
+        "padding": {
+            "top": 1,
+            "left": 4,
+            "right": 4
+        },
+        "color": {
+            "1": "magenta",
+            "2": "blue"
+        }
+    },
+    
+    "display": {
+        "separator": " \u2192 ",
+        "color": {
+            "separator": "cyan",
+            "keys": "magenta",
+            "title": "magenta"
+        }
+    },
+    
+    "modules": [
+        {
+            "type": "title",
+            "color": {
+                "user": "cyan",
+                "at": "white",
+                "host": "magenta"
+            }
+        },
+        {
+            "type": "separator",
+            "string": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        },
+        {
+            "type": "os",
+            "key": " \uf17c OS",
+            "keyColor": "blue"
+        },
+        {
+            "type": "host",
+            "key": " \uf109 Host",
+            "keyColor": "green"
+        },
+        {
+            "type": "kernel",
+            "key": " \uf30d Kernel",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "uptime",
+            "key": " \uf017 Uptime",
+            "keyColor": "red"
+        },
+        {
+            "type": "packages",
+            "key": " \uf187 Packages",
+            "keyColor": "cyan"
+        },
+        {
+            "type": "shell",
+            "key": " \uf489 Shell",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "display",
+            "key": " \uf26c Resolution",
+            "keyColor": "blue"
+        },
+        {
+            "type": "de",
+            "key": " \uf1fc DE",
+            "keyColor": "green"
+        },
+        {
+            "type": "wm",
+            "key": " \uf2d0 WM",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "wmtheme",
+            "key": " \uf53f WM Theme",
+            "keyColor": "red"
+        },
+        {
+            "type": "theme",
+            "key": " \uf596 Theme",
+            "keyColor": "cyan"
+        },
+        {
+            "type": "icons",
+            "key": " \uf1c0 Icons",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "font",
+            "key": " \uf031 Font",
+            "keyColor": "blue"
+        },
+        {
+            "type": "cursor",
+            "key": " \uf245 Cursor",
+            "keyColor": "green"
+        },
+        {
+            "type": "terminal",
+            "key": " \uf120 Terminal",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "terminalfont",
+            "key": " \uf031 Terminal Font",
+            "keyColor": "red"
+        },
+        {
+            "type": "cpu",
+            "key": " \uf4bc CPU",
+            "keyColor": "cyan",
+            "showPeCoreCount": true,
+            "temp": true
+        },
+        {
+            "type": "gpu",
+            "key": " \uf1b2 GPU",
+            "keyColor": "magenta",
+            "temp": true,
+            "driverSpecific": true
+        },
+        {
+            "type": "memory",
+            "key": " \uf85a Memory",
+            "keyColor": "blue"
+        },
+        {
+            "type": "swap",
+            "key": " \uf0c7 Swap",
+            "keyColor": "green"
+        },
+        {
+            "type": "disk",
+            "key": " \uf0a0 Disk (/)",
+            "keyColor": "yellow",
+            "folders": ["/"]
+        },
+        {
+            "type": "localip",
+            "key": " \uf0ac Local IP",
+            "keyColor": "red",
+            "showIpV4": true,
+            "showIpV6": false,
+            "namePrefix": "enp"
+        },
+        // {
+        //     "type": "publicip",
+        //     "key": " \uf0ac Public IP",
+        //     "keyColor": "cyan",
+        //     "timeout": 1000
+        // },
+        {
+            "type": "wifi",
+            "key": " \uf1eb WiFi",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "locale",
+            "key": " \uf0ac Locale",
+            "keyColor": "blue"
+        },
+        {
+            "type": "separator",
+            "string": ""
+        },
+        {
+            "type": "colors",
+            "paddingLeft": 2,
+            "symbol": "circle"
+        }
+    ]
+}

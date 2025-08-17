@@ -11,3 +11,5 @@
 !/electron-flags.conf
 !/brave-flags.conf
 !/greetd/
+!/fastfetch/
+!/btop/

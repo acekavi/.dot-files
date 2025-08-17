@@ -1,0 +1,98 @@
+# #######################################################################################
+# DRACULA THEME FOR BTOP
+# Custom Dracula color scheme matching your Hyprland setup
+# Based on the official Dracula color palette
+# #######################################################################################
+
+# Main background
+theme[main_bg]="#282a36"
+
+# Main foreground  
+theme[main_fg]="#f8f8f2"
+
+# Title color
+theme[title]="#bd93f9"
+
+# Highlight color
+theme[hi_fg]="#50fa7b"
+
+# Selected background
+theme[selected_bg]="#44475a"  
+
+# Selected foreground
+theme[selected_fg]="#f8f8f2"
+
+# Inactive/Grayed out
+theme[inactive_fg]="#6272a4"
+
+# Graph colors
+theme[proc_misc]="#8be9fd"
+theme[cpu_box]="#bd93f9"
+theme[mem_box]="#ff79c6" 
+theme[net_box]="#8be9fd"
+theme[proc_box]="#50fa7b"
+theme[div_line]="#44475a"
+
+# CPU graph colors  
+theme[cpu_start]="#50fa7b"
+theme[cpu_mid]="#f1fa8c"
+theme[cpu_end]="#ff5555"
+
+# Memory graph colors
+theme[mem_start]="#bd93f9"
+theme[mem_mid]="#ff79c6"  
+theme[mem_end]="#ff5555"
+
+# Network graph colors
+theme[net_start]="#8be9fd"
+theme[net_mid]="#50fa7b"
+theme[net_end]="#f1fa8c"
+
+# Process graph colors
+theme[process_start]="#50fa7b"
+theme[process_mid]="#ffb86c"
+theme[process_end]="#ff5555"
+
+# Temperature colors
+theme[temp_start]="#8be9fd"
+theme[temp_mid]="#f1fa8c"
+theme[temp_end]="#ff5555"
+
+# Graph gradient colors
+theme[graph_text]="#f8f8f2"
+
+# Process box colors
+theme[proc_selected]="#44475a"
+theme[proc_running]="#50fa7b"
+theme[proc_sleeping]="#8be9fd"
+theme[proc_stopped]="#f1fa8c"
+theme[proc_zombie]="#ff5555"
+
+# GPU colors (if GPU support is available)
+theme[gpu_start]="#bd93f9"
+theme[gpu_mid]="#ff79c6"
+theme[gpu_end]="#ff5555"
+
+# Additional interface colors
+theme[meter_bg]="#44475a"
+theme[used_start]="#50fa7b"
+theme[used_mid]="#f1fa8c"
+theme[used_end]="#ff5555"
+theme[available_start]="#8be9fd"
+theme[available_mid]="#bd93f9"
+theme[available_end]="#6272a4"
+
+# Free colors
+theme[free_start]="#44475a"
+theme[free_mid]="#6272a4"
+theme[free_end]="#282a36"
+
+# Cached colors  
+theme[cached_start]="#ffb86c"
+theme[cached_mid]="#f1fa8c"
+theme[cached_end]="#50fa7b"
+
+# Buffer colors
+theme[buffer_start]="#bd93f9"
+theme[buffer_mid]="#ff79c6"
+theme[buffer_end]="#8be9fd"
