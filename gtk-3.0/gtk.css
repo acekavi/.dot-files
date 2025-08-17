@@ -22,10 +22,11 @@ terminal, textview, .monospace {
   text-rendering: optimizeLegibility;
 }
 
-/* Better contrast for readability
-label, button, entry {
+/* Avoid forcing global light-on-light text. Scope high-contrast text only to headerbars
+   so dialogs with light backgrounds keep dark text by default. */
+headerbar label, headerbar button, headerbar entry {
   color: #ffffff;
-} */
+}
 
 /* Improve button text readability */
 button {
