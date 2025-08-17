@@ -1,0 +1,38 @@
+/* GTK3 CSS for Noto Fonts and Better Rendering */
+
+* {
+  font-family: "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK TC", "Noto Sans CJK JP", "Noto Sans CJK KR", sans-serif;
+  font-size: 10pt;
+}
+
+/* Terminal and monospace applications */
+terminal, textview, .monospace {
+  font-family: "Noto Sans Mono", "Noto Sans Mono CJK SC", "Noto Sans Mono CJK TC", "Noto Sans Mono CJK JP", "Noto Sans Mono CJK KR", monospace;
+}
+
+/* Serif fonts for specific applications */
+.serif {
+  font-family: "Noto Serif", "Noto Serif CJK SC", "Noto Serif CJK TC", "Noto Serif CJK JP", "Noto Serif CJK KR", serif;
+}
+
+/* Font rendering improvements */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Better contrast for readability */
+label, button, entry {
+  color: #ffffff;
+}
+
+/* Improve button text readability */
+button {
+  font-weight: 500;
+}
+
+/* Improve entry text readability */
+entry {
+  font-weight: 400;
+}
