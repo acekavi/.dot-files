@@ -90,7 +90,7 @@
             "showColorPicker": false,
             "showDarkModeToggle": false,
             "showKeyboardToggle": false,
-            "showMicToggle": true,
+            "showMicToggle": false,
             "showPerformanceProfileToggle": true,
             "showScreenSnip": false
         },
