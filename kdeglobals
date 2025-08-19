@@ -132,6 +132,10 @@ ForegroundNormal=#bec8c9
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
+[DirSelect Dialog]
+DirSelectDialog Size=921,624
+Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\xa8\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
+
 [General]
 ColorScheme=MaterialYouDark
 ColorSchemeHash=b5d72a606dc9794f3af9bb305ce998ecd107dd31
@@ -160,7 +164,7 @@ Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
-Show hidden files=false
+Show hidden files=true
 Sort by=Name
 Sort directories first=true
 Sort hidden files last=false

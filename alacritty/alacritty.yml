@@ -1,0 +1,72 @@
+# Alacritty Configuration
+# Based on Dracula theme
+
+# Colors (Dracula)
+colors:
+  primary:
+    background: '#282a36'
+    foreground: '#f8f8f2'
+  cursor:
+    text: '#282a36'
+    cursor: '#f8f8f2'
+  normal:
+    black: '#000000'
+    red: '#ff5555'
+    green: '#50fa7b'
+    yellow: '#f1fa8c'
+    blue: '#bd93f9'
+    magenta: '#ff79c6'
+    cyan: '#8be9fd'
+    white: '#bfbfbf'
+  bright:
+    black: '#4d4d4d'
+    red: '#ff6e67'
+    green: '#5af78e'
+    yellow: '#f4f99d'
+    blue: '#caa9fa'
+    magenta: '#ff92d0'
+    cyan: '#9aedfe'
+    white: '#e6e6e6'
+
+# Font configuration
+font:
+  normal:
+    family: 'JetBrains Mono Nerd Font'
+    style: Regular
+  bold:
+    family: 'JetBrains Mono Nerd Font'
+    style: Bold
+  italic:
+    family: 'JetBrains Mono Nerd Font'
+    style: Italic
+  size: 12.0
+
+# Window configuration
+window:
+  padding:
+    x: 10
+    y: 10
+  decorations: none
+  opacity: 0.9
+
+# Cursor configuration
+cursor:
+  style: Block
+  blink_interval: 700
+  blink_timeout: 5
+
+# Selection configuration
+selection:
+  save_to_clipboard: true
+
+# Shell configuration
+shell:
+  program: /usr/bin/bash
+
+# Key bindings
+key_bindings:
+  - { key: V, mods: Control|Shift, action: Paste }
+  - { key: C, mods: Control|Shift, action: Copy }
+  - { key: F, mods: Control, action: SearchForward }
+  - { key: B, mods: Control, action: SearchBackward }
+  - { key: N, mods: Control, action: SpawnNewInstance }
