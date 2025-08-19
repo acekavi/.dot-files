@@ -40,7 +40,7 @@
         "network": "plasmawindowed org.kde.plasma.networkmanagement",
         "networkEthernet": "kcmshell6 kcm_networkmanagement",
         "taskManager": "plasma-systemmonitor --page-name Processes",
-        "terminal": "kitty -1"
+        "terminal": "alacritty"
     },
     "audio": {
         "protection": {
@@ -119,7 +119,7 @@
     },
     "conflictKiller": {
         "autoKillNotificationDaemons": false,
-        "autoKillTrays": false
+        "autoKillTrays": true
     },
     "dock": {
         "enable": true,
@@ -130,8 +130,7 @@
         ],
         "monochromeIcons": false,
         "pinnedApps": [
-            "org.kde.dolphin",
-            "kitty"
+            "org.kde.dolphin"
         ],
         "pinnedOnStartup": false
     },
@@ -150,7 +149,7 @@
         "translator": {
             "engine": "auto",
             "sourceLanguage": "auto",
-            "targetLanguage": "auto"
+            "targetLanguage": "Italiano"
         }
     },
     "light": {
@@ -209,7 +208,7 @@
             "defaultProvider": "yandere",
             "limit": 20,
             "zerochan": {
-                "username": "[unset]"
+                "username": "reaper"
             }
         },
         "keepRightSidebarLoaded": true,
