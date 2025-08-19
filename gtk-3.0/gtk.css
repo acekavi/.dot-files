@@ -1,39 +1,22 @@
-/* GTK3 CSS for Noto Fonts and Better Rendering */
+/*
+* GTK Colors
+* Generated with Matugen
+*/
 
-* {
-  font-family: "Noto Sans", "Noto Sans CJK SC", "Noto Sans CJK TC", "Noto Sans CJK JP", "Noto Sans CJK KR", sans-serif;
-  font-size: 10pt;
-}
-
-/* Terminal and monospace applications */
-terminal, textview, .monospace {
-  font-family: "Noto Sans Mono", "Noto Sans Mono CJK SC", "Noto Sans Mono CJK TC", "Noto Sans Mono CJK JP", "Noto Sans Mono CJK KR", monospace;
-}
-
-/* Serif fonts for specific applications */
-.serif {
-  font-family: "Noto Serif", "Noto Serif CJK SC", "Noto Serif CJK TC", "Noto Serif CJK JP", "Noto Serif CJK KR", serif;
-}
-
-/* Font rendering improvements */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* Avoid forcing global light-on-light text. Scope high-contrast text only to headerbars
-   so dialogs with light backgrounds keep dark text by default. */
-headerbar label, headerbar button, headerbar entry {
-  color: #ffffff;
-}
-
-/* Improve button text readability */
-button {
-  font-weight: 500;
-}
-
-/* Improve entry text readability */
-entry {
-  font-weight: 400;
-}
+@define-color accent_color #80d4d8;
+@define-color accent_fg_color #003739;
+@define-color accent_bg_color #80d4d8;
+@define-color window_bg_color #0e1415;
+@define-color window_fg_color #dde4e3;
+@define-color headerbar_bg_color #0e1415;
+@define-color headerbar_fg_color #dde4e3;
+@define-color popover_bg_color #0e1415;
+@define-color popover_fg_color #dde4e3;
+@define-color view_bg_color #0e1415;
+@define-color view_fg_color #dde4e3;
+@define-color card_bg_color #0e1415;
+@define-color card_fg_color #dde4e3;
+@define-color sidebar_bg_color @window_bg_color;
+@define-color sidebar_fg_color @window_fg_color;
+@define-color sidebar_border_color @window_bg_color;
+@define-color sidebar_backdrop_color @window_bg_color;
