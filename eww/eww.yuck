@@ -9,10 +9,14 @@
 (defvar confirm-visible false)
 (defvar confirm-text "")
 (defvar confirm-action "")
+(defvar wifi-menu-visible false)
+(defvar wifi-selected-ssid "")
+(defvar wifi-password "")
 
 ;; Include components
 (include "components/confirm_dialog.yuck")
 (include "components/power_menu.yuck")
+(include "components/wifi_menu.yuck")
 (include "components/bar.yuck")
 
 ;; System Information Polling Variables
@@ -33,6 +37,10 @@
 
 (defpoll wifi-strength :interval "10s"
   `nmcli -t -f active,signal dev wifi | grep '^yes' | cut -d: -f2 | head -n1 || echo "0"`)
+
+;; Wi-Fi scan results as JSON array of objects: [{ssid, signal, security, active}]
+(defpoll wifi-networks :interval "5s"
+  `~/.config/eww/scripts/wifi list-json`)
 
 (defpoll bluetooth-status :interval "10s"
   `bluetoothctl show | grep "Powered: yes" >/dev/null && echo "on" || echo "off"`)
@@ -93,17 +101,18 @@
     (label :class "battery-percent" :text "${battery-percent}%")))
 
 (defwidget wifi []
-  (box :class "wifi"
-       :orientation "h"
-       :space-evenly false
-    (label :class "wifi-icon"
-           :text {wifi-status == "Disconnected" ? "󰖪" :
-                  wifi-strength < 25 ? "󰤟" :
-                  wifi-strength < 50 ? "󰤢" :
-                  wifi-strength < 75 ? "󰤥" : "󰤨"})
-    (label :class "wifi-ssid"
-           :text {wifi-status == "Disconnected" ? "Disconnected" :
-                  strlength(wifi-status) > 12 ? "${substring(wifi-status, 0, 12)}..." : wifi-status})))
+  (eventbox :onclick "~/.config/eww/scripts/wifi toggle-menu"
+    (box :class "wifi"
+         :orientation "h"
+         :space-evenly false
+      (label :class "wifi-icon"
+             :text {wifi-status == "Disconnected" ? "󰖪" :
+                    wifi-strength < 25 ? "󰤟" :
+                    wifi-strength < 50 ? "󰤢" :
+                    wifi-strength < 75 ? "󰤥" : "󰤨"})
+      (label :class "wifi-ssid"
+             :text {wifi-status == "Disconnected" ? "Disconnected" :
+                    strlength(wifi-status) > 12 ? "${substring(wifi-status, 0, 12)}..." : wifi-status}))))
 
 (defwidget bluetooth []
   (box :class "bluetooth"
@@ -168,3 +177,17 @@
   :wm-ignore false
   :visible confirm-visible
   (confirm-dialog))
+
+;; Floating Wi-Fi networks window
+(defwindow wifi_menu
+  :monitor 0
+  :geometry (geometry :x "100%"
+                      :y "30px"
+                      :width "420px"
+                      :height "380px"
+                      :anchor "top right")
+  :stacking "fg"
+  :windowtype "dialog"
+  :wm-ignore false
+  :visible wifi-menu-visible
+  (wifi-menu))

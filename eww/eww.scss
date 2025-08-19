@@ -355,6 +355,77 @@ $font-weight: 500;
   }
 }
 
+// Wi-Fi menu reusing confirm-dialog look
+.wifi-menu {
+  min-width: 420px;
+}
+
+.wifi-titlebar {
+  margin-bottom: 10px;
+}
+
+.wifi-refresh {
+  color: $cyan;
+  background-color: rgba(139, 233, 253, 0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 233, 253, 0.25);
+  transition: all 0.15s ease;
+  &:hover { background-color: rgba(139, 233, 253, 0.16); }
+}
+
+.wifi-list {
+  background-color: rgba(40, 42, 54, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(98, 114, 164, 0.3);
+  padding: 6px;
+}
+
+.wifi-item {
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.12s ease;
+  opacity: 0.9;
+  &:hover { background-color: rgba(98, 114, 164, 0.12); opacity: 1; }
+}
+
+.wifi-item.active {
+  background-color: rgba(189, 147, 249, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(189, 147, 249, 0.25);
+}
+
+.wifi-item-icon { color: $cyan; margin-right: 8px; }
+.wifi-item-ssid { color: $fg; opacity: 0.95; }
+.wifi-item-lock { color: $yellow; margin: 0 8px; opacity: 0.8; }
+.wifi-item-signal { color: $comment; margin-right: 8px; }
+.wifi-item-action {
+  color: $green;
+  background-color: rgba(80, 250, 123, 0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(80, 250, 123, 0.25);
+  transition: all 0.15s ease;
+  &:hover { background-color: rgba(80, 250, 123, 0.16); }
+}
+
+.wifi-input-row {
+  margin-top: 12px;
+}
+
+.wifi-input-title { color: $purple; font-weight: 700; margin-bottom: 6px; }
+.wifi-password {
+  background-color: rgba(40, 42, 54, 0.6);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(98, 114, 164, 0.3);
+  color: $fg;
+  margin-bottom: 8px;
+}
+
+.wifi-actions {
+  margin-top: 6px;
+}
+
 // Tooltips
 tooltip {
   background-color: $bg-alt;

@@ -1,0 +1,41 @@
+(defwidget wifi-menu []
+  (box :class "confirm-dialog wifi-menu"
+       :orientation "v"
+       :space-evenly false
+    (box :class "wifi-titlebar" :orientation "h" :space-evenly false
+      (label :class "confirm-title" :text "Wi‑Fi Networks")
+      (box :hexpand true)
+      (button :class "wifi-refresh"
+              :onclick "~/.config/eww/scripts/wifi rescan &"
+        (label :text "󰑐")))
+    (box :class "wifi-list" :orientation "v" :space-evenly false
+      (for net in wifi-networks
+        (box :class {net.active ? "wifi-item active" : "wifi-item"}
+             :orientation "h" :space-evenly false
+          (label :class "wifi-item-icon"
+                 :text {net.signal < 25 ? "󰤟" : net.signal < 50 ? "󰤢" : net.signal < 75 ? "󰤥" : "󰤨"})
+          (label :class "wifi-item-ssid" :text {strlength(net.ssid) > 28 ? "${substring(net.ssid, 0, 28)}..." : net.ssid})
+          (box :hexpand true)
+          (label :class "wifi-item-lock" :text {net.security != "--" ? "󰌾" : ""})
+          (label :class "wifi-item-signal" :text "${net.signal}%")
+          (button :class "wifi-item-action"
+                  :visible {!net.active}
+                  :onclick "eww update wifi-selected-ssid='${net.ssid}'"
+            (label :text "Connect")))))
+    (box :class "wifi-input-row"
+         :visible {wifi-selected-ssid != ""}
+         :orientation "v" :space-evenly false
+      (label :class "wifi-input-title" :text "${wifi-selected-ssid}")
+      (entry :class "wifi-password"
+             :placeholder-text "Password (leave empty for open network)"
+             :text wifi-password
+             :onchange "bash -lc \"eww update wifi-password=\\\"$EWW_ACTION\\\"\"")
+      (box :class "wifi-actions" :orientation "h" :space-evenly false
+        (button :class "confirm-cancel"
+                :onclick "eww update wifi-selected-ssid=''; eww update wifi-password=''"
+          (label :text "Cancel"))
+        (button :class "confirm-yes"
+                :onclick "~/.config/eww/scripts/wifi connect '${wifi-selected-ssid}' '${wifi-password}' &"
+          (label :text "Connect"))))))
+
+
