@@ -160,7 +160,7 @@ Scope {
                         focus: sessionRoot.visible
                         buttonIcon: "lock"
                         buttonText: Translation.tr("Lock")
-                        onClicked:  { Quickshell.execDetached(["hyprlock --config ~/.config/hypr/hyprlock.conf"]); sessionRoot.hide() }
+                        onClicked:  { Quickshell.execDetached(["hyprlock"]); sessionRoot.hide() }
                         onFocusChanged: { if (focus) sessionRoot.subtitle = buttonText }
                         KeyNavigation.right: sessionSleep
                         KeyNavigation.down: sessionHibernate

@@ -201,6 +201,7 @@ Singleton {
             property string monospace: "JetBrains Mono NF"
             property string reading: "Readex Pro"
             property string expressive: "Space Grotesk"
+            property string clock: "Orbitron"
         }
         property QtObject pixelSize: QtObject {
             property int smallest: 10

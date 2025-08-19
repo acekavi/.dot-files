@@ -219,11 +219,11 @@ Variants {
                     Layout.fillWidth: true
                     horizontalAlignment: bgRoot.textHorizontalAlignment
                     font {
-                        family: Appearance.font.family.expressive
+                        family: Appearance.font.family.clock
                         pixelSize: 90
                         weight: Font.Bold
                     }
-                    color: bgRoot.colText
+                    color: bgRoot.clockX
                     style: Text.Raised
                     styleColor: Appearance.colors.colShadow
                     text: DateTime.time
@@ -233,28 +233,14 @@ Variants {
                     Layout.topMargin: -5
                     horizontalAlignment: bgRoot.textHorizontalAlignment
                     font {
-                        family: Appearance.font.family.expressive
+                        family: Appearance.font.family.clock
                         pixelSize: 20
                         weight: Font.DemiBold
                     }
-                    color: bgRoot.colText
+                    color: bgRoot.clockX
                     style: Text.Raised
                     styleColor: Appearance.colors.colShadow
                     text: DateTime.date
-                }
-                StyledText {
-                    Layout.fillWidth: true
-                    horizontalAlignment: bgRoot.textHorizontalAlignment
-                    font {
-                        family: Appearance.font.family.expressive
-                        pixelSize: 20
-                        weight: Font.DemiBold
-                    }
-                    color: bgRoot.colText
-                    style: Text.Raised
-                    visible: Config.options.background.mantra !== ""
-                    styleColor: Appearance.colors.colShadow
-                    text: Config.options.background.mantra
                 }
             }
 
@@ -291,7 +277,6 @@ Variants {
                     styleColor: Appearance.colors.colShadow
                 }
                 Item { Layout.fillWidth: bgRoot.textHorizontalAlignment !== Text.AlignRight; implicitWidth: 1 }
-
             }
         }
 
