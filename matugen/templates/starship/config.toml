@@ -7,7 +7,7 @@ $directory\
 [](fg:#434C5E bg:#4C566A)\
 $git_branch\
 $git_status\
-[](fg:#4C566A bg:#aad0b1)\
+[](fg:#4C566A bg:{{colors.tertiary.default.hex}})\
 $c\
 $elixir\
 $elm\
@@ -18,11 +18,11 @@ $julia\
 $nodejs\
 $nim\
 $rust\
-[](fg:#aad0b1 bg:#d2c6a1)\
+[](fg:{{colors.tertiary.default.hex}} bg:{{colors.secondary.default.hex}})\
 $docker_context\
-[](fg:#d2c6a1 bg:#4e462a)\
+[](fg:{{colors.secondary.default.hex}} bg:{{colors.secondary_container.default.hex}})\
 $time\
-[ ](fg:#4e462a)\
+[ ](fg:{{colors.secondary_container.default.hex}})\
 """
 command_timeout = 5000
 # Disable the blank line at the start of the prompt
@@ -56,22 +56,22 @@ truncation_symbol = "…/"
 
 [c]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-style = "bg:#d2c6a1"
+style = "bg:{{colors.secondary.default.hex}}"
 format = '[ $symbol $context ]($style)$path'
 
 [elixir]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
@@ -85,32 +85,32 @@ format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
@@ -119,11 +119,11 @@ format = '[(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#aad0b1"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#4e462a"
+style = "bg:{{colors.secondary_container.default.hex}}"
 format = '[ $time ]($style)'
