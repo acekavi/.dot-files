@@ -7,11 +7,11 @@ Item {
     id: root
 
     property bool popupOpen: false
-    readonly property var battery: UPower.displayDevice
-    readonly property bool isCharging: battery?.state === UPowerDevice.Charging
-    readonly property bool isPluggedIn: battery?.state === UPowerDevice.FullyCharged || isCharging
-    readonly property real percentage: battery?.percentage || 0
-    readonly property bool isLow: percentage <= 20
+    readonly property var chargeState: UPower.displayDevice.state
+    readonly property bool isCharging: chargeState === UPowerDeviceState.Charging
+    readonly property bool isPluggedIn: isCharging || chargeState === UPowerDeviceState.PendingCharge
+    readonly property real percentage: UPower.displayDevice.percentage
+    readonly property bool isLow: percentage < 0.25 // Below 25%
 
     signal clicked()
 
@@ -23,8 +23,8 @@ Item {
         anchors.fill: parent
         radius: WhiteSurTheme.borderRadius
         color: popupOpen ? WhiteSurTheme.backgroundSecondary :
-               mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
-               "transparent"
+                           mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
+                                                     "transparent"
 
         Behavior on color {
             ColorAnimation {
@@ -41,24 +41,25 @@ Item {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: {
-                    if (isCharging) return "󰂄"  // Charging icon
-                    if (isPluggedIn) return "󰚥"  // Plugged icon
-                    if (percentage > 75) return "󰁹"  // Full battery
-                    if (percentage > 50) return "󰂀"  // 3/4 battery
-                    if (percentage > 25) return "󰁾"  // Half battery
-                    if (percentage > 10) return "󰁼"  // Low battery
-                    return "󰁺"  // Empty battery
+                    let pct = percentage * 100 // Convert to 0-100 range
+                    if (isCharging) return "󰂄" // Charging icon
+                    if (isPluggedIn) return "󰚥" // Plugged icon
+                    if (pct > 75) return "󰁹" // Full battery
+                    if (pct > 50) return "󰂀" // 3/4 battery
+                    if (pct > 25) return "󰁾" // Half battery
+                    if (pct > 10) return "󰁼" // Low battery
+                    return "󰁺" // Empty battery
                 }
                 color: isLow && !isCharging ? WhiteSurTheme.error :
-                       isCharging ? WhiteSurTheme.success :
-                       WhiteSurTheme.textPrimary
+                                              isCharging ? WhiteSurTheme.success :
+                                                           WhiteSurTheme.textPrimary
                 font.pixelSize: WhiteSurTheme.iconSize
                 font.family: "JetBrainsMono Nerd Font"
             }
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: Math.round(percentage) + "%"
+                text: Math.round(percentage * 100) + "%"
                 color: isLow && !isCharging ? WhiteSurTheme.error : WhiteSurTheme.textPrimary
                 font.pixelSize: 11
                 font.weight: Font.Medium
@@ -115,7 +116,7 @@ Item {
                 Item { Layout.fillWidth: true }
 
                 Text {
-                    text: Math.round(percentage) + "%"
+                    text: Math.round(percentage * 100) + "%"
                     color: WhiteSurTheme.textPrimary
                     font.pixelSize: 13
                     font.weight: Font.Medium
@@ -130,7 +131,7 @@ Item {
                 color: WhiteSurTheme.backgroundSecondary
 
                 Rectangle {
-                    width: parent.width * (percentage / 100)
+                    width: parent.width * percentage
                     height: parent.height
                     radius: parent.radius
                     color: isLow && !isCharging ? WhiteSurTheme.error :
