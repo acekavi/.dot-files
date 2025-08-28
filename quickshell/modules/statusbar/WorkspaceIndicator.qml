@@ -53,8 +53,8 @@ Item {
                 property bool isActive: monitor?.activeWorkspace?.id === workspaceId
                 property bool hasWindows: workspaceOccupied[index]
 
-                width: 20
-                height: 20
+                width: 15
+                height: 15
                 radius: WhiteSurTheme.fullRadius
 
                 color: {
@@ -84,7 +84,7 @@ Item {
                     anchors.centerIn: parent
                     text: workspaceId.toString()
                     color: isActive ? WhiteSurTheme.textSelected :
-                           hasWindows ? WhiteSurTheme.accent : WhiteSurTheme.textSecondary
+                                      hasWindows ? WhiteSurTheme.accent : WhiteSurTheme.textSecondary
                     font.pixelSize: 11
                     font.weight: Font.Medium
                     visible: showNumbers || (!hasWindows && !isActive)
@@ -100,8 +100,8 @@ Item {
                 // Activity indicator dot when not showing numbers
                 Rectangle {
                     anchors.centerIn: parent
-                    width: 6
-                    height: 6
+                    width: 5
+                    height: 5
                     radius: 3
                     color: isActive ? WhiteSurTheme.textSelected : WhiteSurTheme.accent
                     visible: !showNumbers && hasWindows && !isActive

@@ -99,16 +99,100 @@ This dotfiles setup uses **Quickshell** for desktop widgets and the main status 
 - **QML Standards**: Follow Quickshell's QML patterns for consistent widget development
 - **Module Structure**: Each widget type has its own module directory with reusable components
 
+### Qt Layout Guidelines for Quickshell
+
+**Follow Qt Layout Documentation**: https://doc.qt.io/qt-6/qml-qtquick-layouts-layout.html
+
+**Essential Layout Patterns:**
+- **Use Layout Properties**: Always use `Layout.fillWidth`, `Layout.fillHeight`, `Layout.alignment` instead of manual positioning
+- **Avoid Direct Size Binding**: Never bind to `x`, `y`, `width`, or `height` properties in layouts - use `Layout.preferredWidth`, `Layout.preferredHeight`
+- **Implicit Sizing**: Prefer `implicitWidth` and `implicitHeight` over explicit sizing
+- **Layout Margins**: Use `Layout.margins`, `Layout.leftMargin`, `Layout.rightMargin` etc. for proper spacing
+- **Stretch Factors**: Use `Layout.horizontalStretchFactor` and `Layout.verticalStretchFactor` for proportional sizing
+
+**Layout Structure Standards:**
+```qml
+RowLayout {
+    anchors.fill: parent
+    spacing: WhiteSurTheme.spacing
+
+    Item {
+        Layout.alignment: Qt.AlignLeft
+        Layout.fillHeight: true
+        Layout.preferredWidth: 200
+        // Content
+    }
+
+    Item {
+        Layout.fillWidth: true    // Expands to fill available space
+        Layout.fillHeight: true
+        // Center content
+    }
+
+    Item {
+        Layout.alignment: Qt.AlignRight
+        Layout.fillHeight: true
+        Layout.preferredWidth: 150
+        // Right content
+    }
+}
+```
+
+**Process Launching Standards:**
+- **Primary Method**: `Quickshell.execDetached(["command", "arg1", "arg2"])` for external processes
+- **Hyprland Integration**: `Hyprland.dispatch("exec command")` for window manager commands
+- **Desktop Apps**: `DesktopEntries.byId("app-id")?.execute()` for desktop applications
+
+**Required Imports:**
+```qml
+import QtQuick
+import QtQuick.Layouts    // For Layout properties
+import Quickshell         // For execDetached
+import Quickshell.Wayland // For PanelWindow
+import Quickshell.Widgets // For DesktopEntries (optional)
+```
+
 ### Status Bar Architecture
 ```
 quickshell/modules/statusbar/
 ├── WhiteSurTheme.qml       # Centralized color and styling constants
-├── StatusBar.qml           # Main container with left/center/right layout
+├── StatusBar.qml           # Main container with RowLayout using Qt Layout properties
 ├── WorkspaceIndicator.qml  # 5-workspace switcher with activity indicators
 ├── ClockWidget.qml         # Time and date display
-├── ArchLogo.qml           # Rofi launcher button
+├── ArchLogo.qml           # Rofi launcher button (uses Quickshell.execDetached)
 ├── SystemTrayPopup.qml    # Expandable system tray
 └── BatteryWidget.qml      # Battery status with power mode selection
+```
+
+**Layout Implementation Example:**
+```qml
+RowLayout {
+    anchors.fill: background
+    spacing: WhiteSurTheme.spacing
+
+    // Left section - fixed width, left-aligned
+    Row {
+        Layout.alignment: Qt.AlignLeft
+        Layout.fillHeight: true
+        spacing: WhiteSurTheme.spacing
+        // Logo and workspace widgets
+    }
+
+    // Center section - expands to fill space
+    Item {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        // Clock widget centered
+    }
+
+    // Right section - fixed width, right-aligned
+    Row {
+        Layout.alignment: Qt.AlignRight
+        Layout.fillHeight: true
+        spacing: WhiteSurTheme.spacing
+        // System tray and indicators
+    }
+}
 ```
 
 ### Available Widget Modules (Reference)
