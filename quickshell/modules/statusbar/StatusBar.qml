@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Widgets
 import "."
 
 PanelWindow {
@@ -16,7 +17,7 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: WhiteSurTheme.barHeight+8  // 8px margin top and bottom
+    implicitHeight: WhiteSurTheme.barHeight+8 // 8px margin top and bottom
     exclusiveZone: implicitHeight
 
     color: "transparent"
@@ -45,6 +46,8 @@ PanelWindow {
     RowLayout {
         anchors.fill: background
         spacing: WhiteSurTheme.spacing
+        anchors.leftMargin: 4
+        anchors.rightMargin: 6
 
         // Left section
         Row {
@@ -54,8 +57,8 @@ PanelWindow {
             ArchLogo {
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
-                    // Launch rofi - for now just log until we figure out the process API
-                    console.log("Arch logo clicked - would launch rofi")
+                    // Launch rofi using Quickshell.execDetached
+                    Quickshell.execDetached(["uwsm", "app", "--", "rofi", "-show", "drun"])
                 }
             }
 
