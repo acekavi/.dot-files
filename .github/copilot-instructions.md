@@ -90,17 +90,31 @@ Scripts in `hypr/scripts/` follow these patterns:
 
 ## Quickshell Widget System
 
-This dotfiles setup primarily uses **Quickshell** for desktop widgets and UI components:
+This dotfiles setup uses **Quickshell** for desktop widgets and the main status bar:
 
+- **Status Bar**: macOS WhiteSur-themed top bar with workspace indicator, clock, and system controls
 - **Widget Library**: Pre-built widgets available in `/illogical-impulse/.config/quickshell/ii/modules/`
+- **Custom Components**: Purpose-built status bar in `quickshell/modules/statusbar/`
 - **Reference Implementation**: Use existing widgets (bar, dock, mediaControls, etc.) as templates
 - **QML Standards**: Follow Quickshell's QML patterns for consistent widget development
 - **Module Structure**: Each widget type has its own module directory with reusable components
 
-### Available Widget Modules
+### Status Bar Architecture
 ```
-modules/
-├── bar/              # Top/bottom bars
+quickshell/modules/statusbar/
+├── WhiteSurTheme.qml       # Centralized color and styling constants
+├── StatusBar.qml           # Main container with left/center/right layout
+├── WorkspaceIndicator.qml  # 5-workspace switcher with activity indicators
+├── ClockWidget.qml         # Time and date display
+├── ArchLogo.qml           # Rofi launcher button
+├── SystemTrayPopup.qml    # Expandable system tray
+└── BatteryWidget.qml      # Battery status with power mode selection
+```
+
+### Available Widget Modules (Reference)
+```
+ii/modules/
+├── bar/              # Reference top/bottom bars
 ├── dock/             # Application dock
 ├── mediaControls/    # Media player controls
 ├── notificationPopup/ # Notification system
@@ -132,12 +146,14 @@ When making changes to any configuration files:
 ### Theme Consistency Standards
 **Maintain visual coherence across all applications:**
 - **Colors**: Use WhiteSur dark theme palette consistently
-  - Background: `rgba(28, 28, 30, 0.98)` (dark)
-  - Accent: `rgba(0, 122, 255, 1.0)` (system blue)
-  - Text: `rgba(255, 255, 255, 0.95)` (primary)
-- **Animations**: Apply macOS bezier curves (`0.32, 0.97, 0.53, 1.0`)
+  - Background: `#1C1C1E` (dark) with 98% opacity
+  - Accent: `#007AFF` (system blue)
+  - Text Primary: `rgba(255, 255, 255, 0.95)`
+  - Success: `#34C759`, Warning: `#FF9500`, Error: `#FF3B30`
+- **Animations**: Apply macOS bezier curves (`0.32, 0.97, 0.53, 1.0`) with 300ms duration
 - **Blur values**: Maintain consistent blur settings (size: 8, passes: 3)
 - **Border radius**: Use 12px rounding for modern macOS appearance
+- **Typography**: JetBrainsMono Nerd Font for icons, Inter for UI text
 
 ## Critical Dependencies
 

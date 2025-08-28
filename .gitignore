@@ -32,6 +32,9 @@
 !Quickshell/
 !Quickshell/**
 
+!quickshell/
+!quickshell/**
+
 !docs/
 !docs/**
 

@@ -1,0 +1,9 @@
+module quickshell.statusbar
+
+singleton WhiteSurTheme 1.0 WhiteSurTheme.qml
+StatusBar 1.0 StatusBar.qml
+WorkspaceIndicator 1.0 WorkspaceIndicator.qml
+ClockWidget 1.0 ClockWidget.qml
+ArchLogo 1.0 ArchLogo.qml
+SystemTrayPopup 1.0 SystemTrayPopup.qml
+BatteryWidget 1.0 BatteryWidget.qml
