@@ -1,0 +1,34 @@
+[font]
+# Font configuration
+size = 12.0
+
+# Font families for different styles
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+# Font offset for spacing adjustments
+# y can be thought of as modifying the line spacing
+# x as modifying the letter spacing
+[font.offset]
+x = 0
+y = 0
+
+# Glyph offset determines the locations of the glyphs within their cells
+# Increasing x moves the glyph to the right, increasing y moves the glyph upward
+[font.glyph_offset]
+x = 0
+y = 0
+

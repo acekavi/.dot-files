@@ -1,0 +1,40 @@
+# Ignore everything by default
+*
+
+# But track these specific directories
+!alacritty/
+!alacritty/**
+
+!fontconfig/
+!fontconfig/**
+
+!gtk-3.0/
+!gtk-3.0/**
+
+!gtk-4.0/
+!gtk-4.0/**
+
+!hypr/
+!hypr/**
+
+!nautilus/
+!nautilus/**
+
+!rofi/
+!rofi/**
+
+!walker/
+!walker/**
+
+!fuzzel/
+!fuzzel/**
+
+!Quickshell/
+!Quickshell/**
+
+# Track specific files
+!.Xresources
+!electron-flags.conf
+
+# Don't ignore .gitignore itself
+!.gitignore

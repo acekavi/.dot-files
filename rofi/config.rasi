@@ -1,0 +1,206 @@
+/**
+ * Rofi Configuration
+ * Based on official rofi-theme(5) documentation
+ * Dark macOS WhiteSur theme for Hyprland with uwsm
+ */
+
+configuration {
+    /* Display modes */
+    modes: "drun,run,window,ssh";
+
+    /* Icon settings */
+    show-icons: true;
+    icon-theme: "WhiteSur-dark";
+
+    /* Display labels */
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Windows";
+    display-ssh: "SSH";
+
+    /* Behavior */
+    case-sensitive: false;
+    cycle: true;
+    filter: "";
+    sort: true;
+    sorting-method: "fzf";
+
+    /* Performance */
+    disable-history: false;
+
+    /* Window positioning */
+    location: 0;     /* center */
+    anchor: 0;       /* center */
+    x-offset: 0;
+    y-offset: -50;   /* slightly above center */
+
+    /* Terminal for commands */
+    terminal: "alacritty";
+
+    /* Font */
+    font: "Inter 12";
+
+    /* Key bindings - macOS style */
+    kb-primary-paste: "Control+v,Shift+Insert";
+    kb-secondary-paste: "Control+Shift+v,Insert";
+    kb-move-front: "Control+a";
+    kb-move-end: "Control+e";
+    kb-move-word-back: "Alt+b";
+    kb-move-word-forward: "Alt+f";
+    kb-cancel: "Escape,Control+g";
+
+    /* Other settings */
+    drun-display-format: "{name}";
+    run-command: "{cmd}";
+    run-shell-command: "{terminal} -e {cmd}";
+    ssh-client: "ssh";
+    ssh-command: "{terminal} -e {ssh-client} {host}";
+}
+
+/* Global properties */
+* {
+    /* Authentic macOS WhiteSur Dark Colors */
+    bg-primary: rgba(28, 28, 30, 0.98);          /* macOS dark background */
+    bg-secondary: rgba(44, 44, 46, 0.95);        /* macOS secondary dark */
+    bg-tertiary: rgba(58, 58, 60, 0.9);          /* macOS tertiary dark */
+    bg-selected: rgba(0, 122, 255, 1.0);         /* macOS system blue */
+    bg-hover: rgba(99, 99, 102, 0.3);            /* macOS hover state */
+
+    text-primary: rgba(255, 255, 255, 0.95);     /* macOS primary text */
+    text-secondary: rgba(235, 235, 245, 0.6);    /* macOS secondary text */
+    text-tertiary: rgba(235, 235, 245, 0.3);     /* macOS tertiary text */
+    text-selected: rgba(255, 255, 255, 1.0);     /* Selected text */
+
+    accent-blue: rgba(0, 122, 255, 1.0);         /* macOS blue */
+    accent-blue-hover: rgba(10, 132, 255, 1.0);  /* Brighter blue */
+
+    border-primary: rgba(99, 99, 102, 0.22);     /* macOS separator */
+    border-secondary: rgba(84, 84, 88, 0.65);    /* macOS outline */
+
+    /* Default properties */
+    background-color: transparent;
+    text-color: @text-primary;
+    font: "Inter 13";
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+/* Main window */
+window {
+    transparency: "real";
+    background-color: @bg-primary;
+    border: 0px;
+    width: 640px;
+    padding: 0;
+
+    /* macOS-style positioning */
+    location: 0;
+    anchor: 0;
+    x-offset: 0;
+    y-offset: -80;
+}
+
+/* Main container */
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    spacing: 0;
+    padding: 24px;
+}
+
+/* Input bar */
+inputbar {
+    background-color: @bg-secondary;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 0 0 20px 0;
+    children: [textbox-search-icon, entry];
+    border: 0px;
+}
+
+/* Search icon */
+textbox-search-icon {
+    expand: false;
+    str: "󰍉";
+    background-color: transparent;
+    text-color: @text-secondary;
+    margin: 0 12px 0 0;
+    font: "Inter 16";
+    vertical-align: 0.5;
+}
+
+
+entry {
+    background-color: transparent;
+    text-color: @text-primary;
+    placeholder-color: @text-secondary;
+    placeholder: "Search for apps, documents, and more...";
+    cursor: text;
+    font: "Inter 14";
+}
+
+
+
+/* List view */
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 8;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    reverse: false;
+    fixed-height: true;
+    fixed-columns: true;
+    spacing: 2px;
+    margin: 0;
+    padding: 0;
+}
+
+/* List elements */
+element {
+    background-color: transparent;
+    text-color: @text-primary;
+    orientation: horizontal;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @text-primary;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    text-color: @text-selected;
+    border-radius: 12px;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @text-primary;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 32px;
+    margin: 0 16px 0 0;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+    font: "Inter Medium 14";
+}
+
+

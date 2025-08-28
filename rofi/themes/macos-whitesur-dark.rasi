@@ -1,0 +1,221 @@
+/**
+ * Dark macOS WhiteSur Theme for Rofi
+ * Inspired by macOS Big Sur/Monterey/Ventura dark mode
+ * Matches Hyprland WhiteSur theme aesthetic
+ */
+
+* {
+    /* Color Palette - Dark WhiteSur macOS */
+    bg-primary:         rgba(30, 30, 30, 0.95);      /* Main background */
+    bg-secondary:       rgba(40, 40, 40, 0.9);       /* Secondary elements */
+    bg-selected:        rgba(60, 60, 60, 0.9);       /* Selected items */
+    bg-hover:           rgba(50, 50, 50, 0.8);       /* Hover state */
+
+    text-primary:       rgba(245, 245, 247, 1.0);    /* Primary text */
+    text-secondary:     rgba(174, 174, 178, 1.0);    /* Secondary text */
+    text-selected:      rgba(255, 255, 255, 1.0);    /* Selected text */
+
+    accent:             rgba(0, 122, 255, 1.0);       /* macOS blue accent */
+    accent-hover:       rgba(10, 132, 255, 1.0);     /* Brighter blue */
+
+    border-color:       rgba(60, 60, 67, 0.6);       /* Subtle borders */
+    shadow:             rgba(0, 0, 0, 0.3);          /* Drop shadows */
+
+    /* Global Properties */
+    background-color:   transparent;
+    text-color:         @text-primary;
+    font:               "Inter 12";
+    border:             0;
+    margin:             0;
+    padding:            0;
+    spacing:            0;
+}
+
+window {
+    transparency:       "real";
+    background-color:   @bg-primary;
+    border:             1px solid @border-color;
+    border-radius:      16px;
+    width:              600px;
+    padding:            0px;
+}
+
+mainbox {
+    background-color:   transparent;
+    children:           [inputbar, message, listview, mode-switcher];
+    spacing:            0px;
+    padding:            20px;
+}
+
+/* Input Bar - macOS style search field */
+inputbar {
+    background-color:   @bg-secondary;
+    border-radius:      12px;
+    padding:            12px 16px;
+    margin:             0px 0px 16px 0px;
+    children:           [prompt, textbox-prompt-colon, entry, case-indicator];
+    border:             1px solid @border-color;
+}
+
+prompt {
+    background-color:   transparent;
+    text-color:         @text-secondary;
+    font:               "Inter Medium 12";
+    margin:             0px 8px 0px 0px;
+}
+
+textbox-prompt-colon {
+    expand:             false;
+    str:                "";
+    background-color:   transparent;
+    text-color:         @text-secondary;
+}
+
+entry {
+    background-color:   transparent;
+    text-color:         @text-primary;
+    placeholder-color:  @text-secondary;
+    placeholder:        "Search applications...";
+    cursor:             text;
+    font:               "Inter 12";
+}
+
+case-indicator {
+    background-color:   transparent;
+    text-color:         @text-secondary;
+}
+
+/* List View - Application grid */
+listview {
+    background-color:   transparent;
+    columns:            1;
+    lines:              8;
+    cycle:              true;
+    dynamic:            true;
+    scrollbar:          false;
+    layout:             vertical;
+    reverse:            false;
+    fixed-height:       true;
+    fixed-columns:      true;
+    spacing:            4px;
+    margin:             0px;
+    padding:            0px;
+}
+
+/* Individual Elements */
+element {
+    background-color:   transparent;
+    text-color:         @text-primary;
+    orientation:        horizontal;
+    border-radius:      10px;
+    padding:            8px 12px;
+    margin:             0px;
+    cursor:             pointer;
+}
+
+element normal.normal {
+    background-color:   transparent;
+    text-color:         @text-primary;
+}
+
+element normal.urgent {
+    background-color:   @accent;
+    text-color:         @text-selected;
+}
+
+element normal.active {
+    background-color:   @bg-selected;
+    text-color:         @text-selected;
+}
+
+element selected.normal {
+    background-color:   @accent;
+    text-color:         @text-selected;
+    border-radius:      10px;
+}
+
+element selected.urgent {
+    background-color:   @accent-hover;
+    text-color:         @text-selected;
+}
+
+element selected.active {
+    background-color:   @accent;
+    text-color:         @text-selected;
+}
+
+element alternate.normal {
+    background-color:   transparent;
+    text-color:         @text-primary;
+}
+
+element alternate.urgent {
+    background-color:   @accent;
+    text-color:         @text-selected;
+}
+
+element alternate.active {
+    background-color:   @bg-selected;
+    text-color:         @text-selected;
+}
+
+element-icon {
+    background-color:   transparent;
+    size:               24px;
+    margin:             0px 12px 0px 0px;
+    cursor:             inherit;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    cursor:             inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+    font:               "Inter 12";
+}
+
+/* Mode Switcher (if used) */
+mode-switcher {
+    background-color:   transparent;
+    spacing:            0px;
+    margin:             16px 0px 0px 0px;
+}
+
+button {
+    background-color:   @bg-secondary;
+    text-color:         @text-secondary;
+    border-radius:      8px;
+    padding:            8px 16px;
+    margin:             0px 4px;
+    font:               "Inter Medium 11";
+    cursor:             pointer;
+}
+
+button selected {
+    background-color:   @accent;
+    text-color:         @text-selected;
+}
+
+/* Message Box */
+message {
+    background-color:   @bg-secondary;
+    border-radius:      12px;
+    border:             1px solid @border-color;
+    padding:            12px;
+    margin:             0px 0px 16px 0px;
+}
+
+textbox {
+    background-color:   transparent;
+    text-color:         @text-primary;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+    font:               "Inter 12";
+}
+
+/* Error States */
+error-message {
+    background-color:   rgba(255, 59, 48, 0.1);
+    border:             1px solid rgba(255, 59, 48, 0.3);
+}

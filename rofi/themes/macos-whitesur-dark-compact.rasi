@@ -1,0 +1,113 @@
+/**
+ * Ultra-Compact macOS Spotlight-Style Theme
+ * Minimal and elegant like macOS Spotlight
+ */
+
+* {
+    /* Authentic macOS Colors */
+    bg-primary: rgba(28, 28, 30, 0.98);
+    bg-secondary: rgba(44, 44, 46, 0.95);
+    accent: rgba(0, 122, 255, 1.0);
+
+    text-primary: rgba(255, 255, 255, 0.95);
+    text-secondary: rgba(235, 235, 245, 0.6);
+    text-selected: rgba(255, 255, 255, 1.0);
+
+    background-color: transparent;
+    text-color: @text-primary;
+    font: "Inter 12";
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    transparency: "real";
+    background-color: @bg-primary;
+    width: 500px;
+    padding: 0;
+    location: 0;
+    anchor: 0;
+    x-offset: 0;
+    y-offset: -100;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    spacing: 0;
+    padding: 20px;
+}
+
+inputbar {
+    background-color: @bg-secondary;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 0 0 16px 0;
+    children: [textbox-search-icon, entry];
+}
+
+textbox-search-icon {
+    expand: false;
+    str: "󰍉";
+    background-color: transparent;
+    text-color: @text-secondary;
+    margin: 0 10px 0 0;
+    font: "Inter 14";
+    vertical-align: 0.5;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @text-primary;
+    placeholder-color: @text-secondary;
+    placeholder: "Spotlight Search";
+    cursor: text;
+    font: "Inter 13";
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 6;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    spacing: 1px;
+    margin: 0;
+    padding: 0;
+}
+
+element {
+    background-color: transparent;
+    text-color: @text-primary;
+    orientation: horizontal;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0;
+    cursor: pointer;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color: @text-selected;
+    border-radius: 10px;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+    margin: 0 12px 0 0;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+    font: "Inter Medium 13";
+}
