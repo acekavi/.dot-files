@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # Hyprland Wallpaper Control Script
-# Provides easy commands to control the wallpaper randomizer
+# Provides easy commands to control the wallpaper cycler
 
 SCRIPT_DIR="/home/acekavi/.config/hypr/scripts"
-RANDOMIZER_SCRIPT="$SCRIPT_DIR/wallpaper-randomizer.sh"
+CYCLER_SCRIPT="$SCRIPT_DIR/wallpaper-randomizer.sh"
 
 show_help() {
     echo "Hyprland Wallpaper Control"
     echo "Usage: $0 [command]"
     echo ""
     echo "Commands:"
-    echo "  change, next    Change to a random wallpaper now"
+    echo "  change, next    Change to next wallpaper in sequence"
     echo "  status          Show current wallpaper and timer status"
-    echo "  log             Show recent wallpaper changes"
+    echo "  reset           Reset cycle to first wallpaper"
     echo "  start           Start the automatic timer"
     echo "  stop            Stop the automatic timer"
     echo "  restart         Restart the automatic timer"
@@ -24,19 +24,19 @@ show_help() {
 
 case "${1:-help}" in
     "change"|"next")
-        echo "Changing wallpaper..."
-        "$RANDOMIZER_SCRIPT"
+        echo "Changing to next wallpaper..."
+        "$CYCLER_SCRIPT"
         ;;
     "status")
         echo "=== Wallpaper Status ==="
-        "$RANDOMIZER_SCRIPT" --status
+        "$CYCLER_SCRIPT" --status
         echo ""
         echo "=== Timer Status ==="
         systemctl --user status wallpaper-randomizer.timer --no-pager -l
         ;;
-    "log")
-        echo "=== Recent Wallpaper Changes ==="
-        "$RANDOMIZER_SCRIPT" --log
+    "reset")
+        echo "=== Resetting Wallpaper Cycle ==="
+        "$CYCLER_SCRIPT" --reset
         ;;
     "start")
         echo "Starting wallpaper timer..."

@@ -32,9 +32,22 @@
 !Quickshell/
 !Quickshell/**
 
+!docs/
+!docs/**
+
+!systemd/
+!systemd/**
+
+!.github/
+!.github/**
+
 # Track specific files
 !.Xresources
 !electron-flags.conf
 
 # Don't ignore .gitignore itself
 !.gitignore
+
+# Ignore generated/runtime files
+hypr/.wallpaper-index
+hypr/wallpaper-randomizer.log

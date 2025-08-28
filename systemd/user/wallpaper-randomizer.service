@@ -1,0 +1,9 @@
+[Unit]
+Description=Hyprland Wallpaper Cycler
+Documentation=Automatically cycles through wallpapers every 5 minutes
+
+[Service]
+Type=oneshot
+ExecStart=/home/acekavi/.config/hypr/scripts/wallpaper-randomizer.sh
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=XDG_RUNTIME_DIR=/run/user/1000
