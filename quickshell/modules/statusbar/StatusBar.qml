@@ -54,6 +54,9 @@ PanelWindow {
 
                 ArchLogo {
                     id: archLogo
+                    onClicked: {
+                        Quickshell.execDetached(["uwsm", "app", "--","rofi", "-show", "drun"])
+                    }
                 }
 
                 WorkspaceIndicator {

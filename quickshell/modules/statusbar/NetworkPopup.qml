@@ -25,10 +25,8 @@ LazyLoader {
 
         exclusionMode: ExclusionMode.Ignore
         exclusiveZone: 0
-        margins {
-            top: 40  // Below status bar
-            right: 8
-        }
+        WlrLayershell.margins.top: 40
+        WlrLayershell.margins.right: 8
         WlrLayershell.namespace: "quickshell:networkPopup"
         WlrLayershell.layer: WlrLayer.Overlay
 
