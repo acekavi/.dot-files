@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -8,8 +9,19 @@ import "."
 PanelWindow {
     id: statusbar
 
+    property ShellScreen targetScreen
+    screen: targetScreen
+
     // Process component for launching external applications
     property var rofiProcess: null
+    color: "transparent"
+    exclusiveZone: WhiteSurTheme.barHeight+8
+    implicitHeight: WhiteSurTheme.barHeight+4
+
+    // Network popup
+    NetworkPopup {
+        id: networkPopup
+    }
 
     anchors {
         top: true
@@ -17,129 +29,100 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: WhiteSurTheme.barHeight+8 // 8px margin top and bottom
-    exclusiveZone: implicitHeight
-
-    color: "transparent"
+    margins {
+        top: 4
+        left: 8
+        right: 8
+    }
 
     Rectangle {
-        id: background
         anchors.fill: parent
-        anchors.margins: 4
-
-        color: Qt.rgba(WhiteSurTheme.background.r, WhiteSurTheme.background.g, WhiteSurTheme.background.b, WhiteSurTheme.backgroundOpacity)
         radius: WhiteSurTheme.borderRadius
+        color: Qt.rgba(WhiteSurTheme.background.r, WhiteSurTheme.background.g, WhiteSurTheme.background.b, WhiteSurTheme.backgroundOpacity)
         border.width: 1
         border.color: WhiteSurTheme.border
 
-        // Blur effect background
-        Rectangle {
+        RowLayout {
             anchors.fill: parent
-            radius: parent.radius
-            color: "transparent"
+            anchors.leftMargin: 8
+            anchors.rightMargin: 8
+            anchors.topMargin: 2
 
-            // This would need a blur shader effect in a real implementation
-            opacity: 0.1
-        }
-    }
+            // Left side - Arch logo and workspaces
+            RowLayout {
+                spacing: 8
 
-    RowLayout {
-        anchors.fill: background
-        spacing: WhiteSurTheme.spacing
-        anchors.leftMargin: 4
-        anchors.rightMargin: 6
+                ArchLogo {
+                    id: archLogo
+                }
 
-        // Left section
-        Row {
-            Layout.alignment: Qt.AlignLeft
-            spacing: WhiteSurTheme.spacing
-
-            ArchLogo {
-                anchors.verticalCenter: parent.verticalCenter
-                onClicked: {
-                    // Launch rofi using Quickshell.execDetached
-                    Quickshell.execDetached(["uwsm", "app", "--", "rofi", "-show", "drun"])
+                WorkspaceIndicator {
+                    id: workspaceIndicator
                 }
             }
 
-            WorkspaceIndicator {
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
+            // Center spacer
+            Item {
+                Layout.fillWidth: true
 
-        // Center section
-        Item {
-            Layout.fillWidth: true
-
-            ClockWidget {
-                anchors.centerIn: parent
-                showDate: true
-            }
-        }
-
-        // Right section
-        Row {
-            Layout.alignment: Qt.AlignRight
-            spacing: WhiteSurTheme.spacing
-
-            SystemTrayPopup {
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            // WiFi icon placeholder
-            Rectangle {
-                width: 24
-                height: 24
-                radius: WhiteSurTheme.borderRadius
-                color: wifiMouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) : "transparent"
-
-                Text {
+                ClockWidget {
+                    id: clockWidget
                     anchors.centerIn: parent
-                    text: "󰤨"  // WiFi icon
-                    color: WhiteSurTheme.textPrimary
-                    font.pixelSize: WhiteSurTheme.iconSize
-                    font.family: "JetBrainsMono Nerd Font"
                 }
+            }
 
-                MouseArea {
-                    id: wifiMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        // TODO: Open WiFi popup
-                        console.log("WiFi clicked")
+            // Right side - System widgets
+            RowLayout {
+                spacing: 8
+
+                // Network widget
+                Rectangle {
+                    Layout.preferredWidth: 32
+                    Layout.preferredHeight: 32
+                    radius: WhiteSurTheme.borderRadius
+                    color: wifiMouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) : "transparent"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: {
+                            const strength = NetworkService.networkStrength;
+                            if (!NetworkService.wifiEnabled)
+                            return "󰤮"; // wifi_off
+                            if (NetworkService.ethernet)
+                            return "󰌗"; // lan
+                            if (strength > 80)
+                            return "󰤨"; // signal_wifi_4_bar
+                            if (strength > 60)
+                            return "󰤥"; // signal_wifi_3_bar
+                            if (strength > 40)
+                            return "󰤢"; // signal_wifi_2_bar
+                            if (strength > 20)
+                            return "󰤟"; // signal_wifi_1_bar
+                            return "󰤯"; // signal_wifi_0_bar
+                        }
+                        color: WhiteSurTheme.textPrimary
+                        font.pixelSize: WhiteSurTheme.iconSize
+                        font.family: "JetBrainsMono Nerd Font"
+                    }
+
+                    MouseArea {
+                        id: wifiMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked: {
+                            networkPopup.popupOpen = !networkPopup.popupOpen;
+                        }
                     }
                 }
-            }
 
-            // Bluetooth icon placeholder
-            Rectangle {
-                width: 24
-                height: 24
-                radius: WhiteSurTheme.borderRadius
-                color: bluetoothMouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) : "transparent"
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "󰂯"  // Bluetooth icon
-                    color: WhiteSurTheme.textPrimary
-                    font.pixelSize: WhiteSurTheme.iconSize
-                    font.family: "JetBrainsMono Nerd Font"
+                BatteryWidget {
+                    id: batteryWidget
                 }
 
-                MouseArea {
-                    id: bluetoothMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        // TODO: Open Bluetooth popup
-                        console.log("Bluetooth clicked")
-                    }
+                SystemTrayPopup {
+                    id: systemTrayPopup
                 }
-            }
-
-            BatteryWidget {
-                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }

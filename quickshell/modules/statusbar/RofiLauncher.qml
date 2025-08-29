@@ -4,7 +4,7 @@ import Quickshell.Io
 
 Process {
     id: rofiLauncher
-    command: ["rofi", "-show", "drun"]
+    command: ["uwsm", "app", "--", "rofi", "-show", "drun"]
 
     function launch() {
         start()
