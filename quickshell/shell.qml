@@ -21,18 +21,18 @@ ShellRoot {
         sidebarOpen: controlCenterOpen
 
         onSidebarToggleRequested: {
-            controlCenterOpen = !controlCenterOpen
+            controlCenterOpen = !controlCenterOpen;
         }
     }
 
     // Ensure screens are properly assigned after Quickshell is ready
     Component.onCompleted: {
         if (Quickshell.primaryScreen) {
-            controlCenter.targetScreen = Quickshell.primaryScreen
-            statusBar.targetScreen = Quickshell.primaryScreen
+            controlCenter.targetScreen = Quickshell.primaryScreen;
+            statusBar.targetScreen = Quickshell.primaryScreen;
         } else if (Quickshell.screens.length > 0) {
-            controlCenter.targetScreen = Quickshell.screens[0]
-            statusBar.targetScreen = Quickshell.screens[0]
+            controlCenter.targetScreen = Quickshell.screens[0];
+            statusBar.targetScreen = Quickshell.screens[0];
         }
     }
 
@@ -40,13 +40,13 @@ ShellRoot {
     Item {
         focus: true
 
-        Keys.onPressed: (event) => {
+        Keys.onPressed: event => {
                             // Handle Control Center shortcuts
                             if (event.key === Qt.Key_S && event.modifiers === Qt.ShiftModifier) {
-                                controlCenterOpen = !controlCenterOpen
+                                controlCenterOpen = !controlCenterOpen;
                             }
                             if (event.key === Qt.Key_Escape && controlCenterOpen) {
-                                controlCenterOpen = false
+                                controlCenterOpen = false;
                             }
                         }
     }
@@ -57,11 +57,12 @@ ShellRoot {
         enabled: controlCenterOpen
         z: -1 // Behind other components
 
-        onClicked: (mouse) => {
+        onClicked: mouse => {
                        if (controlCenterOpen) {
                            // Check if click is outside Control Center area (right side)
-                           if (mouse.x > (parent.width - 320)) { // controlCenterWidth
-                               controlCenterOpen = false
+                           if (mouse.x > (parent.width - 320)) {
+                               // controlCenterWidth
+                               controlCenterOpen = false;
                            }
                        }
                    }

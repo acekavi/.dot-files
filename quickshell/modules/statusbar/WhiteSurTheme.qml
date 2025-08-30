@@ -9,6 +9,7 @@ QtObject {
     readonly property color background: Qt.rgba(0.06, 0.06, 0.08, 1.0) // #0F0F14 - System Background
     readonly property color backgroundSecondary: Qt.rgba(0.11, 0.11, 0.13, 1.0) // #1C1C21 - Secondary System Background
     readonly property color backgroundTertiary: Qt.rgba(0.16, 0.16, 0.18, 1.0) // #29292E - Tertiary System Background
+    readonly property real backgroundOpacity: 0.9
 
     // Semantic Colors (Apple HIG Standard)
     readonly property color accent: Qt.rgba(0.0, 0.48, 1.0, 1.0) // #007AFF - System Blue

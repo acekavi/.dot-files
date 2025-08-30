@@ -51,7 +51,6 @@ PanelWindow {
             anchors.fill: parent
             anchors.leftMargin: WhiteSurTheme.spacing
             anchors.rightMargin: WhiteSurTheme.spacing
-            anchors.topMargin: WhiteSurTheme.spacingSmall
             spacing: WhiteSurTheme.spacing
 
             // Left section - Sidebar toggle and Arch logo
@@ -59,88 +58,6 @@ PanelWindow {
                 Layout.alignment: Qt.AlignLeft
                 Layout.fillHeight: true
                 spacing: WhiteSurTheme.spacing
-
-                // Control Center Toggle Button (macOS-style)
-                Rectangle {
-                    id: sidebarToggleButton
-                    Layout.preferredWidth: WhiteSurTheme.iconSize + WhiteSurTheme.spacingLarge
-                    Layout.preferredHeight: WhiteSurTheme.iconSize + WhiteSurTheme.spacingLarge
-                    radius: WhiteSurTheme.borderRadius
-
-                    // macOS-style button states
-                    color: {
-                        if (sidebarToggleMouseArea.pressed) return WhiteSurTheme.backgroundSecondary
-                        if (sidebarToggleMouseArea.containsMouse) return WhiteSurTheme.backgroundSecondary
-                        return "transparent"
-                    }
-
-                    border.width: 1
-                    border.color: sidebarToggleMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.border
-
-                    // Fallback shadow effect using multiple borders
-                    Rectangle {
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        radius: parent.radius - 1
-                        color: "transparent"
-                        border.width: 1
-                        border.color: Qt.rgba(0, 0, 0, 0.08)
-                        z: -1
-                    }
-
-                    Behavior on color {
-                        animation: WhiteSurTheme.colorAnimation.createObject(this)
-                    }
-
-                    Behavior on border.color {
-                        animation: WhiteSurTheme.colorAnimation.createObject(this)
-                    }
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "☰"
-                        color: sidebarToggleMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.textPrimary
-                        font.pixelSize: WhiteSurTheme.iconSize
-                        font.family: "Inter"
-                        font.weight: sidebarToggleMouseArea.containsMouse ? Font.Medium : Font.Normal
-
-                        Behavior on color {
-                            animation: WhiteSurTheme.colorAnimation.createObject(this)
-                        }
-
-                        Behavior on font.weight {
-                            animation: WhiteSurTheme.numberAnimation.createObject(this)
-                        }
-                    }
-
-                    MouseArea {
-                        id: sidebarToggleMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-
-                        onClicked: {
-                            sidebarToggleRequested()
-                        }
-
-                        // macOS-style press animation
-                        onPressed: {
-                            parent.scale = 0.98
-                        }
-
-                        onReleased: {
-                            parent.scale = 1.0
-                        }
-
-                        onCanceled: {
-                            parent.scale = 1.0
-                        }
-                    }
-
-                    Behavior on scale {
-                        animation: WhiteSurTheme.quickAnimation.createObject(this)
-                    }
-                }
 
                 // Character Button - Arch Logo (simplified, no button styling)
                 Text {
@@ -464,6 +381,88 @@ PanelWindow {
                 BatteryWidget {
                     id: batteryWidget
                     Layout.fillHeight: true
+                }
+
+                // Control Center Toggle Button (macOS-style)
+                Rectangle {
+                    id: sidebarToggleButton
+                    Layout.preferredWidth: WhiteSurTheme.iconSize + WhiteSurTheme.spacingLarge
+                    Layout.preferredHeight: WhiteSurTheme.iconSize + WhiteSurTheme.spacingLarge
+                    radius: WhiteSurTheme.borderRadius
+
+                    // macOS-style button states
+                    color: {
+                        if (sidebarToggleMouseArea.pressed) return WhiteSurTheme.backgroundSecondary
+                        if (sidebarToggleMouseArea.containsMouse) return WhiteSurTheme.backgroundSecondary
+                        return "transparent"
+                    }
+
+                    border.width: 1
+                    border.color: sidebarToggleMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.border
+
+                    // Fallback shadow effect using multiple borders
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        radius: parent.radius - 1
+                        color: "transparent"
+                        border.width: 1
+                        border.color: Qt.rgba(0, 0, 0, 0.08)
+                        z: -1
+                    }
+
+                    Behavior on color {
+                        animation: WhiteSurTheme.colorAnimation.createObject(this)
+                    }
+
+                    Behavior on border.color {
+                        animation: WhiteSurTheme.colorAnimation.createObject(this)
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "☰"
+                        color: sidebarToggleMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.textPrimary
+                        font.pixelSize: WhiteSurTheme.iconSize
+                        font.family: "Inter"
+                        font.weight: sidebarToggleMouseArea.containsMouse ? Font.Medium : Font.Normal
+
+                        Behavior on color {
+                            animation: WhiteSurTheme.colorAnimation.createObject(this)
+                        }
+
+                        Behavior on font.weight {
+                            animation: WhiteSurTheme.numberAnimation.createObject(this)
+                        }
+                    }
+
+                    MouseArea {
+                        id: sidebarToggleMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: {
+                            sidebarToggleRequested()
+                        }
+
+                        // macOS-style press animation
+                        onPressed: {
+                            parent.scale = 0.98
+                        }
+
+                        onReleased: {
+                            parent.scale = 1.0
+                        }
+
+                        onCanceled: {
+                            parent.scale = 1.0
+                        }
+                    }
+
+                    Behavior on scale {
+                        animation: WhiteSurTheme.quickAnimation.createObject(this)
+                    }
                 }
 
             }

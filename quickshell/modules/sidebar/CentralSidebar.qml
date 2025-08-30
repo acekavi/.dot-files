@@ -34,7 +34,6 @@ PanelWindow {
     Rectangle {
         id: sidebarContent
         anchors.fill: parent
-        anchors.topMargin: 60 // Account for status bar height
         color: "transparent"
 
         // macOS-style slide animation from right

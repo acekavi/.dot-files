@@ -95,8 +95,8 @@ LazyLoader {
 
                         Behavior on color {
                             ColorAnimation {
-                                duration: WhiteSurTheme.animationDuration
-                                easing.type: WhiteSurTheme.animationEasing
+                                duration: WhiteSurTheme.animationDuration ? WhiteSurTheme.animationDuration : 300
+                                easing.type: WhiteSurTheme.animationEasing ? WhiteSurTheme.animationEasing : Easing.OutCubic
                             }
                         }
 
@@ -110,8 +110,8 @@ LazyLoader {
 
                             Behavior on x {
                                 NumberAnimation {
-                                    duration: WhiteSurTheme.animationDuration
-                                    easing.type: WhiteSurTheme.animationEasing
+                                    duration: WhiteSurTheme.animationDuration ? WhiteSurTheme.animationDuration : 300
+                                    easing.type: WhiteSurTheme.animationEasing ? WhiteSurTheme.animationEasing : Easing.OutCubic
                                 }
                             }
                         }
