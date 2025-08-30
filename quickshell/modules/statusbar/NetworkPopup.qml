@@ -66,14 +66,16 @@ LazyLoader {
                     spacing: 8
 
                     Text {
+                        id: wifiIcon
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "󰤨"  // WiFi icon
+                        text: "󰤨" // WiFi icon
                         color: WhiteSurTheme.textPrimary
                         font.pixelSize: 18
                         font.family: "JetBrainsMono Nerd Font"
                     }
 
                     Text {
+                        id: titleText
                         anchors.verticalCenter: parent.verticalCenter
                         text: "Wi-Fi Networks"
                         color: WhiteSurTheme.textPrimary
@@ -140,6 +142,7 @@ LazyLoader {
                         spacing: 8
 
                         Text {
+                            id: checkIcon
                             text: "󰄬"  // check icon
                             color: WhiteSurTheme.accent
                             font.pixelSize: 12

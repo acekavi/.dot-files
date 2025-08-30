@@ -55,22 +55,24 @@ Item {
 
             // Signal strength icon
             Text {
+                id: signalIcon
                 anchors.verticalCenter: parent.verticalCenter
                 text: {
                     const strength = root.network.strength
-                    if (strength > 80) return "󰤨"  // signal_wifi_4_bar
-                    if (strength > 60) return "󰤥"  // signal_wifi_3_bar
-                    if (strength > 40) return "󰤢"  // signal_wifi_2_bar
-                    if (strength > 20) return "󰤟"  // signal_wifi_1_bar
-                    return "󰤯"  // signal_wifi_0_bar
+                    if (strength > 80) return "󰤨" // signal_wifi_4_bar
+                    if (strength > 60) return "󰤥" // signal_wifi_3_bar
+                    if (strength > 40) return "󰤢" // signal_wifi_2_bar
+                    if (strength > 20) return "󰤟" // signal_wifi_1_bar
+                    return "󰤯" // signal_wifi_0_bar
                 }
-                color: WhiteSurTheme.textPrimary
-                font.pixelSize: WhiteSurTheme.iconSize
+                color: WhiteSurTheme.textPrimary || "white"
+                font.pixelSize: WhiteSurTheme.iconSize || 16
                 font.family: "JetBrainsMono Nerd Font"
             }
 
             // SSID
             Text {
+                id: ssidText
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.network.ssid
                 color: WhiteSurTheme.textPrimary
@@ -86,6 +88,7 @@ Item {
                 spacing: 4
 
                 Text {
+                    id: lockIcon
                     visible: root.network.isSecure
                     text: "󰌾"  // lock icon
                     color: WhiteSurTheme.textSecondary

@@ -4,26 +4,33 @@ pragma Singleton
 QtObject {
     id: root
 
-    // macOS WhiteSur Dark Theme Colors
-    readonly property color background: Qt.rgba(0.11, 0.11, 0.12, 1.0)              // #1C1C1E
-    readonly property color backgroundSecondary: Qt.rgba(0.17, 0.17, 0.18, 1.0)     // #2C2C2E
-    readonly property color backgroundTertiary: Qt.rgba(0.23, 0.23, 0.24, 1.0)      // #3A3A3C
-    readonly property color selected: Qt.rgba(0.0, 0.48, 1.0, 1.0)                  // #007AFF
-    readonly property color hover: Qt.rgba(0.39, 0.39, 0.4, 1.0)                    // #636366
+    // Apple HIG Dark Mode Color System
+    // Primary Background Colors
+    readonly property color background: Qt.rgba(0.06, 0.06, 0.08, 1.0) // #0F0F14 - System Background
+    readonly property color backgroundSecondary: Qt.rgba(0.11, 0.11, 0.13, 1.0) // #1C1C21 - Secondary System Background
+    readonly property color backgroundTertiary: Qt.rgba(0.16, 0.16, 0.18, 1.0) // #29292E - Tertiary System Background
 
-    readonly property color textPrimary: Qt.rgba(1.0, 1.0, 1.0, 0.95)              // Primary text
-    readonly property color textSecondary: Qt.rgba(0.92, 0.92, 0.96, 0.6)          // Secondary text
-    readonly property color textTertiary: Qt.rgba(0.92, 0.92, 0.96, 0.3)           // Tertiary text
-    readonly property color textSelected: Qt.rgba(1.0, 1.0, 1.0, 1.0)              // Selected text
+    // Semantic Colors (Apple HIG Standard)
+    readonly property color accent: Qt.rgba(0.0, 0.48, 1.0, 1.0) // #007AFF - System Blue
+    readonly property color accentHover: Qt.rgba(0.04, 0.52, 1.0, 1.0) // #0A84FF - System Blue (Pressed)
+    readonly property color success: Qt.rgba(0.2, 0.78, 0.35, 1.0) // #34C759 - System Green
+    readonly property color warning: Qt.rgba(1.0, 0.58, 0.0, 1.0) // #FF9500 - System Orange
+    readonly property color error: Qt.rgba(1.0, 0.23, 0.19, 1.0) // #FF3B30 - System Red
 
-    readonly property color accent: Qt.rgba(0.0, 0.48, 1.0, 1.0)                   // #007AFF
-    readonly property color accentHover: Qt.rgba(0.04, 0.52, 1.0, 1.0)             // #0A84FF
-    readonly property color success: Qt.rgba(0.2, 0.78, 0.35, 1.0)                 // #34C759
-    readonly property color warning: Qt.rgba(1.0, 0.58, 0.0, 1.0)                  // #FF9500
-    readonly property color error: Qt.rgba(1.0, 0.23, 0.19, 1.0)                   // #FF3B30
+    // Text Colors (Apple HIG Typography Standards)
+    readonly property color textPrimary: Qt.rgba(1.0, 1.0, 1.0, 1.0) // Primary Label
+    readonly property color textSecondary: Qt.rgba(0.92, 0.92, 0.96, 0.6) // Secondary Label
+    readonly property color textTertiary: Qt.rgba(0.92, 0.92, 0.96, 0.3) // Tertiary Label
+    readonly property color textSelected: Qt.rgba(1.0, 1.0, 1.0, 1.0) // Selected Text
 
-    readonly property color border: Qt.rgba(0.39, 0.39, 0.4, 0.22)                 // Separator
-    readonly property color borderSecondary: Qt.rgba(0.33, 0.33, 0.35, 0.65)       // Outline
+    // Interactive Colors (Apple HIG Interactive Elements)
+    readonly property color selected: Qt.rgba(0.0, 0.48, 1.0, 1.0) // #007AFF - System Blue
+    readonly property color hover: Qt.rgba(0.39, 0.39, 0.4, 0.3) // Hover State
+    readonly property color pressed: Qt.rgba(0.39, 0.39, 0.4, 0.5) // Pressed State
+
+    // Border and Separator Colors (Apple HIG Materials)
+    readonly property color border: Qt.rgba(0.39, 0.39, 0.4, 0.22) // Separator
+    readonly property color borderSecondary: Qt.rgba(0.33, 0.33, 0.35, 0.65) // Outline
 
     // Workspace-specific colors
     readonly property color workspaceActive: Qt.rgba(0.0, 0.48, 1.0, 1.0) // #007AFF - Active workspace
@@ -31,30 +38,17 @@ QtObject {
     readonly property color workspaceEmpty: Qt.rgba(0.92, 0.92, 0.96, 0.3) // Empty workspace
     readonly property color workspaceHover: Qt.rgba(0.0, 0.48, 1.0, 0.25) // Hover state
 
-    // Transparency levels
-    readonly property real backgroundOpacity: 0.98
-    readonly property real contentOpacity: 0.95
-    readonly property real hoverOpacity: 0.3
+    // Control Center Specific Colors (Apple HIG)
+    readonly property color controlCenterBackground: Qt.rgba(0.06, 0.06, 0.08, 0.95) // Control Center background
+    readonly property color controlCenterCard: Qt.rgba(0.11, 0.11, 0.13, 0.8) // Control Center card background
+    readonly property color controlCenterToggle: Qt.rgba(0.0, 0.48, 1.0, 1.0) // Toggle switch active
+    readonly property color controlCenterToggleInactive: Qt.rgba(0.39, 0.39, 0.4, 0.6) // Toggle switch inactive
 
-    // macOS-Standard Animation Settings (following Apple HIG)
-    readonly property int animationDuration: {
-        // Quick: 200-300ms for micro-interactions
-        // Standard: 400-500ms for state changes
-        // Slow: 600-800ms for major transitions
-        return 400 // Standard duration for state changes
-    }
-
-    readonly property int animationDurationQuick: 200 // Micro-interactions
-    readonly property int animationDurationStandard: 400 // State changes
-    readonly property int animationDurationSlow: 600 // Major transitions
-
-    // macOS-Standard Bezier Curves (from Apple HIG)
-    readonly property list<real> animationCurveStandard: [0.32, 0.97, 0.53, 1.0] // Standard curve
-    readonly property list<real> animationCurveQuick: [0.34, 0.80, 0.34, 1.00] // Quick curve
-    readonly property list<real> animationCurveSlow: [0.39, 1.29, 0.35, 0.98] // Slow curve
-
-    readonly property int animationEasing: Easing.BezierSpline
-    readonly property list<real> animationBezierCurve: animationCurveStandard
+    // Status Indicator Colors (Apple HIG Semantic Colors)
+    readonly property color statusOnline: Qt.rgba(0.2, 0.78, 0.35, 1.0) // #34C759 - Online/Connected
+    readonly property color statusOffline: Qt.rgba(0.92, 0.92, 0.96, 0.4) // Offline/Disconnected
+    readonly property color statusWarning: Qt.rgba(1.0, 0.58, 0.0, 1.0) // #FF9500 - Warning state
+    readonly property color statusError: Qt.rgba(1.0, 0.23, 0.19, 1.0) // #FF3B30 - Error state
 
     // 8pt Grid System (following Apple HIG)
     readonly property int spacing: 8 // Base spacing unit
@@ -76,6 +70,10 @@ QtObject {
     readonly property int popupWidth: 320 // 40 * 8pt
     readonly property int popupMaxHeight: 600 // 75 * 8pt
 
+    // Control Center dimensions
+    readonly property int controlCenterWidth: 320 // 40 * 8pt - wider for better content
+    readonly property int controlCenterHeight: 480 // 60 * 8pt - more compact height
+
     // Workspace-specific dimensions - properly proportioned for status bar
     readonly property int workspaceSize: 20 // 2.5 * 8pt (smaller, better proportioned)
     readonly property int workspaceDotSize: 3 // 0.375 * 8pt (smaller dot)
@@ -85,25 +83,22 @@ QtObject {
     // Animation components for easy reuse
     readonly property Component numberAnimation: Component {
         NumberAnimation {
-            duration: root.animationDuration
-            easing.type: root.animationEasing
-            easing.bezierCurve: root.animationBezierCurve
+            duration: 300
+            easing.type: Easing.OutCubic
         }
     }
 
     readonly property Component colorAnimation: Component {
         ColorAnimation {
-            duration: root.animationDuration
-            easing.type: root.animationEasing
-            easing.bezierCurve: root.animationBezierCurve
+            duration: 300
+            easing.type: Easing.OutCubic
         }
     }
 
     readonly property Component quickAnimation: Component {
         NumberAnimation {
-            duration: root.animationDurationQuick
-            easing.type: root.animationEasing
-            easing.bezierCurve: root.animationCurveQuick
+            duration: 150
+            easing.type: Easing.OutCubic
         }
     }
 }

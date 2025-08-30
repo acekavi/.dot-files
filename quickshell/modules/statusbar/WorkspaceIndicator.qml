@@ -85,20 +85,8 @@ Item {
 
     function tryCommandLineFallback() {
         // Try to get workspace info from hyprctl as a fallback
-        Quickshell.execDetached(["sh", "-c", "hyprctl workspaces | grep -A2 'workspace ID' | grep -B2 'windows: [1-9]' | grep 'workspace ID' | grep -o 'workspace ID [0-9]*' | awk '{print $3}'"], function(exitCode, stdout, stderr) {
-            if (exitCode === 0 && stdout) {
-                // Parse the output to find workspaces with windows
-                const workspaceIds = stdout.trim().split('\n').filter(id => id && !isNaN(id))
 
-                // Update the occupied states based on CLI output
-                let newOccupied = []
-                for (let i = 0; i < 5; i++) {
-                    const workspaceId = i + 1
-                    newOccupied.push(workspaceIds.includes(workspaceId.toString()))
-                }
-                workspaceOccupied = newOccupied
-            }
-        })
+        Quickshell.execDetached(["sh", "-c", "hyprctl workspaces | grep -A2 'workspace ID' | grep -B2 'windows: [1-9]' | grep 'workspace ID' | grep -o 'workspace ID [0-9]*' | awk '{print $3}'"])
     }
 
     Component.onCompleted: {
@@ -126,22 +114,9 @@ Item {
         function onFocusedWorkspaceChanged() {
             updateWorkspaceOccupied()
         }
-    }
 
-    // Also listen for window changes
-    Connections {
-        target: Hyprland
-        function onWindowCreated() {
-            updateWorkspaceOccupied()
-        }
-
-        function onWindowClosed() {
-            updateWorkspaceOccupied()
-        }
-
-        function onWindowMoved() {
-            updateWorkspaceOccupied()
-        }
+        // Note: Hyprland doesn't provide windowCreated/Closed/Moved signals
+        // We rely on workspace focus changes to update window status
     }
 
     RowLayout {
