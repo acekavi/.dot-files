@@ -10,49 +10,93 @@ Item {
 
     signal clicked()
 
-    implicitWidth: 24
-    implicitHeight: 24
+    implicitWidth: WhiteSurTheme.iconSize + WhiteSurTheme.spacingLarge
+    implicitHeight: WhiteSurTheme.barHeight
 
+    // macOS-style Secondary Button - System Tray
     Rectangle {
         id: trayButton
         anchors.fill: parent
         radius: WhiteSurTheme.borderRadius
-        color: popupOpen ? WhiteSurTheme.backgroundSecondary :
-               mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
-               "transparent"
+
+        // macOS-style button states
+        color: {
+            if (trayMouseArea.pressed) return WhiteSurTheme.backgroundSecondary
+            if (trayMouseArea.containsMouse) return WhiteSurTheme.backgroundSecondary
+            return "transparent"
+        }
+
+        border.width: 1
+        border.color: trayMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.border
+
+        // Fallback shadow effect using multiple borders
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 1
+            radius: parent.radius - 1
+            color: "transparent"
+            border.width: 1
+            border.color: Qt.rgba(0, 0, 0, 0.08)
+            z: -1
+        }
 
         Behavior on color {
-            ColorAnimation {
-                duration: WhiteSurTheme.animationDuration
-                easing.type: WhiteSurTheme.animationEasing
-            }
+            animation: WhiteSurTheme.colorAnimation.createObject(this)
+        }
+
+        Behavior on border.color {
+            animation: WhiteSurTheme.colorAnimation.createObject(this)
         }
 
         Text {
             anchors.centerIn: parent
-            text: "󱃔"  // Chevron up/down icon
-            color: WhiteSurTheme.textPrimary
+            text: "󱃔" // Chevron up/down icon
+            color: trayMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.textPrimary
             font.pixelSize: WhiteSurTheme.iconSize
             font.family: "JetBrainsMono Nerd Font"
+            font.weight: trayMouseArea.containsMouse ? Font.Medium : Font.Normal
             rotation: popupOpen ? 180 : 0
 
+            Behavior on color {
+                animation: WhiteSurTheme.colorAnimation.createObject(this)
+            }
+
+            Behavior on font.weight {
+                animation: WhiteSurTheme.numberAnimation.createObject(this)
+            }
+
             Behavior on rotation {
-                NumberAnimation {
-                    duration: WhiteSurTheme.animationDuration
-                    easing.type: WhiteSurTheme.animationEasing
-                }
+                animation: WhiteSurTheme.numberAnimation.createObject(this)
             }
         }
 
         MouseArea {
-            id: mouseArea
+            id: trayMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
 
             onClicked: {
                 root.popupOpen = !root.popupOpen
                 root.clicked()
             }
+
+            // macOS-style press animation
+            onPressed: {
+                parent.scale = 0.98
+            }
+
+            onReleased: {
+                parent.scale = 1.0
+            }
+
+            onCanceled: {
+                parent.scale = 1.0
+            }
+        }
+
+        Behavior on scale {
+            animation: WhiteSurTheme.quickAnimation.createObject(this)
         }
     }
 
@@ -60,16 +104,27 @@ Item {
     Rectangle {
         id: popup
         visible: popupOpen
-        width: Math.max(200, trayGrid.implicitWidth + 20)
-        height: trayGrid.implicitHeight + 20
+        width: Math.max(WhiteSurTheme.popupWidth, trayGrid.implicitWidth + WhiteSurTheme.spacingLarge)
+        height: trayGrid.implicitHeight + WhiteSurTheme.spacingLarge
         color: WhiteSurTheme.background
         radius: WhiteSurTheme.borderRadius
         border.width: 1
         border.color: WhiteSurTheme.border
 
         anchors.top: parent.bottom
-        anchors.topMargin: 8
+        anchors.topMargin: WhiteSurTheme.spacing
         anchors.horizontalCenter: parent.horizontalCenter
+
+        // Fallback shadow effect using multiple borders
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 2
+            radius: parent.radius - 2
+            color: "transparent"
+            border.width: 1
+            border.color: Qt.rgba(0, 0, 0, 0.15)
+            z: -1
+        }
 
         // Close popup when clicking outside
         MouseArea {
@@ -78,12 +133,12 @@ Item {
             onPressed: mouse.accepted = false
         }
 
-        Grid {
+        GridLayout {
             id: trayGrid
             anchors.centerIn: parent
             columns: Math.ceil(Math.sqrt(Math.max(1, SystemTray.items.values.length)))
-            columnSpacing: 8
-            rowSpacing: 8
+            columnSpacing: WhiteSurTheme.spacing
+            rowSpacing: WhiteSurTheme.spacing
 
             Repeater {
                 model: SystemTray.items.values
@@ -91,16 +146,26 @@ Item {
                 delegate: Rectangle {
                     required property var modelData
 
-                    width: 32
-                    height: 32
+                    Layout.preferredWidth: WhiteSurTheme.iconSize * 2
+                    Layout.preferredHeight: WhiteSurTheme.iconSize * 2
                     radius: WhiteSurTheme.borderRadius
                     color: itemMouseArea.containsMouse ? WhiteSurTheme.backgroundSecondary : "transparent"
+                    border.width: 1
+                    border.color: itemMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.border
+
+                    Behavior on color {
+                        animation: WhiteSurTheme.colorAnimation.createObject(this)
+                    }
+
+                    Behavior on border.color {
+                        animation: WhiteSurTheme.colorAnimation.createObject(this)
+                    }
 
                     Image {
                         anchors.centerIn: parent
                         source: modelData.icon
-                        width: 16
-                        height: 16
+                        width: WhiteSurTheme.iconSize
+                        height: WhiteSurTheme.iconSize
                         smooth: true
                     }
 
@@ -108,6 +173,7 @@ Item {
                         id: itemMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
 
                         onClicked: {
                             if (modelData.activate) {
@@ -116,23 +182,39 @@ Item {
                         }
 
                         onPressed: (mouse) => {
-                            if (mouse.button === Qt.RightButton) {
-                                if (modelData.contextMenu) {
-                                    modelData.contextMenu.open()
-                                }
-                            }
+                                       // macOS-style press animation
+                                       parent.scale = 0.98
+
+                                       // Handle right-click context menu
+                                       if (mouse.button === Qt.RightButton) {
+                                           if (modelData.contextMenu) {
+                                               modelData.contextMenu.open()
+                                           }
+                                       }
+                                   }
+
+                        onReleased: {
+                            parent.scale = 1.0
                         }
+
+                        onCanceled: {
+                            parent.scale = 1.0
+                        }
+                    }
+
+                    Behavior on scale {
+                        animation: WhiteSurTheme.quickAnimation.createObject(this)
                     }
 
                     // Tooltip
                     Rectangle {
                         visible: itemMouseArea.containsMouse && modelData.tooltip
                         color: WhiteSurTheme.backgroundTertiary
-                        radius: 4
-                        width: tooltipText.implicitWidth + 8
-                        height: tooltipText.implicitHeight + 4
+                        radius: WhiteSurTheme.borderRadius
+                        width: tooltipText.implicitWidth + WhiteSurTheme.spacing
+                        height: tooltipText.implicitHeight + WhiteSurTheme.spacingSmall
                         anchors.bottom: parent.top
-                        anchors.bottomMargin: 4
+                        anchors.bottomMargin: WhiteSurTheme.spacingSmall
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         Text {

@@ -15,31 +15,50 @@ Item {
 
     signal clicked()
 
-    implicitWidth: batteryRow.implicitWidth
-    implicitHeight: 24
+    implicitWidth: batteryButton.implicitWidth
+    implicitHeight: WhiteSurTheme.barHeight
 
+    // macOS-style Secondary Button - Battery Widget
     Rectangle {
         id: batteryButton
         anchors.fill: parent
         radius: WhiteSurTheme.borderRadius
-        color: popupOpen ? WhiteSurTheme.backgroundSecondary :
-                           mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
-                                                     "transparent"
 
-        Behavior on color {
-            ColorAnimation {
-                duration: WhiteSurTheme.animationDuration
-                easing.type: WhiteSurTheme.animationEasing
-            }
+        // macOS-style button states
+        color: {
+            if (batteryMouseArea.pressed) return WhiteSurTheme.backgroundSecondary
+            if (batteryMouseArea.containsMouse) return WhiteSurTheme.backgroundSecondary
+            return "transparent"
         }
 
-        Row {
-            id: batteryRow
+        border.width: 1
+        border.color: batteryMouseArea.containsMouse ? WhiteSurTheme.accent : WhiteSurTheme.border
+
+        // Fallback shadow effect using multiple borders
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 1
+            radius: parent.radius - 1
+            color: "transparent"
+            border.width: 1
+            border.color: Qt.rgba(0, 0, 0, 0.08)
+            z: -1
+        }
+
+        Behavior on color {
+            animation: WhiteSurTheme.colorAnimation.createObject(this)
+        }
+
+        Behavior on border.color {
+            animation: WhiteSurTheme.colorAnimation.createObject(this)
+        }
+
+        RowLayout {
             anchors.centerIn: parent
-            spacing: 4
+            spacing: WhiteSurTheme.spacingSmall
 
             Text {
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 text: {
                     let pct = percentage * 100 // Convert to 0-100 range
                     if (isCharging) return "󰂄" // Charging icon
@@ -50,31 +69,73 @@ Item {
                     if (pct > 10) return "󰁼" // Low battery
                     return "󰁺" // Empty battery
                 }
-                color: isLow && !isCharging ? WhiteSurTheme.error :
-                                              isCharging ? WhiteSurTheme.success :
-                                                           WhiteSurTheme.textPrimary
+                color: {
+                    if (batteryMouseArea.containsMouse) return WhiteSurTheme.accent
+                    if (isLow && !isCharging) return WhiteSurTheme.error
+                    if (isCharging) return WhiteSurTheme.success
+                    return WhiteSurTheme.textPrimary
+                }
                 font.pixelSize: WhiteSurTheme.iconSize
                 font.family: "JetBrainsMono Nerd Font"
+                font.weight: batteryMouseArea.containsMouse ? Font.Medium : Font.Normal
+
+                Behavior on color {
+                    animation: WhiteSurTheme.colorAnimation.createObject(this)
+                }
+
+                Behavior on font.weight {
+                    animation: WhiteSurTheme.numberAnimation.createObject(this)
+                }
             }
 
             Text {
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
                 text: Math.round(percentage * 100) + "%"
-                color: isLow && !isCharging ? WhiteSurTheme.error : WhiteSurTheme.textPrimary
+                color: {
+                    if (batteryMouseArea.containsMouse) return WhiteSurTheme.accent
+                    if (isLow && !isCharging) return WhiteSurTheme.error
+                    return WhiteSurTheme.textPrimary
+                }
                 font.pixelSize: 11
-                font.weight: Font.Medium
+                font.weight: batteryMouseArea.containsMouse ? Font.Medium : Font.Normal
+
+                Behavior on color {
+                    animation: WhiteSurTheme.colorAnimation.createObject(this)
+                }
+
+                Behavior on font.weight {
+                    animation: WhiteSurTheme.numberAnimation.createObject(this)
+                }
             }
         }
 
         MouseArea {
-            id: mouseArea
+            id: batteryMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
 
             onClicked: {
                 root.popupOpen = !root.popupOpen
                 root.clicked()
             }
+
+            // macOS-style press animation
+            onPressed: {
+                parent.scale = 0.98
+            }
+
+            onReleased: {
+                parent.scale = 1.0
+            }
+
+            onCanceled: {
+                parent.scale = 1.0
+            }
+        }
+
+        Behavior on scale {
+            animation: WhiteSurTheme.quickAnimation.createObject(this)
         }
     }
 
@@ -82,29 +143,40 @@ Item {
     Rectangle {
         id: popup
         visible: popupOpen
-        width: 250
-        height: contentColumn.implicitHeight + 20
+        width: WhiteSurTheme.popupWidth
+        height: contentColumn.implicitHeight + WhiteSurTheme.spacingLarge
         color: WhiteSurTheme.background
         radius: WhiteSurTheme.borderRadius
         border.width: 1
         border.color: WhiteSurTheme.border
 
         anchors.top: parent.bottom
-        anchors.topMargin: 8
+        anchors.topMargin: WhiteSurTheme.spacing
         anchors.horizontalCenter: parent.horizontalCenter
 
-        Column {
+        // Fallback shadow effect using multiple borders
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 2
+            radius: parent.radius - 2
+            color: "transparent"
+            border.width: 1
+            border.color: Qt.rgba(0, 0, 0, 0.15)
+            z: -1
+        }
+
+        ColumnLayout {
             id: contentColumn
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.margins: 10
-            spacing: 12
+            anchors.margins: WhiteSurTheme.padding
+            spacing: WhiteSurTheme.spacing
 
             // Battery info
-            Row {
-                spacing: 8
-                width: parent.width
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: WhiteSurTheme.spacing
 
                 Text {
                     text: "Battery"
@@ -125,8 +197,8 @@ Item {
 
             // Battery bar
             Rectangle {
-                width: parent.width
-                height: 6
+                Layout.fillWidth: true
+                Layout.preferredHeight: 6
                 radius: 3
                 color: WhiteSurTheme.backgroundSecondary
 
@@ -135,13 +207,10 @@ Item {
                     height: parent.height
                     radius: parent.radius
                     color: isLow && !isCharging ? WhiteSurTheme.error :
-                           isCharging ? WhiteSurTheme.success : WhiteSurTheme.accent
+                                                  isCharging ? WhiteSurTheme.success : WhiteSurTheme.accent
 
                     Behavior on width {
-                        NumberAnimation {
-                            duration: WhiteSurTheme.animationDuration
-                            easing.type: WhiteSurTheme.animationEasing
-                        }
+                        animation: WhiteSurTheme.numberAnimation.createObject(this)
                     }
                 }
             }
@@ -153,19 +222,19 @@ Item {
                 font.pixelSize: 11
             }
 
-            Column {
-                width: parent.width
-                spacing: 4
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: WhiteSurTheme.spacingSmall
 
                 Rectangle {
-                    width: parent.width
-                    height: 28
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 28
                     radius: WhiteSurTheme.borderRadius
                     color: WhiteSurTheme.backgroundSecondary
 
                     Text {
                         anchors.left: parent.left
-                        anchors.leftMargin: 8
+                        anchors.leftMargin: WhiteSurTheme.spacing
                         anchors.verticalCenter: parent.verticalCenter
                         text: "󰓅 Performance"
                         color: WhiteSurTheme.textPrimary
@@ -174,14 +243,14 @@ Item {
                 }
 
                 Rectangle {
-                    width: parent.width
-                    height: 28
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 28
                     radius: WhiteSurTheme.borderRadius
                     color: WhiteSurTheme.accent
 
                     Text {
                         anchors.left: parent.left
-                        anchors.leftMargin: 8
+                        anchors.leftMargin: WhiteSurTheme.spacing
                         anchors.verticalCenter: parent.verticalCenter
                         text: "󰗑 Balanced"
                         color: WhiteSurTheme.textSelected
@@ -190,14 +259,14 @@ Item {
                 }
 
                 Rectangle {
-                    width: parent.width
-                    height: 28
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 28
                     radius: WhiteSurTheme.borderRadius
                     color: WhiteSurTheme.backgroundSecondary
 
                     Text {
                         anchors.left: parent.left
-                        anchors.leftMargin: 8
+                        anchors.leftMargin: WhiteSurTheme.spacing
                         anchors.verticalCenter: parent.verticalCenter
                         text: "󰾆 Power Saver"
                         color: WhiteSurTheme.textPrimary

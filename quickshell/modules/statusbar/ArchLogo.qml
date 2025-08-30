@@ -10,18 +10,15 @@ Rectangle {
 
     signal clicked()
 
-    width: 24
-    height: 24
+    Layout.preferredWidth: WhiteSurTheme.iconSize + WhiteSurTheme.spacing
+    Layout.preferredHeight: WhiteSurTheme.iconSize + WhiteSurTheme.spacing
     radius: WhiteSurTheme.borderRadius
     color: pressed ? WhiteSurTheme.backgroundSecondary :
-           mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
-           "transparent"
+                     mouseArea.containsMouse ? Qt.rgba(WhiteSurTheme.hover.r, WhiteSurTheme.hover.g, WhiteSurTheme.hover.b, WhiteSurTheme.hoverOpacity) :
+                                               "transparent"
 
     Behavior on color {
-        ColorAnimation {
-            duration: WhiteSurTheme.animationDuration
-            easing.type: WhiteSurTheme.animationEasing
-        }
+        animation: WhiteSurTheme.colorAnimation.createObject(this)
     }
 
     Text {
@@ -36,6 +33,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
 
         onPressed: {
             root.pressed = true
@@ -57,9 +55,6 @@ Rectangle {
     }
 
     Behavior on scale {
-        NumberAnimation {
-            duration: 100
-            easing.type: Easing.OutQuad
-        }
+        animation: WhiteSurTheme.quickAnimation.createObject(this)
     }
 }
