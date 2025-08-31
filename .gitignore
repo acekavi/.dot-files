@@ -54,3 +54,5 @@
 # Ignore generated/runtime files
 hypr/.wallpaper-index
 hypr/wallpaper-randomizer.log
+
+!starship.toml
