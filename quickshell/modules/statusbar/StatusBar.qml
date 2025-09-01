@@ -73,11 +73,11 @@ PanelWindow {
                     verticalAlignment: Text.AlignVCenter
 
                     Behavior on color {
-                        animation: WhiteSurTheme.colorAnimation.createObject(this)
+                        ColorAnimation { duration: 300; easing.type: Easing.OutCubic }
                     }
 
                     Behavior on font.weight {
-                        animation: WhiteSurTheme.numberAnimation.createObject(this)
+                        NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
                     }
 
                     MouseArea {
