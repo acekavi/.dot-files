@@ -18,3 +18,6 @@
 !DankMaterialShell/**
 !dgop/
 !dgop/**
+!.Xresources
+!.cursorrules
+!HYPRLAND_DOCUMENTATION.md

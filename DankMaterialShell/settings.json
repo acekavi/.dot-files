@@ -115,7 +115,7 @@
   "topBarAutoHide": false,
   "topBarVisible": true,
   "topBarSpacing": 5,
-  "topBarBottomGap": -10,
+  "topBarBottomGap": 6,
   "topBarInnerPadding": 0,
   "topBarSquareCorners": false,
   "topBarNoBackground": false,
