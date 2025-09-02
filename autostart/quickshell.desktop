@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Quickshell
+Comment=Quickshell Desktop Shell for Hyprland
+Exec=quickshell
+Type=Application
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
+NoDisplay=true
+Categories=System;

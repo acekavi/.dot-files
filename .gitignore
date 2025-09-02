@@ -10,7 +10,8 @@
 !qt5ct/
 !qt5ct/**
 !qt6ct/
-!qt6ct/*    
+!qt6ct/**
+!quickshell/
 !quickshell/**
 !uwsm/
 !uwsm/**
@@ -21,3 +22,5 @@
 !.Xresources
 !.cursorrules
 !HYPRLAND_DOCUMENTATION.md
+!autostart/
+!autostart/**
