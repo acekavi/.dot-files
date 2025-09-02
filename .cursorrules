@@ -47,3 +47,53 @@ When you add a new dotfile directory to track:
 - Use descriptive directory names
 - Include README files for complex configurations
 - Document any special setup requirements
+
+## Hyprland Configuration Rules
+
+### Documentation Reference:
+- **Primary Documentation**: `~/.config/HYPRLAND_DOCUMENTATION.md`
+- This file contains comprehensive Hyprland configuration reference including:
+  - Monitor configuration and multi-monitor setups
+  - Variables and settings for all sections (general, decoration, animations, input, etc.)
+  - Keybinding syntax and common dispatcher examples
+  - Window and workspace rules with practical examples
+  - Theming integration with matugen color system
+  - Performance optimization guidelines
+  - Troubleshooting procedures and debug commands
+  - Environment variable configurations
+  - Best practices for configuration management
+
+### When modifying Hyprland configuration:
+1. **Always reference the documentation** before making changes
+2. **Test changes incrementally** using `hyprctl` commands for live testing
+3. **Update documentation** if adding new patterns or discovering new solutions
+4. **Use matugen integration** for consistent theming across applications
+5. **Follow performance guidelines** especially for animations and blur settings
+6. **Document custom keybindings** and their purposes
+7. **Test multi-monitor setups** if applicable to your configuration
+
+### Configuration Structure Guidelines:
+- **Main config**: `~/.config/hypr/hyprland.conf`
+- **Split large configs** into multiple files using `source` directive
+- **Use meaningful variable names** (e.g., `$terminal`, `$browser`)
+- **Comment complex configurations** for future reference
+- **Keep backups** of working configurations before major changes
+
+### Matugen Integration Rules:
+- **Color generation**: Use `dank16.py` for consistent 16-color palettes
+- **Template system**: Leverage matugen templates for cross-application theming
+- **Color variables**: Define color variables for easy theme switching
+- **Test themes** in both light and dark conditions for accessibility
+
+### Debugging Workflow:
+1. Check `~/.local/share/hyprland/hyprland.log` for errors
+2. Use `hyprctl` commands for live configuration testing
+3. Test with minimal configuration first
+4. Add features incrementally
+5. Document working solutions in the main documentation
+
+### Performance Considerations:
+- **Monitor refresh rates**: Match configuration to hardware capabilities
+- **Animation complexity**: Adjust based on GPU performance
+- **Blur settings**: Balance visual quality with performance
+- **Resource monitoring**: Use system monitoring tools during configuration
