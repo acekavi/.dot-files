@@ -1,0 +1,32 @@
+# uwsm environment variables for theming, xcursor, and toolkit variables
+# This file is used by uwsm to set environment variables for the session
+
+# Cursor theme and size
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
+
+# GTK theming
+export GTK_THEME=WhiteSur-Dark
+export ICON_THEME=WhiteSur
+
+# Qt theming
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_QPA_PLATFORM=wayland;xcb
+
+# GTK backend
+export GDK_BACKEND=wayland,x11,*
+
+# SDL2 for games
+export SDL_VIDEODRIVER=wayland
+
+# Clutter backend
+export CLUTTER_BACKEND=wayland
+
+# XDG specifications
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=Hyprland
+
+# Qt window decorations
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1

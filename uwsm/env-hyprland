@@ -1,0 +1,20 @@
+# uwsm environment variables for Hyprland-specific variables
+# This file is used by uwsm to set HYPR* and AQ_* variables
+
+# Hyprland-specific variables
+export HYPRCURSOR_SIZE=24
+
+# Aquamarine variables (if needed)
+# export AQ_TRACE=1
+# export AQ_DRM_DEVICES=/dev/dri/card0
+# export AQ_FORCE_LINEAR_BLIT=0
+# export AQ_MGPU_NO_EXPLICIT=1
+# export AQ_NO_MODIFIERS=1
+
+# NVIDIA-specific variables (uncomment if using NVIDIA GPU)
+# export GBM_BACKEND=nvidia-drm
+# export __GLX_VENDOR_LIBRARY_NAME=nvidia
+# export LIBVA_DRIVER_NAME=nvidia
+# export __GL_GSYNC_ALLOWED=1
+# export __GL_VRR_ALLOWED=0
+# export AQ_NO_ATOMIC=1

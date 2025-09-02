@@ -1,0 +1,49 @@
+# Dotfiles Repository Rules
+
+## Purpose
+This repository contains dotfiles and configuration files for various applications and desktop environments.
+
+## Git Management Rules
+
+### When adding new dotfile directories:
+1. Always update the `.gitignore` file to include the new directory in the "Keep important config directories" section
+2. Use the format: `!directory_name/` (with trailing slash)
+3. Add a comment above the section if needed for clarity
+
+### When modifying existing configurations:
+1. Only commit actual configuration files, not cache, logs, or temporary data
+2. Ensure the `.gitignore` properly excludes application data directories
+
+### Directory Structure Guidelines:
+- **Include**: Configuration files, themes, custom scripts, and settings
+- **Exclude**: Cache directories, logs, user data, temporary files, and application-specific data
+
+### Automatic .gitignore Updates:
+When you add a new dotfile directory to track:
+1. Add the directory to the git repository: `git add directory_name/`
+2. Update `.gitignore` to include: `!directory_name/`
+3. Commit both changes together
+
+### Common Patterns to Exclude:
+- `**/Cache/` - Application caches
+- `**/*.log` - Log files
+- `**/Local Storage/` - Browser local storage
+- `**/Crash Reports/` - Crash report data
+- `**/*.tmp` - Temporary files
+- `**/*.lock` - Lock files
+
+### Commit Message Format:
+- Use descriptive commit messages
+- Include the application or system being configured
+- Example: "Add hyprland window manager configuration"
+
+### Branch Strategy:
+- Use `main` branch for stable configurations
+- Create feature branches for experimental configurations
+- Tag releases for major configuration updates
+
+## File Organization:
+- Keep related configurations together
+- Use descriptive directory names
+- Include README files for complex configurations
+- Document any special setup requirements
