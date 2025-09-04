@@ -85,6 +85,7 @@ Rectangle {
                 return DgopService.cpuUsage.toFixed(0) + "%"
             }
             font.pixelSize: Theme.fontSizeSmall
+            font.family: Theme.fontFamily
             font.weight: Font.Medium
             color: Theme.surfaceText
             anchors.verticalCenter: parent.verticalCenter

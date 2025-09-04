@@ -81,6 +81,7 @@ Rectangle {
         StyledText {
             text: BatteryService.batteryLevel + "%"
             font.pixelSize: Theme.fontSizeSmall
+            font.family: Theme.fontFamily
             font.weight: Font.Medium
             color: {
                 if (!BatteryService.batteryAvailable)
