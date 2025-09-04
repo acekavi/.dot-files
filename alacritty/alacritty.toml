@@ -1,0 +1,95 @@
+# Alacritty Configuration with Matugen Colors
+# Based on user's existing configuration with dynamic color theming
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "SearchForward"
+key = "F"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SearchBackward"
+key = "B"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Control"
+
+[terminal]
+
+[colors.bright]
+black = "#534341"
+blue = "#ffb4aa"
+cyan = "#e0c38c"
+green = "#e7bdb7"
+magenta = "#73342d"
+red = "#ffb4ab"
+white = "#f1dedc"
+yellow = "#574419"
+
+[colors.cursor]
+cursor = "#f1dedc"
+text = "#1a1110"
+
+[colors.normal]
+black = "#1a1110"
+blue = "#ffb4aa"
+cyan = "#e0c38c"
+green = "#e7bdb7"
+magenta = "#73342d"
+red = "#ffb4ab"
+white = "#d8c2bf"
+yellow = "#574419"
+
+[colors.primary]
+background = "#1a1110"
+foreground = "#f1dedc"
+
+[colors.selection]
+background = "#e7bdb7"
+text = "#442926"
+
+[cursor]
+blink_interval = 700
+blink_timeout = 5
+style = "Block"
+
+[font]
+size = 12.0
+
+[font.bold]
+family = "JetBrains Mono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrains Mono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "Regular"
+
+[selection]
+save_to_clipboard = true
+
+[terminal.shell]
+program = "/usr/bin/bash"
+
+[window]
+decorations = "none"
+opacity = 0.9
+
+[window.padding]
+x = 20
+y = 0
