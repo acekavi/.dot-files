@@ -56,8 +56,8 @@ PanelWindow {
         right: 0
     }
 
-    implicitHeight: 100
-    exclusiveZone: autoHide ? -1 : 65 - 16
+    implicitHeight: Theme.isMacTheme ? 80 : 100
+    exclusiveZone: autoHide ? -1 : (Theme.isMacTheme ? 48 : 65 - 16)
 
     mask: Region {
         item: dockMouseArea
@@ -69,8 +69,8 @@ PanelWindow {
         property real screenWidth: currentScreen ? currentScreen.geometry.width : 1920
         property real maxDockWidth: Math.min(screenWidth * 0.8, 1200)
         
-        height: dock.reveal ? 65 : 20
-        width: dock.reveal ? Math.min(dockBackground.width + 32, maxDockWidth) : Math.min(Math.max(dockBackground.width + 64, 200), screenWidth * 0.5)
+        height: dock.reveal ? (Theme.isMacTheme ? 64 : 65) : 20
+        width: dock.reveal ? Math.min(dockBackground.width + (Theme.isMacTheme ? 20 : 32), maxDockWidth) : Math.min(Math.max(dockBackground.width + 64, 200), screenWidth * 0.5)
         anchors {
             bottom: parent.bottom
             horizontalCenter: parent.horizontalCenter
@@ -109,24 +109,26 @@ PanelWindow {
                     horizontalCenter: parent.horizontalCenter
                 }
 
-                width: dockApps.implicitWidth + 12
-                height: parent.height - 8
+                width: dockApps.implicitWidth + (Theme.isMacTheme ? 16 : 12)
+                height: Theme.isMacTheme ? 60 : parent.height - 8
 
-                anchors.topMargin: 4
-                anchors.bottomMargin: 1
+                anchors.topMargin: Theme.isMacTheme ? 0 : 4
+                anchors.bottomMargin: Theme.isMacTheme ? 4 : 1
 
-                color: Qt.rgba(Theme.surfaceContainer.r,
-                               Theme.surfaceContainer.g,
-                               Theme.surfaceContainer.b, backgroundTransparency)
-                radius: Theme.cornerRadius
-                border.width: 1
-                border.color: Theme.outlineMedium
+                color: Theme.isMacTheme ? Qt.rgba(Theme.surface.r,
+                                                   Theme.surface.g,
+                                                   Theme.surface.b, 0.6) : Qt.rgba(Theme.surfaceContainer.r,
+                                                                                   Theme.surfaceContainer.g,
+                                                                                   Theme.surfaceContainer.b, backgroundTransparency)
+                radius: Theme.isMacTheme ? 16 : Theme.cornerRadius
+                border.width: Theme.isMacTheme ? 0.5 : 1
+                border.color: Theme.isMacTheme ? Qt.rgba(1, 1, 1, 0.1) : Theme.outlineMedium
                 layer.enabled: true
 
                 Rectangle {
                     anchors.fill: parent
-                    color: Qt.rgba(Theme.surfaceTint.r, Theme.surfaceTint.g,
-                                   Theme.surfaceTint.b, 0.04)
+                    color: Theme.isMacTheme ? "transparent" : Qt.rgba(Theme.surfaceTint.r, Theme.surfaceTint.g,
+                                                                       Theme.surfaceTint.b, 0.04)
                     radius: parent.radius
                 }
 

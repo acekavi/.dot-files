@@ -19,6 +19,6 @@ MouseArea {
         radius: root.cornerRadius
         color: Qt.rgba(
                    root.stateColor.r, root.stateColor.g, root.stateColor.b,
-                   root.disabled ? 0 : root.pressed ? 0.12 : root.containsMouse ? 0.08 : 0)
+                   root.disabled ? 0 : root.pressed ? (Theme.isMacTheme ? 0.15 : 0.12) : root.containsMouse ? (Theme.isMacTheme ? 0.1 : 0.08) : 0)
     }
 }

@@ -54,8 +54,8 @@ Item {
                 && desktopEntry.name ? desktopEntry.name : appData.appId
     }
 
-    width: 40
-    height: 40
+    width: Theme.isMacTheme ? 48 : 40
+    height: Theme.isMacTheme ? 48 : 40
     
     function getToplevelObject() {
         if (!appData || appData.type !== "window") {
@@ -276,7 +276,7 @@ Item {
         id: iconImg
 
         anchors.centerIn: parent
-        implicitSize: 40
+        implicitSize: Theme.isMacTheme ? 44 : 40
         source: {
             if (appData.appId === "__SEPARATOR__") return ""
             var desktopEntry = DesktopEntries.heuristicLookup(Paths.moddedAppId(appData.appId))

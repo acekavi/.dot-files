@@ -17,7 +17,7 @@ StyledRect {
 
     width: buttonSize
     height: buttonSize
-    radius: circular ? buttonSize / 2 : Theme.cornerRadius
+    radius: circular ? buttonSize / 2 : (Theme.isMacTheme ? 6 : Theme.cornerRadius)
     color: backgroundColor
 
     DankIcon {

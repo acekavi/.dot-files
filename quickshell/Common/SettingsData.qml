@@ -13,6 +13,7 @@ Singleton {
     // Theme settings
     property string currentThemeName: "blue"
     property string customThemeFile: ""
+    property string shellThemeMode: "material"  // "material" or "macOS"
     property real topBarTransparency: 0.75
     property real topBarWidgetTransparency: 0.85
     property real popupTransparency: 0.92
@@ -148,6 +149,7 @@ Singleton {
                     currentThemeName = settings.currentThemeName !== undefined ? settings.currentThemeName : "blue"
                 }
                 customThemeFile = settings.customThemeFile !== undefined ? settings.customThemeFile : ""
+                shellThemeMode = settings.shellThemeMode !== undefined ? settings.shellThemeMode : "material"
                 topBarTransparency = settings.topBarTransparency
                         !== undefined ? (settings.topBarTransparency
                                          > 1 ? settings.topBarTransparency
@@ -321,6 +323,7 @@ Singleton {
         settingsFile.setText(JSON.stringify({
                                                 "currentThemeName": currentThemeName,
                                                 "customThemeFile": customThemeFile,
+                                                "shellThemeMode": shellThemeMode,
                                                 "topBarTransparency": topBarTransparency,
                                                 "topBarWidgetTransparency": topBarWidgetTransparency,
                                                 "popupTransparency": popupTransparency,

@@ -1,6 +1,7 @@
 {
   "currentThemeName": "dynamic",
   "customThemeFile": "/home/reaper/.config/DankMaterialShell/CyberpunkElectric.json",
+  "shellThemeMode": "material",
   "topBarTransparency": 0.85,
   "topBarWidgetTransparency": 0.85,
   "popupTransparency": 0.92,

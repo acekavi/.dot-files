@@ -23,11 +23,11 @@ PanelWindow {
     readonly property int notificationCount: NotificationService.notifications.length
     property bool autoHide: SettingsData.topBarAutoHide
     property bool reveal: SettingsData.topBarVisible && (!autoHide || topBarMouseArea.containsMouse)
-    readonly property real effectiveBarHeight: Math.max(root.widgetHeight + SettingsData.topBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.topBarInnerPadding))
-    readonly property real widgetHeight: Math.max(20, 26 + SettingsData.topBarInnerPadding * 0.6)
+    readonly property real effectiveBarHeight: Theme.isMacTheme ? 30 : Math.max(root.widgetHeight + SettingsData.topBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.topBarInnerPadding))
+    readonly property real widgetHeight: Theme.isMacTheme ? 20 : Math.max(20, 26 + SettingsData.topBarInnerPadding * 0.6)
 
     screen: modelData
-    implicitHeight: effectiveBarHeight + SettingsData.topBarSpacing
+    implicitHeight: Theme.isMacTheme ? effectiveBarHeight : (effectiveBarHeight + SettingsData.topBarSpacing)
     color: "transparent"
     Component.onCompleted: {
         let fonts = Qt.fontFamilies()
@@ -198,33 +198,36 @@ PanelWindow {
 
             Item {
                 anchors.fill: parent
-                anchors.topMargin: SettingsData.topBarSpacing
+                anchors.topMargin: Theme.isMacTheme ? 0 : SettingsData.topBarSpacing
                 anchors.bottomMargin: 0
-                anchors.leftMargin: SettingsData.topBarSpacing
-                anchors.rightMargin: SettingsData.topBarSpacing
+                anchors.leftMargin: Theme.isMacTheme ? 0 : SettingsData.topBarSpacing
+                anchors.rightMargin: Theme.isMacTheme ? 0 : SettingsData.topBarSpacing
 
                 Rectangle {
                     anchors.fill: parent
-                    radius: SettingsData.topBarSquareCorners ? 0 : Theme.cornerRadius
-                    color: Qt.rgba(Theme.surfaceContainer.r,
-                                   Theme.surfaceContainer.g,
-                                   Theme.surfaceContainer.b,
-                                   root.backgroundTransparency)
+                    radius: Theme.isMacTheme ? 0 : (SettingsData.topBarSquareCorners ? 0 : Theme.cornerRadius)
+                    color: Theme.isMacTheme ? Qt.rgba(Theme.surface.r,
+                                                     Theme.surface.g,
+                                                     Theme.surface.b,
+                                                     0.72) : Qt.rgba(Theme.surfaceContainer.r,
+                                                                    Theme.surfaceContainer.g,
+                                                                    Theme.surfaceContainer.b,
+                                                                    root.backgroundTransparency)
                     layer.enabled: true
 
                     Rectangle {
                         anchors.fill: parent
                         color: "transparent"
-                        border.color: Theme.outlineMedium
-                        border.width: 1
+                        border.color: Theme.isMacTheme ? Qt.rgba(1, 1, 1, 0.1) : Theme.outlineMedium
+                        border.width: Theme.isMacTheme ? 0.5 : 1
                         radius: parent.radius
                     }
 
                     Rectangle {
                         anchors.fill: parent
-                        color: Qt.rgba(Theme.surfaceTint.r,
-                                       Theme.surfaceTint.g,
-                                       Theme.surfaceTint.b, 0.04)
+                        color: Theme.isMacTheme ? "transparent" : Qt.rgba(Theme.surfaceTint.r,
+                                                                          Theme.surfaceTint.g,
+                                                                          Theme.surfaceTint.b, 0.04)
                         radius: parent.radius
 
                         SequentialAnimation on opacity {
@@ -246,7 +249,7 @@ PanelWindow {
                     }
 
                     layer.effect: MultiEffect {
-                        shadowEnabled: true
+                        shadowEnabled: !Theme.isMacTheme
                         shadowHorizontalOffset: 0
                         shadowVerticalOffset: 4
                         shadowBlur: 0.5 // radius/32, adjusted for visual match

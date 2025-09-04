@@ -12,9 +12,7 @@ import "StockThemes.js" as StockThemes
 Singleton {
     id: root
 
-    // macOS-specific theme properties
-    property bool isMacTheme: true
-    property string currentTheme: "macOS"
+    property string currentTheme: "blue"
     property bool isLightMode: false
     
     readonly property string dynamic: "dynamic"
@@ -45,55 +43,6 @@ Singleton {
         return path + "/dankshell"
     }
 
-    // macOS color palette
-    readonly property var macOSColors: {
-        if (isLightMode) {
-            return {
-                // Light mode colors based on macOS Sonoma
-                primary: "#007AFF",              // Blue accent
-                primaryText: "#FFFFFF",
-                primaryContainer: "#0051D5",
-                secondary: "#5AC8FA",            // Light blue
-                surface: "#F5F5F7",              // Light gray
-                surfaceText: "#000000",
-                surfaceVariant: "#E5E5E7",       // Lighter gray
-                surfaceVariantText: "#3C3C43",   // Secondary label
-                surfaceTint: "#007AFF",
-                background: "#FFFFFF",
-                backgroundText: "#000000",
-                outline: "#C6C6C8",              // Separator
-                surfaceContainer: "#F2F2F7",     // Secondary background
-                surfaceContainerHigh: "#E5E5EA", // Tertiary background
-                error: "#FF3B30",                // Red
-                warning: "#FF9500",              // Orange
-                info: "#007AFF",                 // Blue
-                success: "#34C759"               // Green
-            }
-        } else {
-            return {
-                // Dark mode colors based on macOS Sonoma
-                primary: "#0A84FF",              // Blue accent
-                primaryText: "#FFFFFF",
-                primaryContainer: "#0051D5",
-                secondary: "#64D2FF",            // Light blue
-                surface: "#1C1C1E",              // Dark gray
-                surfaceText: "#FFFFFF",
-                surfaceVariant: "#2C2C2E",       // Medium gray
-                surfaceVariantText: "#EBEBF5",   // Secondary label
-                surfaceTint: "#0A84FF",
-                background: "#000000",
-                backgroundText: "#FFFFFF",
-                outline: "#38383A",              // Separator
-                surfaceContainer: "#1C1C1E",     // Secondary background
-                surfaceContainerHigh: "#2C2C2E", // Tertiary background
-                error: "#FF453A",                // Red
-                warning: "#FF9F0A",              // Orange
-                info: "#0A84FF",                 // Blue
-                success: "#32D74B"               // Green
-            }
-        }
-    }
-
     function getMatugenColor(path, fallback) {
         colorUpdateTrigger
         const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark"
@@ -107,33 +56,34 @@ Singleton {
     }
 
     readonly property var currentThemeData: {
-        if (currentTheme === dynamic && matugenColors && Object.keys(matugenColors).length > 0) {
+        if (currentTheme === "custom") {
+            return customThemeData || StockThemes.getThemeByName("blue", isLightMode)
+        } else if (currentTheme === dynamic) {
             return {
-                primary: getMatugenColor("primary", macOSColors.primary),
-                primaryText: getMatugenColor("on_primary", macOSColors.primaryText),
-                primaryContainer: getMatugenColor("primary_container", macOSColors.primaryContainer),
-                secondary: getMatugenColor("secondary", macOSColors.secondary),
-                surface: getMatugenColor("surface", macOSColors.surface),
-                surfaceText: getMatugenColor("on_background", macOSColors.surfaceText),
-                surfaceVariant: getMatugenColor("surface_variant", macOSColors.surfaceVariant),
-                surfaceVariantText: getMatugenColor("on_surface_variant", macOSColors.surfaceVariantText),
-                surfaceTint: getMatugenColor("surface_tint", macOSColors.surfaceTint),
-                background: getMatugenColor("background", macOSColors.background),
-                backgroundText: getMatugenColor("on_background", macOSColors.backgroundText),
-                outline: getMatugenColor("outline", macOSColors.outline),
-                surfaceContainer: getMatugenColor("surface_container", macOSColors.surfaceContainer),
-                surfaceContainerHigh: getMatugenColor("surface_container_high", macOSColors.surfaceContainerHigh),
-                error: macOSColors.error,
-                warning: macOSColors.warning,
-                info: macOSColors.info,
-                success: macOSColors.success
+                primary: getMatugenColor("primary", "#42a5f5"),
+                primaryText: getMatugenColor("on_primary", "#ffffff"),
+                primaryContainer: getMatugenColor("primary_container", "#1976d2"),
+                secondary: getMatugenColor("secondary", "#8ab4f8"),
+                surface: getMatugenColor("surface", "#1a1c1e"),
+                surfaceText: getMatugenColor("on_background", "#e3e8ef"),
+                surfaceVariant: getMatugenColor("surface_variant", "#44464f"),
+                surfaceVariantText: getMatugenColor("on_surface_variant", "#c4c7c5"),
+                surfaceTint: getMatugenColor("surface_tint", "#8ab4f8"),
+                background: getMatugenColor("background", "#1a1c1e"),
+                backgroundText: getMatugenColor("on_background", "#e3e8ef"),
+                outline: getMatugenColor("outline", "#8e918f"),
+                surfaceContainer: getMatugenColor("surface_container", "#1e2023"),
+                surfaceContainerHigh: getMatugenColor("surface_container_high", "#292b2f"),
+                error: "#F2B8B5",
+                warning: "#FF9800",
+                info: "#2196F3",
+                success: "#4CAF50"
             }
         } else {
-            return macOSColors
+            return StockThemes.getThemeByName(currentTheme, isLightMode)
         }
     }
 
-    // Color properties matching Theme.qml interface
     property color primary: currentThemeData.primary
     property color primaryText: currentThemeData.primaryText
     property color primaryContainer: currentThemeData.primaryContainer
@@ -149,85 +99,79 @@ Singleton {
     property color surfaceContainer: currentThemeData.surfaceContainer
     property color surfaceContainerHigh: currentThemeData.surfaceContainerHigh
 
-    property color error: currentThemeData.error || "#FF453A"
-    property color warning: currentThemeData.warning || "#FF9F0A"
-    property color info: currentThemeData.info || "#0A84FF"
-    property color tempWarning: "#FF9F0A"
-    property color tempDanger: "#FF453A"
-    property color success: currentThemeData.success || "#32D74B"
+    property color error: currentThemeData.error || "#F2B8B5"
+    property color warning: currentThemeData.warning || "#FF9800"
+    property color info: currentThemeData.info || "#2196F3"
+    property color tempWarning: "#ff9933"
+    property color tempDanger: "#ff5555"
+    property color success: currentThemeData.success || "#4CAF50"
 
-    // macOS-specific alpha values for hover states
-    property color primaryHover: Qt.rgba(primary.r, primary.g, primary.b, 0.15)
-    property color primaryHoverLight: Qt.rgba(primary.r, primary.g, primary.b, 0.1)
-    property color primaryPressed: Qt.rgba(primary.r, primary.g, primary.b, 0.2)
+    property color primaryHover: Qt.rgba(primary.r, primary.g, primary.b, 0.12)
+    property color primaryHoverLight: Qt.rgba(primary.r, primary.g, primary.b, 0.08)
+    property color primaryPressed: Qt.rgba(primary.r, primary.g, primary.b, 0.16)
     property color primarySelected: Qt.rgba(primary.r, primary.g, primary.b, 0.3)
-    property color primaryBackground: Qt.rgba(primary.r, primary.g, primary.b, 0.06)
+    property color primaryBackground: Qt.rgba(primary.r, primary.g, primary.b, 0.04)
 
-    property color secondaryHover: Qt.rgba(secondary.r, secondary.g, secondary.b, 0.1)
+    property color secondaryHover: Qt.rgba(secondary.r, secondary.g, secondary.b, 0.08)
 
-    property color surfaceHover: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.1)
-    property color surfacePressed: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.15)
-    property color surfaceSelected: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.2)
-    property color surfaceLight: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.12)
-    property color surfaceVariantAlpha: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.25)
-    property color surfaceTextHover: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.1)
-    property color surfaceTextAlpha: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.4)
-    property color surfaceTextLight: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.08)
+    property color surfaceHover: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.08)
+    property color surfacePressed: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.12)
+    property color surfaceSelected: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.15)
+    property color surfaceLight: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.1)
+    property color surfaceVariantAlpha: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.2)
+    property color surfaceTextHover: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.08)
+    property color surfaceTextAlpha: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.3)
+    property color surfaceTextLight: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.06)
     property color surfaceTextMedium: Qt.rgba(surfaceText.r, surfaceText.g, surfaceText.b, 0.7)
 
-    property color outlineButton: Qt.rgba(outline.r, outline.g, outline.b, 0.6)
-    property color outlineLight: Qt.rgba(outline.r, outline.g, outline.b, 0.06)
-    property color outlineMedium: Qt.rgba(outline.r, outline.g, outline.b, 0.1)
-    property color outlineStrong: Qt.rgba(outline.r, outline.g, outline.b, 0.15)
+    property color outlineButton: Qt.rgba(outline.r, outline.g, outline.b, 0.5)
+    property color outlineLight: Qt.rgba(outline.r, outline.g, outline.b, 0.05)
+    property color outlineMedium: Qt.rgba(outline.r, outline.g, outline.b, 0.08)
+    property color outlineStrong: Qt.rgba(outline.r, outline.g, outline.b, 0.12)
 
-    property color errorHover: Qt.rgba(error.r, error.g, error.b, 0.15)
+    property color errorHover: Qt.rgba(error.r, error.g, error.b, 0.12)
 
-    property color shadowMedium: Qt.rgba(0, 0, 0, 0.1)
-    property color shadowStrong: Qt.rgba(0, 0, 0, 0.35)
+    property color shadowMedium: Qt.rgba(0, 0, 0, 0.08)
+    property color shadowStrong: Qt.rgba(0, 0, 0, 0.3)
 
-    // macOS animation timings
-    property int shorterDuration: 120
-    property int shortDuration: 200
-    property int mediumDuration: 350
-    property int longDuration: 550
-    property int extraLongDuration: 1100
+    property int shorterDuration: 100
+    property int shortDuration: 150
+    property int mediumDuration: 300
+    property int longDuration: 500
+    property int extraLongDuration: 1000
     property int standardEasing: Easing.OutCubic
     property int emphasizedEasing: Easing.OutQuart
 
-    // macOS design specifications
-    property real cornerRadius: 10  // macOS corner radius
+    property real cornerRadius: typeof SettingsData !== "undefined" ? SettingsData.cornerRadius : 12
     property real spacingXS: 4
     property real spacingS: 8
     property real spacingM: 12
     property real spacingL: 16
     property real spacingXL: 24
-    property real fontSizeSmall: 11   // macOS small font
-    property real fontSizeMedium: 13  // macOS default font
-    property real fontSizeLarge: 15   // macOS large font
-    property real fontSizeXLarge: 17  // macOS title font
-    property real barHeight: 30       // macOS menu bar height
-    property real iconSize: 20        // macOS icon size
+    property real fontSizeSmall: 12
+    property real fontSizeMedium: 14
+    property real fontSizeLarge: 16
+    property real fontSizeXLarge: 20
+    property real barHeight: 48
+    property real iconSize: 24
     property real iconSizeSmall: 16
-    property real iconSizeLarge: 28
+    property real iconSizeLarge: 32
 
-    // macOS transparency values
-    property real panelTransparency: 0.72    // macOS panel transparency
-    property real widgetTransparency: 0.75   // macOS widget transparency
-    property real popupTransparency: 0.88    // macOS popup transparency
-
-    // Font family
-    property string fontFamily: {
-        // Try SF Pro first, fallback to system fonts
-        const fonts = ["SF Pro Display", "SF Pro Text", ".AppleSystemUIFont", "Helvetica Neue", "Inter", "Cantarell"]
-        return fonts.join(", ")
-    }
+    property real panelTransparency: 0.85
+    property real widgetTransparency: typeof SettingsData !== "undefined" && SettingsData.topBarWidgetTransparency !== undefined ? SettingsData.topBarWidgetTransparency : 0.85
+    property real popupTransparency: typeof SettingsData !== "undefined" && SettingsData.popupTransparency !== undefined ? SettingsData.popupTransparency : 0.92
 
     function switchTheme(themeName, savePrefs = true) {
         if (themeName === dynamic) {
             currentTheme = dynamic
             extractColors()
+        } else if (themeName === "custom") {
+            currentTheme = "custom"
+            if (typeof SettingsData !== "undefined" && SettingsData.customThemeFile) {
+                loadCustomThemeFromFile(SettingsData.customThemeFile)
+            }
         } else {
-            currentTheme = "macOS"
+            currentTheme = themeName
         }
         if (savePrefs && typeof SettingsData !== "undefined")
             SettingsData.setTheme(currentTheme)
@@ -258,29 +202,39 @@ Singleton {
     }
 
     function getAvailableThemes() {
-        return ["macOS", dynamic]
+        return StockThemes.getAllThemeNames()
     }
 
     function getThemeDisplayName(themeName) {
-        if (themeName === "macOS") return "macOS"
-        if (themeName === dynamic) return "Dynamic"
-        return themeName
+        const themeData = StockThemes.getThemeByName(themeName, isLightMode)
+        return themeData.name
     }
 
     function getThemeColors(themeName) {
-        return macOSColors
+        if (themeName === "custom" && customThemeData) {
+            return customThemeData
+        }
+        return StockThemes.getThemeByName(themeName, isLightMode)
     }
 
     function loadCustomTheme(themeData) {
-        // Not supported in macOS theme
+        if (themeData.dark || themeData.light) {
+            const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark"
+            const selectedTheme = themeData[colorMode] || themeData.dark || themeData.light
+            customThemeData = selectedTheme
+        } else {
+            customThemeData = themeData
+        }
+        
+        generateSystemThemesFromCurrentTheme()
     }
 
     function loadCustomThemeFromFile(filePath) {
-        // Not supported in macOS theme
+        customThemeFileView.path = filePath
     }
 
     property alias availableThemeNames: root._availableThemeNames
-    readonly property var _availableThemeNames: ["macOS", dynamic]
+    readonly property var _availableThemeNames: StockThemes.getAllThemeNames()
     property string currentThemeName: currentTheme
 
 
@@ -312,7 +266,6 @@ Singleton {
         return (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) < 0.5
     }
 
-    // macOS-style battery icons
     function getBatteryIcon(level, isCharging, batteryAvailable) {
         if (!batteryAvailable)
             return _getBatteryPowerProfileIcon()
@@ -367,11 +320,11 @@ Singleton {
     function getPowerProfileLabel(profile) {
         switch (profile) {
         case PowerProfile.PowerSaver:
-            return "Low Power Mode"
+            return "Power Saver"
         case PowerProfile.Balanced:
-            return "Automatic"
+            return "Balanced"
         case PowerProfile.Performance:
-            return "High Power Mode"
+            return "Performance"
         default:
             return profile.charAt(0).toUpperCase() + profile.slice(1)
         }
@@ -380,11 +333,11 @@ Singleton {
     function getPowerProfileDescription(profile) {
         switch (profile) {
         case PowerProfile.PowerSaver:
-            return "Reduce energy usage to extend battery life"
+            return "Extend battery life"
         case PowerProfile.Balanced:
-            return "Balance performance and energy usage"
+            return "Balance power and performance"
         case PowerProfile.Performance:
-            return "Increase performance and energy usage"
+            return "Prioritize performance"
         default:
             return "Custom power profile"
         }
@@ -401,6 +354,10 @@ Singleton {
     function onLightModeChanged() {
         if (matugenColors && Object.keys(matugenColors).length > 0) {
             colorUpdateTrigger++
+        }
+        
+        if (currentTheme === "custom" && customThemeFileView.path) {
+            customThemeFileView.reload()
         }
         
         generateSystemThemesFromCurrentTheme()
@@ -444,8 +401,22 @@ Singleton {
             }
             setDesiredTheme("image", wallpaperPath, isLight, iconTheme)
         } else {
-            // Use macOS primary color
-            setDesiredTheme("hex", macOSColors.primary, isLight, iconTheme)
+            let primaryColor
+            if (currentTheme === "custom") {
+                if (!customThemeData || !customThemeData.primary) {
+                    console.warn("Custom theme data not available for system theme generation")
+                    return
+                }
+                primaryColor = customThemeData.primary
+            } else {
+                primaryColor = currentThemeData.primary
+            }
+            
+            if (!primaryColor) {
+                console.warn("No primary color available for theme:", currentTheme)
+                return
+            }
+            setDesiredTheme("hex", primaryColor, isLight, iconTheme)
         }
     }
 
@@ -541,6 +512,7 @@ Singleton {
                 fileChecker.running = true
             }
             
+            
             const isLight = (typeof SessionData !== "undefined" && SessionData.isLightMode)
             const iconTheme = (typeof SettingsData !== "undefined" && SettingsData.iconTheme) ? SettingsData.iconTheme : "System Default"
             
@@ -549,11 +521,24 @@ Singleton {
                     // Clear cache on startup to force regeneration
                     Quickshell.execDetached(["rm", "-f", stateDir + "/matugen.key"])
                     setDesiredTheme("image", wallpaperPath, isLight, iconTheme)
+                } else {
                 }
             } else {
-                // Use macOS primary color for system theming
-                Quickshell.execDetached(["rm", "-f", stateDir + "/matugen.key"])
-                setDesiredTheme("hex", macOSColors.primary, isLight, iconTheme)
+                let primaryColor
+                if (currentTheme === "custom") {
+                    if (customThemeData && customThemeData.primary) {
+                        primaryColor = customThemeData.primary
+                    }
+                } else {
+                    primaryColor = currentThemeData.primary
+                }
+                
+                if (primaryColor) {
+                    // Clear cache on startup to force regeneration
+                    Quickshell.execDetached(["rm", "-f", stateDir + "/matugen.key"])
+                    setDesiredTheme("hex", primaryColor, isLight, iconTheme)
+                } else {
+                }
             }
         }
     }
@@ -619,6 +604,7 @@ Singleton {
     Process {
         id: ensureStateDir
     }
+    
     
     Process {
         id: systemThemeGenerator
@@ -689,6 +675,10 @@ Singleton {
         }
     }
 
+
+
+
+
     Component.onCompleted: {
         matugenCheck.running = true
         if (typeof SessionData !== "undefined")
@@ -697,8 +687,30 @@ Singleton {
 
     FileView {
         id: customThemeFileView
-        watchChanges: false
-        // Not used in macOS theme
+        watchChanges: currentTheme === "custom"
+
+        function parseAndLoadTheme() {
+            try {
+                var themeData = JSON.parse(customThemeFileView.text())
+                loadCustomTheme(themeData)
+            } catch (e) {
+                ToastService.showError("Invalid JSON format: " + e.message)
+            }
+        }
+        
+        onLoaded: {
+            parseAndLoadTheme()
+        }
+
+        onFileChanged: {
+            customThemeFileView.reload()
+        }
+
+        onLoadFailed: function(error) {
+            if (typeof ToastService !== "undefined") {
+                ToastService.showError("Failed to read theme file: " + error)
+            }
+        }
     }
 
     IpcHandler {
