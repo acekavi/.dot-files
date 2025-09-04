@@ -3,7 +3,7 @@
 DankMaterialShell provides comprehensive IPC (Inter-Process Communication) functionality that allows external control of the shell through command-line commands. All IPC commands follow the format:
 
 ```bash
-qs -c dms ipc call <target> <function> [parameters...]
+qs ipc call <target> <function> [parameters...]
 ```
 
 ## Target: `audio`

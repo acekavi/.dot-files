@@ -146,30 +146,30 @@ touch Modals/CustomModal.qml
 
 ### Audio Control
 ```bash
-qs -c dms ipc call audio setvolume 50
-qs -c dms ipc call audio increment 5
-qs -c dms ipc call audio mute
+qs ipc call audio setvolume 50
+qs ipc call audio increment 5
+qs ipc call audio mute
 ```
 
 ### Theme Control
 ```bash
-qs -c dms ipc call theme toggle
-qs -c dms ipc call theme light
-qs -c dms ipc call theme dark
+qs ipc call theme toggle
+qs ipc call theme light
+qs ipc call theme dark
 ```
 
 ### Modal Control
 ```bash
-qs -c dms ipc call spotlight toggle
-qs -c dms ipc call settings toggle
-qs -c dms ipc call clipboard toggle
+qs ipc call spotlight toggle
+qs ipc call settings toggle
+qs ipc call clipboard toggle
 ```
 
 ### System Control
 ```bash
-qs -c dms ipc call wallpaper set "/path/to/image.jpg"
-qs -c dms ipc call powermenu toggle
-qs -c dms ipc call lock lock
+qs ipc call wallpaper set "/path/to/image.jpg"
+qs ipc call powermenu toggle
+qs ipc call lock lock
 ```
 
 ## Configuration Patterns
@@ -219,7 +219,7 @@ qs -p . 2>&1 | grep -E "(ERROR|WARN)"
 journalctl -f | grep -E "(NetworkManager|PipeWire|BlueZ)"
 
 # Test IPC commands
-qs -c dms ipc call --help
+qs ipc call --help
 ```
 
 ### Performance Monitoring

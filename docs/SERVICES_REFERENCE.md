@@ -58,10 +58,10 @@ function toggleMute() {
 
 **IPC Commands**:
 ```bash
-qs -c dms ipc call audio setvolume 50    # Set volume to 50%
-qs -c dms ipc call audio increment 5     # Increase volume by 5%
-qs -c dms ipc call audio mute            # Toggle mute
-qs -c dms ipc call audio status          # Get audio status
+qs ipc call audio setvolume 50    # Set volume to 50%
+qs ipc call audio increment 5     # Increase volume by 5%
+qs ipc call audio mute            # Toggle mute
+qs ipc call audio status          # Get audio status
 ```
 
 ### NetworkService.qml

@@ -439,16 +439,16 @@ External control via quickshell's IPC system:
 
 ```bash
 # Audio control
-qs -c dms ipc call audio setvolume 50
-qs -c dms ipc call audio mute
+qs ipc call audio setvolume 50
+qs ipc call audio mute
 
 # Theme control
-qs -c dms ipc call theme toggle
-qs -c dms ipc call theme dark
+qs ipc call theme toggle
+qs ipc call theme dark
 
 # Modal control
-qs -c dms ipc call spotlight toggle
-qs -c dms ipc call settings toggle
+qs ipc call spotlight toggle
+qs ipc call settings toggle
 ```
 
 ## Multi-Monitor Support

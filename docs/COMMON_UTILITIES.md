@@ -184,10 +184,10 @@ function isPinnedApp(appId) {
 **IPC Integration**:
 ```bash
 # Wallpaper management via IPC
-qs -c dms ipc call wallpaper set "/path/to/image.jpg"
-qs -c dms ipc call wallpaper get
-qs -c dms ipc call wallpaper next    # Cycle to next wallpaper
-qs -c dms ipc call wallpaper prev    # Cycle to previous wallpaper
+qs ipc call wallpaper set "/path/to/image.jpg"
+qs ipc call wallpaper get
+qs ipc call wallpaper next    # Cycle to next wallpaper
+qs ipc call wallpaper prev    # Cycle to previous wallpaper
 ```
 
 ### Paths.qml

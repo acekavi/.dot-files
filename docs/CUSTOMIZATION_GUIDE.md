@@ -11,9 +11,9 @@ This comprehensive guide provides detailed instructions for customizing and exte
 **Changing Stock Themes**:
 ```bash
 # Via IPC
-qs -c dms ipc call theme toggle    # Toggle light/dark mode
-qs -c dms ipc call theme light     # Set light mode
-qs -c dms ipc call theme dark      # Set dark mode
+qs ipc call theme toggle    # Toggle light/dark mode
+qs ipc call theme light     # Set light mode
+qs ipc call theme dark      # Set dark mode
 
 # Via Settings UI
 # Open Settings → Theme & Colors → Select theme
@@ -71,9 +71,9 @@ SettingsData.setShowBattery(false)    // Hide battery widget
 **Adding Custom Keybinds** (in Hyprland config):
 ```bash
 # ~/.config/hypr/keybinds.conf
-bind = SUPER, Space, exec, qs -c dms ipc call spotlight toggle
-bind = SUPER, V, exec, qs -c dms ipc call clipboard toggle
-bind = SUPER, M, exec, qs -c dms ipc call processlist toggle
+bind = SUPER, Space, exec, qs ipc call spotlight toggle
+bind = SUPER, V, exec, qs ipc call clipboard toggle
+bind = SUPER, M, exec, qs ipc call processlist toggle
 
 # Custom application launches
 bind = SUPER, T, exec, kitty
