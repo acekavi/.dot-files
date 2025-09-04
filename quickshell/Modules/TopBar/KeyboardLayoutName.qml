@@ -16,7 +16,7 @@ Rectangle {
     
     color: {
         if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = mouseArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
+        const baseColor = mouseArea.containsMouse ? Theme.surfaceButtonHover : Theme.surfaceButton
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                        baseColor.a * Theme.widgetTransparency)
     }

@@ -228,7 +228,7 @@ DankPopout {
                                         width: parent ? parent.width : 300
                                         height: 50
                                         radius: Theme.cornerRadius
-                                        color: rowArea.containsMouse ? Theme.primaryHoverLight : (VpnService.isActiveUuid(modelData.uuid) ? Theme.primaryPressed : Theme.surfaceLight)
+                                        color: rowArea.containsMouse ? Theme.surfaceButtonLight : (VpnService.isActiveUuid(modelData.uuid) ? Theme.surfaceButtonHover : Theme.surfaceLight)
                                         border.width: VpnService.isActiveUuid(modelData.uuid) ? 2 : 1
                                         border.color: VpnService.isActiveUuid(modelData.uuid) ? Theme.primary : Theme.outlineLight
 

@@ -403,7 +403,7 @@ DankPopout {
                                 width: ListView.view.width
                                 height: appList.itemHeight
                                 radius: Theme.cornerRadius
-                                color: ListView.isCurrentItem ? Theme.primaryPressed : listMouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                                color: ListView.isCurrentItem ? Theme.surfaceButtonHover : listMouseArea.containsMouse ? Theme.surfaceButtonLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
                                 border.color: ListView.isCurrentItem ? Theme.primarySelected : Theme.outlineMedium
                                 border.width: ListView.isCurrentItem ? 2 : 1
 
@@ -588,7 +588,7 @@ DankPopout {
                                 width: appGrid.cellWidth - appGrid.cellPadding
                                 height: appGrid.cellHeight - appGrid.cellPadding
                                 radius: Theme.cornerRadius
-                                color: appGrid.currentIndex === index ? Theme.primaryPressed : gridMouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                                color: appGrid.currentIndex === index ? Theme.surfaceButtonHover : gridMouseArea.containsMouse ? Theme.surfaceButtonLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
                                 border.color: appGrid.currentIndex === index ? Theme.primarySelected : Theme.outlineMedium
                                 border.width: appGrid.currentIndex === index ? 2 : 1
 

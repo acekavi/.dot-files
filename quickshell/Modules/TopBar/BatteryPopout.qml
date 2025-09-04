@@ -435,7 +435,7 @@ DankPopout {
                                 width: parent.width
                                 height: 50
                                 radius: Theme.cornerRadius
-                                color: profileArea.containsMouse ? Theme.primaryHoverLight : (root.isActiveProfile(modelData) ? Theme.primaryPressed : Theme.surfaceLight)
+                                color: profileArea.containsMouse ? Theme.surfaceButtonLight : (root.isActiveProfile(modelData) ? Theme.surfaceButtonHover : Theme.surfaceLight)
                                 border.color: root.isActiveProfile(
                                                   modelData) ? Theme.primary : Theme.outlineLight
                                 border.width: root.isActiveProfile(

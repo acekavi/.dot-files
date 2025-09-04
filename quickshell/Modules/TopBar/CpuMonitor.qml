@@ -22,7 +22,7 @@ Rectangle {
     radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
     color: {
         if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = cpuArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
+        const baseColor = cpuArea.containsMouse ? Theme.surfaceButtonHover : Theme.surfaceButton
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                        baseColor.a * Theme.widgetTransparency)
     }

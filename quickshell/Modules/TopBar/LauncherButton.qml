@@ -16,7 +16,7 @@ Item {
 
     signal clicked
 
-    width: Theme.iconSize + horizontalPadding * 2
+    width: Theme.iconSize + horizontalPadding
     height: widgetHeight
 
     MouseArea {
@@ -28,15 +28,13 @@ Item {
 
         onPressed: {
             if (popupTarget && popupTarget.setTriggerPosition) {
-                var globalPos = mapToGlobal(0, 0)
-                var currentScreen = parentScreen || Screen
-                var screenX = currentScreen.x || 0
-                var relativeX = globalPos.x - screenX
-                popupTarget.setTriggerPosition(
-                            relativeX, barHeight + Theme.spacingXS,
-                            width, section, currentScreen)
+                var globalPos = mapToGlobal(0, 0);
+                var currentScreen = parentScreen || Screen;
+                var screenX = currentScreen.x || 0;
+                var relativeX = globalPos.x - screenX;
+                popupTarget.setTriggerPosition(relativeX, barHeight + Theme.spacingXS, width, section, currentScreen);
             }
-            root.clicked()
+            root.clicked();
         }
     }
 
@@ -44,15 +42,17 @@ Item {
         id: launcherContent
         anchors.fill: parent
         radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
-        color: SettingsData.topBarNoBackground ? "transparent" : Qt.rgba(Theme.surfaceTextHover.r, Theme.surfaceTextHover.g,
-                       Theme.surfaceTextHover.b,
-                       Theme.surfaceTextHover.a * Theme.widgetTransparency)
-
+        color: {
+            if (SettingsData.topBarNoBackground)
+                return "transparent";
+            const baseColor = launcherArea.containsMouse ? Theme.surfaceButtonHover : Theme.surfaceButton;
+            return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
+        }
         SystemLogo {
             visible: SettingsData.useOSLogo
             anchors.centerIn: parent
-            width: Theme.iconSize - 3
-            height: Theme.iconSize - 3
+            width: Theme.iconSize - 7
+            height: Theme.iconSize - 7
             colorOverride: SettingsData.osLogoColorOverride
             brightnessOverride: SettingsData.osLogoBrightness
             contrastOverride: SettingsData.osLogoContrast

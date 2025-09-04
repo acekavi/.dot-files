@@ -631,7 +631,7 @@ PanelWindow {
                             radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
                             color: {
                                 if (SettingsData.topBarNoBackground) return "transparent"
-                                const baseColor = clipboardArea.containsMouse ? Theme.primaryHover : Theme.secondaryHover
+                                const baseColor = clipboardArea.containsMouse ? Theme.surfaceButtonHover : Theme.surfaceButton
                                 return Qt.rgba(
                                             baseColor.r, baseColor.g,
                                             baseColor.b,

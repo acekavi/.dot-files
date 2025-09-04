@@ -42,7 +42,7 @@ Rectangle {
     radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
     color: {
         if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = Theme.surfaceTextHover
+        const baseColor = Theme.surfaceButton
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                        baseColor.a * Theme.widgetTransparency)
     }
@@ -235,7 +235,7 @@ Rectangle {
                 height: 20
                 radius: 10
                 anchors.verticalCenter: parent.verticalCenter
-                color: prevArea.containsMouse ? Theme.primaryHover : "transparent"
+                color: prevArea.containsMouse ? Theme.surfaceButtonHover : "transparent"
                 visible: root.playerAvailable
                 opacity: (activePlayer && activePlayer.canGoPrevious) ? 1 : 0.3
 
@@ -266,7 +266,7 @@ Rectangle {
                 radius: 12
                 anchors.verticalCenter: parent.verticalCenter
                 color: activePlayer
-                       && activePlayer.playbackState === 1 ? Theme.primary : Theme.primaryHover
+                       && activePlayer.playbackState === 1 ? Theme.primary : Theme.surfaceButtonHover
                 visible: root.playerAvailable
                 opacity: activePlayer ? 1 : 0.3
 
@@ -296,7 +296,7 @@ Rectangle {
                 height: 20
                 radius: 10
                 anchors.verticalCenter: parent.verticalCenter
-                color: nextArea.containsMouse ? Theme.primaryHover : "transparent"
+                color: nextArea.containsMouse ? Theme.surfaceButtonHover : "transparent"
                 visible: playerAvailable
                 opacity: (activePlayer && activePlayer.canGoNext) ? 1 : 0.3
 

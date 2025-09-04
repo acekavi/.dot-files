@@ -87,7 +87,7 @@ Rectangle {
     radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
     color: {
         if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = Theme.surfaceTextHover
+        const baseColor = Theme.surfaceButton
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                        baseColor.a * Theme.widgetTransparency)
     }
@@ -295,8 +295,8 @@ Rectangle {
                                                                    workspaceData.name) : null
                 property bool hasIcon: iconData !== null
 
-                width: isActive ? widgetHeight * 1.2 + Theme.spacingXS : widgetHeight * 0.8
-                height: widgetHeight * 0.6
+                width: isActive ? widgetHeight : widgetHeight * 0.5
+                height: widgetHeight * 0.5
                 radius: height / 2
                 color: isActive ? Theme.primary : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.outlineButton : Theme.surfaceTextAlpha
 

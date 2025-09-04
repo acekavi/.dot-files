@@ -24,7 +24,7 @@ Rectangle {
             return "transparent"
         
         if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = Theme.secondaryHover
+        const baseColor = Theme.surfaceButton
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                        baseColor.a * Theme.widgetTransparency)
     }
@@ -65,7 +65,7 @@ Rectangle {
                 Rectangle {
                     anchors.fill: parent
                     radius: Theme.cornerRadius
-                    color: trayItemArea.containsMouse ? Theme.primaryHover : "transparent"
+                    color: trayItemArea.containsMouse ? Theme.surfaceButtonHover : "transparent"
 
                     Behavior on color {
                         enabled: trayItemArea.containsMouse !== undefined

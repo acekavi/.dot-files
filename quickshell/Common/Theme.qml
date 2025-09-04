@@ -112,9 +112,10 @@ Singleton {
     property color primarySelected: Qt.rgba(primary.r, primary.g, primary.b, 0.3)
     property color primaryBackground: Qt.rgba(primary.r, primary.g, primary.b, 0.04)
 
-    property color secondaryHover: Qt.rgba(secondary.r, secondary.g, secondary.b, 0.08)
+    property color surfaceButton: Qt.rgba(surface.r, surface.g, surface.b, 0.6)
+    property color surfaceButtonHover: Qt.rgba(surface.r, surface.g, surface.b, 0.9)
 
-    property color surfaceHover: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.08)
+    property color surfaceHover: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.9)
     property color surfacePressed: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.12)
     property color surfaceSelected: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.15)
     property color surfaceLight: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.1)
