@@ -2,7 +2,7 @@
 # This file is used by uwsm to set environment variables for the session
 
 # Cursor theme and size
-export XCURSOR_THEME=Adwaita
+export XCURSOR_THEME=capitaine-cursors
 export XCURSOR_SIZE=24
 
 # GTK theming

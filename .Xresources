@@ -5,3 +5,5 @@ Xft.rgba: rgb
 Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
+Xcursor.theme: capitaine-cursors
+Xcursor.size: 24

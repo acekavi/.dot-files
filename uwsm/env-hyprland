@@ -2,6 +2,7 @@
 # This file is used by uwsm to set HYPR* and AQ_* variables
 
 # Hyprland-specific variables
+export HYPRCURSOR_THEME=capitaine-cursors
 export HYPRCURSOR_SIZE=24
 
 # Aquamarine variables (if needed)
