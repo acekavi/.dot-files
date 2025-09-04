@@ -98,7 +98,7 @@ PanelWindow {
         width: popupWidth
         height: popupHeight
         x: calculatedX
-        y: calculatedY
+        y: calculatedY + Theme.spacingS
         opacity: shouldBeVisible ? 1 : 0
         scale: shouldBeVisible ? 1 : 0.9
 

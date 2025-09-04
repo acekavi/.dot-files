@@ -38,8 +38,8 @@ DankPopout {
 
     popupWidth: 520
     popupHeight: 600
-    triggerX: Theme.spacingL
-    triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingXS
+    triggerX: x
+    triggerY: y
     triggerWidth: 40
     positioning: "center"
     WlrLayershell.namespace: "quickshell-launcher"

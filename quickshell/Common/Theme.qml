@@ -241,7 +241,7 @@ Singleton {
 
 
     function popupBackground() {
-        return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, popupTransparency)
+        return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, 1)
     }
 
     function contentBackground() {
