@@ -18,6 +18,7 @@ This comprehensive documentation suite provides detailed information about the D
 - **[SERVICES_REFERENCE.md](SERVICES_REFERENCE.md)** - System services and their interactions
 - **[MODALS_REFERENCE.md](MODALS_REFERENCE.md)** - Modal system and overlay components
 - **[COMMON_UTILITIES.md](COMMON_UTILITIES.md)** - Shared utilities and helper components
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
 
 ## Quick Navigation
 

@@ -155,7 +155,9 @@ PanelWindow {
         right: true
     }
 
-    exclusiveZone: !SettingsData.topBarVisible || autoHide ? -1 : root.effectiveBarHeight + SettingsData.topBarSpacing - 2 + SettingsData.topBarBottomGap
+    WlrLayershell.layer: WlrLayershell.Top
+    WlrLayershell.exclusiveZone: !SettingsData.topBarVisible || autoHide ? -1 : root.effectiveBarHeight + SettingsData.topBarSpacing - 2 + SettingsData.topBarBottomGap
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
 
     mask: Region {
         item: topBarMouseArea
