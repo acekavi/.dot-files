@@ -22,15 +22,7 @@ Rectangle {
                                                               maxNormalWidth)
     height: widgetHeight
     radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
-    color: {
-        if (!activeWindow || !activeWindow.title)
-            return "transparent"
-        
-        if (SettingsData.topBarNoBackground) return "transparent"
-        const baseColor = Theme.surfaceButton
-        return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
-                       baseColor.a * Theme.widgetTransparency)
-    }
+    color: "transparent"
     clip: true
     visible: activeWindow && activeWindow.title
 
