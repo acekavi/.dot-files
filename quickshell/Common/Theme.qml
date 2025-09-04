@@ -112,7 +112,7 @@ Singleton {
     property color primarySelected: Qt.rgba(primary.r, primary.g, primary.b, 0.3)
     property color primaryBackground: Qt.rgba(primary.r, primary.g, primary.b, 0.04)
 
-    property color surfaceButton: Qt.rgba(surface.r, surface.g, surface.b, 0.6)
+    property color surfaceButton: Qt.rgba(surface.r, surface.g, surface.b, 0.7)
     property color surfaceButtonHover: Qt.rgba(surface.r, surface.g, surface.b, 0.9)
 
     property color surfaceHover: Qt.rgba(surfaceVariant.r, surfaceVariant.g, surfaceVariant.b, 0.9)
@@ -149,6 +149,7 @@ Singleton {
     property real spacingM: 12
     property real spacingL: 16
     property real spacingXL: 24
+    property string fontFamily: "JetBrainsMonoNerdFontMono"
     property real fontSizeSmall: 12
     property real fontSizeMedium: 14
     property real fontSizeLarge: 16
@@ -675,10 +676,6 @@ Singleton {
             }
         }
     }
-
-
-
-
 
     Component.onCompleted: {
         matugenCheck.running = true

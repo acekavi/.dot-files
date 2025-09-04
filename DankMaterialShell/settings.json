@@ -70,7 +70,7 @@
       "enabled": true
     },
     {
-      "id": "clipboard",
+      "id": "privacyIndicator",
       "enabled": true
     },
     {
@@ -82,15 +82,15 @@
       "enabled": true
     },
     {
-      "id": "notificationButton",
-      "enabled": true
-    },
-    {
-      "id": "privacyIndicator",
-      "enabled": true
-    },
-    {
       "id": "controlCenterButton",
+      "enabled": true
+    },
+    {
+      "id": "clipboard",
+      "enabled": true
+    },
+    {
+      "id": "notificationButton",
       "enabled": true
     }
   ],
@@ -110,7 +110,7 @@
   "qtThemingEnabled": false,
   "showDock": false,
   "dockAutoHide": true,
-  "cornerRadius": 32,
+  "cornerRadius": 10,
   "notificationOverlayEnabled": false,
   "topBarAutoHide": false,
   "topBarVisible": true,

@@ -42,6 +42,8 @@ Rectangle {
                                                     "HH:mm") : Qt.formatTime(
                                                     root.currentDate, "h:mm AP")
             font.pixelSize: Theme.fontSizeMedium - 1
+            font.weight: 700
+            font.family: Theme.fontFamily
             color: Theme.surfaceText
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -49,7 +51,7 @@ Rectangle {
         StyledText {
             text: "•"
             font.pixelSize: Theme.fontSizeSmall
-            color: Theme.outlineButton
+            color: Theme.primary
             anchors.verticalCenter: parent.verticalCenter
             visible: !SettingsData.clockCompactMode
         }
@@ -58,6 +60,7 @@ Rectangle {
             text: Qt.formatDate(root.currentDate, SettingsData.clockDateFormat)
             font.pixelSize: Theme.fontSizeMedium - 1
             color: Theme.surfaceText
+            font.family: Theme.fontFamily
             anchors.verticalCenter: parent.verticalCenter
             visible: !SettingsData.clockCompactMode
         }

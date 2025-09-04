@@ -45,6 +45,7 @@ Rectangle {
             }
             font.pixelSize: Theme.fontSizeSmall
             font.weight: Font.Medium
+            font.family: Theme.fontFamily
             color: Theme.surfaceText
             anchors.verticalCenter: parent.verticalCenter
             elide: Text.ElideRight
@@ -56,7 +57,7 @@ Rectangle {
         StyledText {
             text: "•"
             font.pixelSize: Theme.fontSizeSmall
-            color: Theme.outlineButton
+            color: Theme.primary
             anchors.verticalCenter: parent.verticalCenter
             visible: !compactMode && appText.text && titleText.text
         }
@@ -86,6 +87,7 @@ Rectangle {
             }
             font.pixelSize: Theme.fontSizeSmall
             font.weight: Font.Medium
+            font.family: Theme.fontFamily
             color: Theme.surfaceText
             anchors.verticalCenter: parent.verticalCenter
             elide: Text.ElideRight

@@ -12,7 +12,7 @@ StyledText {
     property int grade: Theme.isLightMode ? 0 : -25
     property int weight: filled ? 500 : 400
 
-    font.family: "Material Symbols Rounded"
+    font.family: "Material Symbols rounded"
     font.pixelSize: Appearance.fontSize.normal
     font.weight: weight
     color: Theme.surfaceText

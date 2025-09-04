@@ -61,7 +61,7 @@ Rectangle {
         spacing: 3
 
         DankIcon {
-            name: "memory"
+            name: "browse_activity"
             size: Theme.iconSize - 8
             color: {
                 if (DgopService.cpuUsage > 80)

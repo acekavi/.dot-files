@@ -69,11 +69,8 @@ PanelWindow {
         anchors.fill: parent
         enabled: shouldBeVisible
         onClicked: mouse => {
-                       var localPos = mapToItem(contentContainer,
-                                                mouse.x, mouse.y)
-                       if (localPos.x < 0 || localPos.x > contentContainer.width
-                           || localPos.y < 0
-                           || localPos.y > contentContainer.height) {
+                       var localPos = mapToItem(contentContainer, mouse.x, mouse.y)
+                       if (localPos.x < 0 || localPos.x > contentContainer.width || localPos.y < 0 || localPos.y > contentContainer.height) {
                            backgroundClicked()
                            close()
                        }
@@ -88,23 +85,11 @@ PanelWindow {
         readonly property real calculatedX: {
             if (positioning === "center") {
                 var centerX = triggerX + (triggerWidth / 2) - (popupWidth / 2)
-
-                if (centerX >= Theme.spacingM
-                        && centerX + popupWidth <= screenWidth - Theme.spacingM)
-                    return centerX
-
-                if (centerX < Theme.spacingM)
-                    return Theme.spacingM
-
-                if (centerX + popupWidth > screenWidth - Theme.spacingM)
-                    return screenWidth - popupWidth - Theme.spacingM
-
-                return centerX
+                return Math.max(Theme.spacingM, Math.min(screenWidth - popupWidth - Theme.spacingM, centerX))
             } else if (positioning === "left") {
                 return Math.max(Theme.spacingM, triggerX)
             } else if (positioning === "right") {
-                return Math.min(screenWidth - popupWidth - Theme.spacingM,
-                                triggerX + triggerWidth - popupWidth)
+                return Math.min(screenWidth - popupWidth - Theme.spacingM, triggerX + triggerWidth - popupWidth)
             }
             return triggerX
         }
@@ -137,33 +122,19 @@ PanelWindow {
             active: root.visible
             asynchronous: false
         }
-    }
 
-    FocusScope {
-        anchors.fill: parent
-        visible: shouldBeVisible
-        focus: shouldBeVisible
-
-        Keys.onPressed: event => {
-                            if (event.key === Qt.Key_Escape) {
-                                close()
-                                event.accepted = true
-                            } else {
-                                // Forward all non-escape keys to content
-                                event.accepted = false
+        Item {
+            anchors.fill: parent
+            focus: true
+            Keys.onPressed: event => {
+                                if (event.key === Qt.Key_Escape) {
+                                    close()
+                                    event.accepted = true
+                                }
                             }
-                        }
-
-        onVisibleChanged: {
-            if (visible) {
-                Qt.callLater(function () {
-                    if (contentLoader.item) {
-                        contentLoader.item.forceActiveFocus()
-                    } else {
-                        forceActiveFocus()
-                    }
-                })
-            }
+            Component.onCompleted: forceActiveFocus()
+            onVisibleChanged: if (visible)
+                                  forceActiveFocus()
         }
     }
 }
