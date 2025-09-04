@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Quickshell
 Comment=Quickshell Desktop Shell for Hyprland
-Exec=quickshell -p /home/reaper/.config/quickshell
+Exec=uwsm app -- quickshell
 Type=Application
 X-GNOME-Autostart-enabled=true
 StartupNotify=false

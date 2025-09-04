@@ -30,6 +30,72 @@ PanelWindow {
 - `WlrLayershell.Top` ensures panel stays above regular windows
 - `WlrKeyboardFocus.OnDemand` allows panel to receive input when clicked
 
+**Additional Hyprland Configuration Issue**:
+If the layer shell fix doesn't resolve the issue, check your Hyprland configuration for:
+
+```bash
+# In theme.conf or hyprland.conf
+misc {
+    layers_hog_keyboard_focus = false  # Should be false, not true
+}
+```
+
+**Why**: `layers_hog_keyboard_focus = true` can cause layer shell windows to aggressively grab focus, interfering with proper input handling between the panel and regular windows.
+
+### Random Focus Loss and Window Management Issues
+
+**Symptoms**:
+- Mouse cursor on window but window loses focus randomly
+- Windows don't stay focused when hovering
+- Focus jumps between windows unexpectedly
+
+**Cause**: Aggressive mouse focus settings in Hyprland configuration
+
+**Solution**: Adjust mouse focus behavior in `input.conf`:
+
+```bash
+# In input.conf
+input {
+    follow_mouse = 2          # Focus follows mouse but only for keyboard, not refocus
+    mouse_refocus = false     # Don't automatically refocus windows under mouse
+    float_switch_override_focus = 0
+}
+```
+
+**Additional Fix in `theme.conf`**:
+```bash
+misc {
+    mouse_move_focuses_monitor = false  # Prevent focus changes when moving between monitors
+}
+```
+
+**Focus Behavior Options**:
+- `follow_mouse = 0` - No focus follows mouse (click to focus)
+- `follow_mouse = 1` - Focus follows mouse cursor (can cause issues)
+- `follow_mouse = 2` - Focus follows mouse for keyboard only (recommended)
+- `follow_mouse = 3` - Focus follows mouse, but mouse on border doesn't change focus
+
+### UWSM Session Management Conflicts
+
+**Symptoms**:
+- Quickshell starts but crashes repeatedly
+- Panel appears and disappears (openlayer/closelayer events in logs)
+- IPC commands work intermittently
+
+**Cause**: Conflicts between UWSM app management and quickshell autostart
+
+**Solution**: Use direct quickshell launch instead of UWSM for the shell:
+
+```bash
+# In autostart.conf - use direct launch
+exec-once = sleep 2 && quickshell -p /home/reaper/.config/quickshell
+
+# Instead of:
+# exec-once = uwsm app quickshell -p /home/reaper/.config/quickshell
+```
+
+**Why**: UWSM is excellent for regular applications but can interfere with desktop shells that need persistent layer shell windows.
+
 ### IPC Commands Not Working After Configuration Move
 
 **Symptoms**:
