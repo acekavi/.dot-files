@@ -46,16 +46,17 @@ Item {
 
     Process {
         id: checkCurrentLockState
-        command: root.sessionPath ? ["gdbus", "call", "--system", "--dest", "org.freedesktop.login1", "--object-path", root.sessionPath, "--method", "org.freedesktop.DBus.Properties.Get", "org.freedesktop.login1.Session", "LockedHint"] : []
+        command: root.sessionPath ? ["gdbus", "call", "--system", "--dest", "org.freedesktop.login1", "--object-path", root.sessionPath, "--method", "org.freedesktop.DBus.Properties.Get", "org.freedesktop.login1.Session", "Class"] : []
         running: false
 
         stdout: StdioCollector {
             onStreamFinished: {
-                if (text.includes("true")) {
-                    console.log(
-                        "Session is locked on startup, activating lock screen")
+                if (text.includes("greeter")) {
+                    console.log("Auto-login greeter session detected, activating lock screen")
                     LockScreenService.resetState()
                     loader.activeAsync = true
+                } else {
+                    console.log("No greeter session, not activating lock screen")
                 }
             }
         }
