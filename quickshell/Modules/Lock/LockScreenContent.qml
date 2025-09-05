@@ -26,6 +26,12 @@ Item {
 
         WeatherService.addRef()
         UserInfoService.refreshUserInfo()
+        
+        // Auto-start fingerprint authentication when lockscreen appears
+        if (!demoMode) {
+            console.log("Lockscreen loaded, attempting fingerprint authentication first")
+            autoFingerprintTimer.start()
+        }
     }
     onDemoModeChanged: {
         if (demoMode)
@@ -242,7 +248,13 @@ Item {
                         anchors.left: parent.left
                         anchors.leftMargin: Theme.spacingM
                         anchors.verticalCenter: parent.verticalCenter
-                        name: "lock"
+                        name: {
+                            if (LockScreenService.unlocking)
+                                return "check_circle"
+                            if (pam.active)
+                                return "fingerprint"
+                            return "lock"
+                        }
                         size: 20
                         color: passwordField.activeFocus ? Theme.primary : Theme.surfaceVariantText
                     }
@@ -307,9 +319,9 @@ Item {
                                 return "Unlocking..."
 
                             if (pam.active)
-                                return "Authenticating..."
+                                return "Scan your fingerprint..."
 
-                            return "Password..."
+                            return "Scan fingerprint or enter password..."
                         }
                         color: LockScreenService.unlocking ? Theme.primary : (pam.active ? Theme.primary : Theme.outline)
                         font.pixelSize: Theme.fontSizeMedium
@@ -419,6 +431,15 @@ Item {
                         Item {
                             anchors.fill: parent
                             visible: pam.active && !LockScreenService.unlocking
+
+                            // Fingerprint icon for visual feedback
+                            DankIcon {
+                                anchors.centerIn: parent
+                                name: "fingerprint"
+                                size: 16
+                                color: Theme.primary
+                                opacity: 0.8
+                            }
 
                             Rectangle {
                                 width: 20
@@ -868,6 +889,19 @@ Item {
 
         interval: 4000
         onTriggered: LockScreenService.setPamState("")
+    }
+
+    Timer {
+        id: autoFingerprintTimer
+
+        interval: 500
+        repeat: false
+        onTriggered: {
+            if (!demoMode && !pam.active && !LockScreenService.unlocking) {
+                console.log("Auto-starting fingerprint authentication")
+                pam.start()
+            }
+        }
     }
 
     MouseArea {
