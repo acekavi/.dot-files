@@ -11,15 +11,3 @@ output_path = '~/.config/gtk-4.0/dank-colors.css'
 [templates.kcolorscheme]
 input_path = './matugen/templates/matugen-kcolorscheme.colors'
 output_path = '~/.local/share/color-schemes/DankMatugen.colors'
-
-[templates.hyprland]
-input_path = './matugen/templates/hyprland-colors.conf'
-output_path = '~/.config/hypr/colors.conf'
-
-[templates.starship]
-input_path = './matugen/templates/starship.toml'
-output_path = '~/.config/starship.toml'
-
-[templates.alacritty]
-input_path = './matugen/templates/alacritty.toml'
-output_path = '~/.config/alacritty/alacritty.toml'

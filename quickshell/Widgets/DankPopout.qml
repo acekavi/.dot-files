@@ -7,6 +7,8 @@ import qs.Common
 PanelWindow {
     id: root
 
+    WlrLayershell.namespace: "quickshell:popout"
+
     property alias content: contentLoader.sourceComponent
     property alias contentLoader: contentLoader
     property real popupWidth: 400
@@ -54,9 +56,17 @@ PanelWindow {
     }
 
     color: "transparent"
-    WlrLayershell.layer: WlrLayershell.Overlay
+    WlrLayershell.layer: WlrLayershell.Top // if set to overlay -> virtual keyboards can be stuck under popup
     WlrLayershell.exclusiveZone: -1
-    WlrLayershell.keyboardFocus: shouldBeVisible ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+    // WlrLayershell.keyboardFocus should be set to Exclusive,
+    // if popup contains input fields and does NOT create new popups/modals
+    // with input fields.
+    // With OnDemand virtual keyboards can't send input to popup
+    // If set to Exclusive AND this popup creates other popups, that also have
+    // input fields -> they can't get keyboard focus, because the parent popup
+    // already took the lock
+    WlrLayershell.keyboardFocus: shouldBeVisible ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None 
 
     anchors {
         top: true
@@ -98,7 +108,7 @@ PanelWindow {
         width: popupWidth
         height: popupHeight
         x: calculatedX
-        y: calculatedY + Theme.spacingS
+        y: calculatedY
         opacity: shouldBeVisible ? 1 : 0
         scale: shouldBeVisible ? 1 : 0.9
 

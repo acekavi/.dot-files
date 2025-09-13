@@ -1,3 +1,5 @@
+//@ pragma Env QS_NO_RELOAD_POPUP=1
+//@ pragma Env QSG_RENDER_LOOP=threaded
 //@ pragma UseQApplication
 import QtQuick
 import Quickshell
@@ -5,9 +7,13 @@ import Quickshell.Io
 import Quickshell.Widgets
 import qs.Common
 import qs.Modals
+import qs.Modals.Clipboard
+import qs.Modals.Common
+import qs.Modals.Settings
+import qs.Modals.Spotlight
 import qs.Modules
 import qs.Modules.AppDrawer
-import qs.Modules.CentcomCenter
+import qs.Modules.DankDash
 import qs.Modules.ControlCenter
 import qs.Modules.Dock
 import qs.Modules.Lock
@@ -28,8 +34,7 @@ ShellRoot {
         DisplayService.nightModeEnabled
     }
 
-    WallpaperBackground {
-    }
+    WallpaperBackground {}
 
     Lock {
         id: lock
@@ -42,8 +47,8 @@ ShellRoot {
 
         delegate: TopBar {
             modelData: item
+            notepadVariants: notepadSlideoutVariants
         }
-
     }
 
     Variants {
@@ -56,21 +61,19 @@ ShellRoot {
                 dockContextMenuLoader.active = true
             }
         }
-
     }
 
     Loader {
-        id: centcomPopoutLoader
+        id: dankDashPopoutLoader
 
         active: false
+        asynchronous: true
 
         sourceComponent: Component {
-            CentcomPopout {
-                id: centcomPopout
+            DankDashPopout {
+                id: dankDashPopout
             }
-
         }
-
     }
 
     LazyLoader {
@@ -81,7 +84,6 @@ ShellRoot {
         DockContextMenu {
             id: dockContextMenu
         }
-
     }
 
     LazyLoader {
@@ -92,7 +94,6 @@ ShellRoot {
         NotificationCenterPopout {
             id: notificationCenter
         }
-
     }
 
     Variants {
@@ -101,7 +102,6 @@ ShellRoot {
         delegate: NotificationPopupManager {
             modelData: item
         }
-
     }
 
     LazyLoader {
@@ -113,34 +113,31 @@ ShellRoot {
             id: controlCenterPopout
 
             onPowerActionRequested: (action, title, message) => {
-                powerConfirmModalLoader.active = true
-                if (powerConfirmModalLoader.item) {
-                    powerConfirmModalLoader.item.confirmButtonColor = 
-                        action === "poweroff" ? Theme.error : 
-                        action === "reboot" ? Theme.warning : Theme.primary
-                    powerConfirmModalLoader.item.show(title, message, function() {
-                        switch (action) {
-                        case "logout":
-                            SessionService.logout()
-                            break
-                        case "suspend":
-                            SessionService.suspend()
-                            break
-                        case "reboot":
-                            SessionService.reboot()
-                            break
-                        case "poweroff":
-                            SessionService.poweroff()
-                            break
-                        }
-                    }, function() {})
-                }
-            }
+                                        powerConfirmModalLoader.active = true
+                                        if (powerConfirmModalLoader.item) {
+                                            powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary
+                                            powerConfirmModalLoader.item.show(title, message, function () {
+                                                switch (action) {
+                                                case "logout":
+                                                    SessionService.logout()
+                                                    break
+                                                case "suspend":
+                                                    SessionService.suspend()
+                                                    break
+                                                case "reboot":
+                                                    SessionService.reboot()
+                                                    break
+                                                case "poweroff":
+                                                    SessionService.poweroff()
+                                                    break
+                                                }
+                                            }, function () {})
+                                        }
+                                    }
             onLockRequested: {
                 lock.activate()
             }
         }
-
     }
 
     LazyLoader {
@@ -151,7 +148,6 @@ ShellRoot {
         WifiPasswordModal {
             id: wifiPasswordModal
         }
-
     }
 
     LazyLoader {
@@ -162,7 +158,6 @@ ShellRoot {
         NetworkInfoModal {
             id: networkInfoModal
         }
-
     }
 
     LazyLoader {
@@ -173,7 +168,6 @@ ShellRoot {
         BatteryPopout {
             id: batteryPopout
         }
-
     }
 
     LazyLoader {
@@ -184,7 +178,6 @@ ShellRoot {
         VpnPopout {
             id: vpnPopout
         }
-
     }
 
     LazyLoader {
@@ -196,31 +189,28 @@ ShellRoot {
             id: powerMenu
 
             onPowerActionRequested: (action, title, message) => {
-                powerConfirmModalLoader.active = true
-                if (powerConfirmModalLoader.item) {
-                    powerConfirmModalLoader.item.confirmButtonColor = 
-                        action === "poweroff" ? Theme.error : 
-                        action === "reboot" ? Theme.warning : Theme.primary
-                    powerConfirmModalLoader.item.show(title, message, function() {
-                        switch (action) {
-                        case "logout":
-                            SessionService.logout()
-                            break
-                        case "suspend":
-                            SessionService.suspend()
-                            break
-                        case "reboot":
-                            SessionService.reboot()
-                            break
-                        case "poweroff":
-                            SessionService.poweroff()
-                            break
-                        }
-                    }, function() {})
-                }
-            }
+                                        powerConfirmModalLoader.active = true
+                                        if (powerConfirmModalLoader.item) {
+                                            powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary
+                                            powerConfirmModalLoader.item.show(title, message, function () {
+                                                switch (action) {
+                                                case "logout":
+                                                    SessionService.logout()
+                                                    break
+                                                case "suspend":
+                                                    SessionService.suspend()
+                                                    break
+                                                case "reboot":
+                                                    SessionService.reboot()
+                                                    break
+                                                case "poweroff":
+                                                    SessionService.poweroff()
+                                                    break
+                                                }
+                                            }, function () {})
+                                        }
+                                    }
         }
-
     }
 
     LazyLoader {
@@ -231,7 +221,6 @@ ShellRoot {
         ConfirmModal {
             id: powerConfirmModal
         }
-
     }
 
     LazyLoader {
@@ -242,7 +231,6 @@ ShellRoot {
         ProcessListPopout {
             id: processListPopout
         }
-
     }
 
     SettingsModal {
@@ -257,7 +245,6 @@ ShellRoot {
         AppDrawerPopout {
             id: appDrawerPopout
         }
-
     }
 
     SpotlightModal {
@@ -280,16 +267,36 @@ ShellRoot {
         ProcessListModal {
             id: processListModal
         }
-
     }
 
-    LazyLoader {
-        id: notepadModalLoader
+    Variants {
+        id: notepadSlideoutVariants
+        model: SettingsData.getFilteredScreens("notepad")
 
-        active: false
-
-        NotepadModal {
-            id: notepadModal
+        delegate: Loader {
+            id: notepadLoader
+            property var modelData: item
+            active: false
+            
+            sourceComponent: Component {
+                NotepadSlideout {
+                    id: notepadSlideout
+                    modelData: notepadLoader.modelData
+                    
+                    Component.onCompleted: {
+                        notepadLoader.loaded = true
+                    }
+                }
+            }
+            
+            property bool loaded: false
+            
+            function ensureLoaded() {
+                if (!active) {
+                    active = true
+                }
+                return item
+            }
         }
     }
 
@@ -302,31 +309,28 @@ ShellRoot {
             id: powerMenuModal
 
             onPowerActionRequested: (action, title, message) => {
-                powerConfirmModalLoader.active = true
-                if (powerConfirmModalLoader.item) {
-                    powerConfirmModalLoader.item.confirmButtonColor = 
-                        action === "poweroff" ? Theme.error : 
-                        action === "reboot" ? Theme.warning : Theme.primary
-                    powerConfirmModalLoader.item.show(title, message, function() {
-                        switch (action) {
-                        case "logout":
-                            SessionService.logout()
-                            break
-                        case "suspend":
-                            SessionService.suspend()
-                            break
-                        case "reboot":
-                            SessionService.reboot()
-                            break
-                        case "poweroff":
-                            SessionService.poweroff()
-                            break
-                        }
-                    }, function() {})
-                }
-            }
+                                        powerConfirmModalLoader.active = true
+                                        if (powerConfirmModalLoader.item) {
+                                            powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary
+                                            powerConfirmModalLoader.item.show(title, message, function () {
+                                                switch (action) {
+                                                case "logout":
+                                                    SessionService.logout()
+                                                    break
+                                                case "suspend":
+                                                    SessionService.suspend()
+                                                    break
+                                                case "reboot":
+                                                    SessionService.reboot()
+                                                    break
+                                                case "poweroff":
+                                                    SessionService.poweroff()
+                                                    break
+                                                }
+                                            }, function () {})
+                                        }
+                                    }
         }
-
     }
 
     IpcHandler {
@@ -357,7 +361,7 @@ ShellRoot {
     }
 
     IpcHandler {
-        function open() {
+        function open(): string {
             processListModalLoader.active = true
             if (processListModalLoader.item)
                 processListModalLoader.item.show()
@@ -365,14 +369,14 @@ ShellRoot {
             return "PROCESSLIST_OPEN_SUCCESS"
         }
 
-        function close() {
+        function close(): string {
             if (processListModalLoader.item)
                 processListModalLoader.item.hide()
 
             return "PROCESSLIST_CLOSE_SUCCESS"
         }
 
-        function toggle() {
+        function toggle(): string {
             processListModalLoader.active = true
             if (processListModalLoader.item)
                 processListModalLoader.item.toggle()
@@ -384,27 +388,140 @@ ShellRoot {
     }
 
     IpcHandler {
-        function open() {
-            notepadModalLoader.active = true
-            if (notepadModalLoader.item)
-                notepadModalLoader.item.show()
-
-            return "NOTEPAD_OPEN_SUCCESS"
+        function open(tab: string): string {
+            dankDashPopoutLoader.active = true
+            if (dankDashPopoutLoader.item) {
+                switch (tab.toLowerCase()) {
+                case "media":
+                    dankDashPopoutLoader.item.currentTabIndex = 1
+                    break
+                case "weather":
+                    dankDashPopoutLoader.item.currentTabIndex = SettingsData.weatherEnabled ? 2 : 0
+                    break
+                default:
+                    dankDashPopoutLoader.item.currentTabIndex = 0
+                    break
+                }
+                dankDashPopoutLoader.item.setTriggerPosition(Screen.width / 2, Theme.barHeight + Theme.spacingS, 100, "center", Screen)
+                dankDashPopoutLoader.item.dashVisible = true
+                return "DASH_OPEN_SUCCESS"
+            }
+            return "DASH_OPEN_FAILED"
         }
 
-        function close() {
-            if (notepadModalLoader.item)
-                notepadModalLoader.item.hide()
-
-            return "NOTEPAD_CLOSE_SUCCESS"
+        function close(): string {
+            if (dankDashPopoutLoader.item) {
+                dankDashPopoutLoader.item.dashVisible = false
+                return "DASH_CLOSE_SUCCESS"
+            }
+            return "DASH_CLOSE_FAILED"
         }
 
-        function toggle() {
-            notepadModalLoader.active = true
-            if (notepadModalLoader.item)
-                notepadModalLoader.item.toggle()
+        function toggle(tab: string): string {
+            dankDashPopoutLoader.active = true
+            if (dankDashPopoutLoader.item) {
+                if (dankDashPopoutLoader.item.dashVisible) {
+                    dankDashPopoutLoader.item.dashVisible = false
+                } else {
+                    switch (tab.toLowerCase()) {
+                    case "media":
+                        dankDashPopoutLoader.item.currentTabIndex = 1
+                        break
+                    case "weather":
+                        dankDashPopoutLoader.item.currentTabIndex = SettingsData.weatherEnabled ? 2 : 0
+                        break
+                    default:
+                        dankDashPopoutLoader.item.currentTabIndex = 0
+                        break
+                    }
+                    dankDashPopoutLoader.item.setTriggerPosition(Screen.width / 2, Theme.barHeight + Theme.spacingS, 100, "center", Screen)
+                    dankDashPopoutLoader.item.dashVisible = true
+                }
+                return "DASH_TOGGLE_SUCCESS"
+            }
+            return "DASH_TOGGLE_FAILED"
+        }
 
-            return "NOTEPAD_TOGGLE_SUCCESS"
+        target: "dash"
+    }
+
+    IpcHandler {
+        function getFocusedScreenName() {
+            if (CompositorService.isHyprland && Hyprland.focusedWorkspace && Hyprland.focusedWorkspace.monitor) {
+                return Hyprland.focusedWorkspace.monitor.name
+            }
+            if (CompositorService.isNiri && NiriService.currentOutput) {
+                return NiriService.currentOutput
+            }
+            return ""
+        }
+
+        function getNotepadInstanceForScreen(screenName: string) {
+            if (!screenName || notepadSlideoutVariants.instances.length === 0) {
+                return
+            }
+            
+            for (var i = 0; i < notepadSlideoutVariants.instances.length; i++) {
+                var loader = notepadSlideoutVariants.instances[i]
+                if (loader.modelData && loader.modelData.name === screenName) {
+                    loader.ensureLoaded()
+                    return
+                }
+            }
+        }
+
+        function getActiveNotepadInstance() {
+            if (notepadSlideoutVariants.instances.length === 0) {
+                return null
+            }
+            
+            if (notepadSlideoutVariants.instances.length === 1) {
+                return notepadSlideoutVariants.instances[0].ensureLoaded()
+            }
+            
+            var focusedScreen = getFocusedScreenName()
+            if (focusedScreen) {
+                var focusedInstance = getNotepadInstanceForScreen(focusedScreen)
+                if (focusedInstance) {
+                    return focusedInstance
+                }
+            }
+            
+            for (var i = 0; i < notepadSlideoutVariants.instances.length; i++) {
+                var loader = notepadSlideoutVariants.instances[i]
+                if (loader.active && loader.item && loader.item.notepadVisible) {
+                    return loader.item
+                }
+            }
+            
+            return notepadSlideoutVariants.instances[0].ensureLoaded()
+        }
+
+        function open(): string {
+            var instance = getActiveNotepadInstance()
+            if (instance) {
+                instance.show()
+                return "NOTEPAD_OPEN_SUCCESS"
+            }
+            return "NOTEPAD_OPEN_FAILED"
+        }
+
+        function close(): string {
+            var instance = getActiveNotepadInstance()
+            if (instance) {
+                instance.hide()
+                return "NOTEPAD_CLOSE_SUCCESS"
+            }
+            return "NOTEPAD_CLOSE_FAILED"
+        }
+
+        function toggle(): string {
+            var instance = getActiveNotepadInstance()
+            if (instance) {
+                instance.toggle()
+                return "NOTEPAD_TOGGLE_SUCCESS"
+            }
+            return "NOTEPAD_TOGGLE_FAILED"
         }
 
         target: "notepad"
@@ -417,7 +534,6 @@ ShellRoot {
             modelData: item
             visible: ToastService.toastVisible
         }
-
     }
 
     Variants {
@@ -426,7 +542,6 @@ ShellRoot {
         delegate: VolumeOSD {
             modelData: item
         }
-
     }
 
     Variants {
@@ -435,7 +550,6 @@ ShellRoot {
         delegate: MicMuteOSD {
             modelData: item
         }
-
     }
 
     Variants {
@@ -444,7 +558,6 @@ ShellRoot {
         delegate: BrightnessOSD {
             modelData: item
         }
-
     }
 
     Variants {
@@ -453,7 +566,5 @@ ShellRoot {
         delegate: IdleInhibitorOSD {
             modelData: item
         }
-
     }
-
 }

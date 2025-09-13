@@ -50,6 +50,12 @@ Singleton {
     function moddedAppId(appId: string): string {
         if (appId === "Spotify")
             return "spotify-launcher"
+        if (appId === "beepertexts")
+            return "beeper"
+        if (appId === "home assistant desktop")
+            return "homeassistant-desktop"
+        if (appId.includes("com.transmissionbt.transmission"))
+            return "transmission-gtk"
         return appId
     }
 }

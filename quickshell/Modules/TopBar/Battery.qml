@@ -23,13 +23,15 @@ Rectangle {
     color: {
         if (SettingsData.topBarNoBackground)
             return "transparent";
-        const baseColor = batteryArea.containsMouse || batteryPopupVisible ? Theme.surfaceButtonHover : Theme.surfaceButton;
+
+        const baseColor = batteryArea.containsMouse || batteryPopupVisible ? Theme.primaryPressed : Theme.secondaryHover;
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
     }
     visible: true
 
     Row {
         id: batteryContent
+
         anchors.centerIn: parent
         spacing: 3
 
@@ -64,14 +66,17 @@ Rectangle {
             }
             size: Theme.iconSize - 2
             color: {
-                if (!BatteryService.batteryAvailable)
+                if (!BatteryService.batteryAvailable) {
                     return Theme.surfaceText;
+                }
 
-                if (BatteryService.isLowBattery && !BatteryService.isCharging)
+                if (BatteryService.isLowBattery && !BatteryService.isCharging) {
                     return Theme.error;
+                }
 
-                if (BatteryService.isCharging || BatteryService.isPluggedIn)
+                if (BatteryService.isCharging || BatteryService.isPluggedIn) {
                     return Theme.primary;
+                }
 
                 return Theme.surfaceText;
             }
@@ -79,19 +84,21 @@ Rectangle {
         }
 
         StyledText {
-            text: BatteryService.batteryLevel + "%"
+            text: `${BatteryService.batteryLevel}%`
             font.pixelSize: Theme.fontSizeSmall
-            font.family: Theme.fontFamily
             font.weight: Font.Medium
             color: {
-                if (!BatteryService.batteryAvailable)
+                if (!BatteryService.batteryAvailable) {
                     return Theme.surfaceText;
+                }
 
-                if (BatteryService.isLowBattery && !BatteryService.isCharging)
+                if (BatteryService.isLowBattery && !BatteryService.isCharging) {
                     return Theme.error;
+                }
 
-                if (BatteryService.isCharging)
+                if (BatteryService.isCharging) {
                     return Theme.primary;
+                }
 
                 return Theme.surfaceText;
             }
@@ -108,10 +115,10 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         onPressed: {
             if (popupTarget && popupTarget.setTriggerPosition) {
-                var globalPos = mapToGlobal(0, 0);
-                var currentScreen = parentScreen || Screen;
-                var screenX = currentScreen.x || 0;
-                var relativeX = globalPos.x - screenX;
+                const globalPos = mapToGlobal(0, 0);
+                const currentScreen = parentScreen || Screen;
+                const screenX = currentScreen.x || 0;
+                const relativeX = globalPos.x - screenX;
                 popupTarget.setTriggerPosition(relativeX, barHeight + Theme.spacingXS, width, section, currentScreen);
             }
             toggleBatteryPopup();
@@ -142,8 +149,9 @@ Rectangle {
 
                 text: {
                     if (!BatteryService.batteryAvailable) {
-                        if (typeof PowerProfiles === "undefined")
+                        if (typeof PowerProfiles === "undefined") {
                             return "Power Management";
+                        }
 
                         switch (PowerProfiles.profile) {
                         case PowerProfile.PowerSaver:
@@ -154,13 +162,14 @@ Rectangle {
                             return "Power Profile: Balanced";
                         }
                     }
-                    let status = BatteryService.batteryStatus;
-                    let level = BatteryService.batteryLevel + "%";
-                    let time = BatteryService.formatTimeRemaining();
-                    if (time !== "Unknown")
-                        return status + " • " + level + " • " + time;
-                    else
-                        return status + " • " + level;
+                    const status = BatteryService.batteryStatus;
+                    const level = `${BatteryService.batteryLevel}%`;
+                    const time = BatteryService.formatTimeRemaining();
+                    if (time !== "Unknown") {
+                        return `${status} • ${level} • ${time}`;
+                    } else {
+                        return `${status} • ${level}`;
+                    }
                 }
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.surfaceText

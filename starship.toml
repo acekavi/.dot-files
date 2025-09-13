@@ -7,7 +7,7 @@ $directory\
 [](fg:#434C5E bg:#4C566A)\
 $git_branch\
 $git_status\
-[](fg:#4C566A bg:#b2cfa7)\
+[](fg:#4C566A bg:#a2ced8)\
 $c\
 $elixir\
 $elm\
@@ -18,11 +18,11 @@ $julia\
 $nodejs\
 $nim\
 $rust\
-[](fg:#b2cfa7 bg:#d9c4a0)\
+[](fg:#a2ced8 bg:#b7ccb7)\
 $docker_context\
-[](fg:#d9c4a0 bg:#53452a)\
+[](fg:#b7ccb7 bg:#394b3b)\
 $time\
-[ ](fg:#53452a)\
+[ ](fg:#394b3b)\
 """
 command_timeout = 5000
 # Disable the blank line at the start of the prompt
@@ -56,22 +56,22 @@ truncation_symbol = "…/"
 
 [c]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-style = "bg:#d9c4a0"
+style = "bg:#b7ccb7"
 format = '[ $symbol $context ]($style)$path'
 
 [elixir]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
@@ -85,32 +85,32 @@ format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
@@ -119,11 +119,11 @@ format = '[(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#b2cfa7"
+style = "bg:#a2ced8"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#53452a"
+style = "bg:#394b3b"
 format = '[ $time ]($style)'
