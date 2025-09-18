@@ -29,36 +29,36 @@ mods = "Control"
 [terminal]
 
 [colors.bright]
-black = "#414941"
-blue = "#99d4a2"
-cyan = "#a2ced8"
-green = "#b7ccb7"
-magenta = "#19512a"
-red = "#ffb4ab"
-white = "#dfe4dc"
-yellow = "#204d55"
+black = "{{colors.surface_variant.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.tertiary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.primary_container.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface.default.hex}}"
+yellow = "{{colors.tertiary_container.default.hex}}"
 
 [colors.cursor]
-cursor = "#dfe4dc"
-text = "#101510"
+cursor = "{{colors.on_surface.default.hex}}"
+text = "{{colors.surface.default.hex}}"
 
 [colors.normal]
-black = "#101510"
-blue = "#99d4a2"
-cyan = "#a2ced8"
-green = "#b7ccb7"
-magenta = "#19512a"
-red = "#ffb4ab"
-white = "#c1c9be"
-yellow = "#204d55"
+black = "{{colors.surface.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.tertiary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.primary_container.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface_variant.default.hex}}"
+yellow = "{{colors.tertiary_container.default.hex}}"
 
 [colors.primary]
-background = "#101510"
-foreground = "#dfe4dc"
+background = "{{colors.surface.default.hex}}"
+foreground = "{{colors.on_surface.default.hex}}"
 
 [colors.selection]
-background = "#b7ccb7"
-text = "#233426"
+background = "{{colors.secondary_fixed_dim.default.hex}}"
+text = "{{colors.on_secondary.default.hex}}"
 
 [cursor]
 blink_interval = 700
