@@ -57,6 +57,12 @@ Item {
 
         WeatherService.addRef()
         UserInfoService.refreshUserInfo()
+
+        // Auto-start fingerprint authentication when lockscreen appears
+        if (!demoMode) {
+            console.log("Lockscreen loaded, attempting fingerprint authentication first")
+            autoFingerprintTimer.start()
+        }
     }
     onDemoModeChanged: {
         if (demoMode) {
@@ -386,7 +392,7 @@ Item {
                                 return "Unlocking..."
                             }
                             if (pam.active) {
-                                return "Authenticating..."
+                                return "Scan your fingerprint"
                             }
                             return "Password..."
                         }
@@ -511,6 +517,14 @@ Item {
                         Item {
                             anchors.fill: parent
                             visible: pam.active && !root.unlocking
+
+                            DankIcon {
+                                anchors.centerIn: parent
+                                name: "fingerprint"
+                                size: 16
+                                color: Theme.primary
+                                opacity: 0.8
+                            }
 
                             Rectangle {
                                 width: 20
@@ -1117,6 +1131,19 @@ Item {
 
         interval: 4000
         onTriggered: root.pamState = ""
+    }
+
+    Timer {
+        id: autoFingerprintTimer
+
+        interval: 500
+        repeat: false
+        onTriggered: {
+            if (!demoMode && !pam.active && !LockScreenService.unlocking) {
+                console.log("Auto-starting fingerprint authentication")
+                pam.start()
+            }
+        }
     }
 
     MouseArea {
