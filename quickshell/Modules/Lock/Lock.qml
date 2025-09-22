@@ -58,14 +58,13 @@ Item {
 
     Process {
         id: checkCurrentLockState
-        command: root.sessionPath ? ["gdbus", "call", "--system", "--dest", "org.freedesktop.login1", "--object-path", root.sessionPath, "--method", "org.freedesktop.DBus.Properties.Get", "org.freedesktop.login1.Session", "Class"] : []
+        command: root.sessionPath ? ["gdbus", "call", "--system", "--dest", "org.freedesktop.login1", "--object-path", root.sessionPath, "--method", "org.freedesktop.DBus.Properties.Get", "org.freedesktop.login1.Session", "LockedHint"] : []
         running: false
 
         stdout: StdioCollector {
             onStreamFinished: {
-                if (text.includes("greeter")) {
-                    console.log("Auto-login greeter session detected, activating lock screen")
-                    LockScreenService.resetState()
+                if (text.includes("true")) {
+                    console.log("Session is locked on startup, activating lock screen")
                     loader.activeAsync = true
                 }
             }
@@ -80,7 +79,7 @@ Item {
 
     Process {
         id: lockStateMonitor
-        command: root.sessionPath ? ["gdbus", "monitor", "--system", "--dest", "org.freedesktop.login1", "--object-path", root.sessionPath] : []
+        command: root.sessionPath ? ["gdbus", "monitor", "--system", "--dest", "org.freedesktop.login1"] : []
         running: false
 
         stdout: SplitParser {
@@ -109,7 +108,7 @@ Item {
                                 return
                             }
                         }
-                        if (line.includes("PrepareForSleep") &&
+                        if (line.includes("PrepareForSleep") && 
                             line.includes("true") &&
                             SessionData.lockBeforeSuspend) {
                             loader.activeAsync = true
@@ -161,7 +160,6 @@ Item {
 
         function lock() {
             console.log("Lock screen requested via IPC")
-            LockScreenService.resetState()
             loader.activeAsync = true
         }
 
