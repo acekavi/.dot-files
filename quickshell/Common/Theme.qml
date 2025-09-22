@@ -7,6 +7,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.UPower
+import qs.Common
 import qs.Services
 import "StockThemes.js" as StockThemes
 
@@ -14,20 +15,42 @@ Singleton {
     id: root
 
     property string currentTheme: "blue"
+    property string currentThemeCategory: "generic"
     property bool isLightMode: false
 
     readonly property string dynamic: "dynamic"
+    readonly property string custom : "custom"
 
-    readonly property string homeDir: {
-        const url = StandardPaths.writableLocation(StandardPaths.HomeLocation).toString()
-        return url.startsWith("file://") ? url.substring(7) : url
-    }
-    readonly property string configDir: {
-        const url = StandardPaths.writableLocation(StandardPaths.ConfigLocation).toString()
-        return url.startsWith("file://") ? url.substring(7) : url
-    }
-    readonly property string shellDir: Qt.resolvedUrl(".").toString().replace("file://", "").replace("/Common/", "")
+    readonly property string homeDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.HomeLocation))
+    readonly property string configDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation))
+    readonly property string shellDir: Paths.strip(Qt.resolvedUrl(".").toString()).replace("/Common/", "")
     readonly property string wallpaperPath: {
+        if (typeof SessionData === "undefined") return ""
+        
+        if (SessionData.perMonitorWallpaper) {
+            // Use first monitor's wallpaper for dynamic theming
+            var screens = Quickshell.screens
+            if (screens.length > 0) {
+                var firstMonitorWallpaper = SessionData.getMonitorWallpaper(screens[0].name)
+                var wallpaperPath = firstMonitorWallpaper || SessionData.wallpaperPath
+
+                if (wallpaperPath && wallpaperPath.startsWith("we:")) {
+                    return stateDir + "/we_screenshots/" + wallpaperPath.substring(3) + ".jpg"
+                }
+
+                return wallpaperPath
+            }
+        }
+
+        var wallpaperPath = SessionData.wallpaperPath
+        var screens = Quickshell.screens
+        if (screens.length > 0 && wallpaperPath && wallpaperPath.startsWith("we:")) {
+            return stateDir + "/we_screenshots/" + wallpaperPath.substring(3) + ".jpg"
+        }
+
+        return wallpaperPath
+    }
+    readonly property string rawWallpaperPath: {
         if (typeof SessionData === "undefined") return ""
         
         if (SessionData.perMonitorWallpaper) {
@@ -38,7 +61,7 @@ Singleton {
                 return firstMonitorWallpaper || SessionData.wallpaperPath
             }
         }
-        
+
         return SessionData.wallpaperPath
     }
 
@@ -51,10 +74,17 @@ Singleton {
     property int colorUpdateTrigger: 0
     property var customThemeData: null
 
-    readonly property string stateDir: {
-        const cacheHome = StandardPaths.writableLocation(StandardPaths.CacheLocation).toString()
-        const path = cacheHome.startsWith("file://") ? cacheHome.substring(7) : cacheHome
-        return path + "/dankshell"
+    readonly property string stateDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.CacheLocation).toString()) + "/dankshell"
+
+    Component.onCompleted: {
+        Quickshell.execDetached(["mkdir", "-p", stateDir])
+        matugenCheck.running = true
+        if (typeof SessionData !== "undefined")
+            SessionData.isLightModeChanged.connect(root.onLightModeChanged)
+        
+        if (typeof SettingsData !== "undefined" && SettingsData.currentThemeName) {
+            switchTheme(SettingsData.currentThemeName, false)
+        }
     }
 
     function getMatugenColor(path, fallback) {
@@ -110,8 +140,16 @@ Singleton {
     property color background: currentThemeData.background
     property color backgroundText: currentThemeData.backgroundText
     property color outline: currentThemeData.outline
+    property color outlineVariant: currentThemeData.outlineVariant || Qt.rgba(outline.r, outline.g, outline.b, 0.6)
     property color surfaceContainer: currentThemeData.surfaceContainer
     property color surfaceContainerHigh: currentThemeData.surfaceContainerHigh
+
+    property color onSurface: surfaceText
+    property color onSurfaceVariant: surfaceVariantText
+    property color onPrimary: primaryText
+    property color onSurface_12: Qt.rgba(onSurface.r, onSurface.g, onSurface.b, 0.12)
+    property color onSurface_38: Qt.rgba(onSurface.r, onSurface.g, onSurface.b, 0.38)
+    property color onSurfaceVariant_30: Qt.rgba(onSurfaceVariant.r, onSurfaceVariant.g, onSurfaceVariant.b, 0.30)
 
     property color error: currentThemeData.error || "#F2B8B5"
     property color warning: currentThemeData.warning || "#FF9800"
@@ -144,6 +182,7 @@ Singleton {
     property color outlineStrong: Qt.rgba(outline.r, outline.g, outline.b, 0.12)
 
     property color errorHover: Qt.rgba(error.r, error.g, error.b, 0.12)
+    property color errorPressed: Qt.rgba(error.r, error.g, error.b, 0.16)
 
     property color shadowMedium: Qt.rgba(0, 0, 0, 0.08)
     property color shadowStrong: Qt.rgba(0, 0, 0, 0.3)
@@ -175,17 +214,30 @@ Singleton {
     property real widgetTransparency: typeof SettingsData !== "undefined" && SettingsData.topBarWidgetTransparency !== undefined ? SettingsData.topBarWidgetTransparency : 0.85
     property real popupTransparency: typeof SettingsData !== "undefined" && SettingsData.popupTransparency !== undefined ? SettingsData.popupTransparency : 0.92
 
+    function screenTransition() {
+        CompositorService.isNiri && NiriService.doScreenTransition()
+    }
+
     function switchTheme(themeName, savePrefs = true) {
+        screenTransition()
         if (themeName === dynamic) {
             currentTheme = dynamic
+            currentThemeCategory = dynamic
             extractColors()
-        } else if (themeName === "custom") {
-            currentTheme = "custom"
+        } else if (themeName === custom) {
+            currentTheme = custom
+            currentThemeCategory = custom
             if (typeof SettingsData !== "undefined" && SettingsData.customThemeFile) {
                 loadCustomThemeFromFile(SettingsData.customThemeFile)
             }
         } else {
             currentTheme = themeName
+            // Determine category based on theme name
+            if (StockThemes.isCatppuccinVariant(themeName)) {
+                currentThemeCategory = "catppuccin"
+            } else {
+                currentThemeCategory = "generic"
+            }
         }
         if (savePrefs && typeof SettingsData !== "undefined")
             SettingsData.setTheme(currentTheme)
@@ -194,6 +246,7 @@ Singleton {
     }
 
     function setLightMode(light, savePrefs = true) {
+        screenTransition()
         isLightMode = light
         if (savePrefs && typeof SessionData !== "undefined")
             SessionData.setLightMode(isLightMode)
@@ -206,6 +259,7 @@ Singleton {
     }
 
     function forceGenerateSystemThemes() {
+        screenTransition()
         if (!matugenAvailable) {
             if (typeof ToastService !== "undefined") {
                 ToastService.showWarning("matugen not available - cannot generate system themes")
@@ -231,7 +285,33 @@ Singleton {
         return StockThemes.getThemeByName(themeName, isLightMode)
     }
 
+    function switchThemeCategory(category, defaultTheme) {
+        currentThemeCategory = category
+        switchTheme(defaultTheme)
+    }
+
+    function getCatppuccinColor(variantName) {
+        const catColors = {
+            "cat-rosewater": "#f5e0dc", "cat-flamingo": "#f2cdcd", "cat-pink": "#f5c2e7", "cat-mauve": "#cba6f7",
+            "cat-red": "#f38ba8", "cat-maroon": "#eba0ac", "cat-peach": "#fab387", "cat-yellow": "#f9e2af",
+            "cat-green": "#a6e3a1", "cat-teal": "#94e2d5", "cat-sky": "#89dceb", "cat-sapphire": "#74c7ec",
+            "cat-blue": "#89b4fa", "cat-lavender": "#b4befe"
+        }
+        return catColors[variantName] || "#cba6f7"
+    }
+
+    function getCatppuccinVariantName(variantName) {
+        const catNames = {
+            "cat-rosewater": "Rosewater", "cat-flamingo": "Flamingo", "cat-pink": "Pink", "cat-mauve": "Mauve",
+            "cat-red": "Red", "cat-maroon": "Maroon", "cat-peach": "Peach", "cat-yellow": "Yellow",
+            "cat-green": "Green", "cat-teal": "Teal", "cat-sky": "Sky", "cat-sapphire": "Sapphire",
+            "cat-blue": "Blue", "cat-lavender": "Lavender"
+        }
+        return catNames[variantName] || "Unknown"
+    }
+
     function loadCustomTheme(themeData) {
+        screenTransition()
         if (themeData.dark || themeData.light) {
             const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark"
             const selectedTheme = themeData[colorMode] || themeData.dark || themeData.light
@@ -263,8 +343,42 @@ Singleton {
         return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, panelTransparency)
     }
 
-    function widgetBackground() {
-        return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, widgetTransparency)
+    property real notepadTransparency: SettingsData.notepadTransparencyOverride >= 0 ? SettingsData.notepadTransparencyOverride : popupTransparency
+
+    property var widgetBaseBackgroundColor: {
+        const colorMode = typeof SettingsData !== "undefined" ? SettingsData.widgetBackgroundColor : "sth"
+        switch (colorMode) {
+            case "s":
+                return surface
+            case "sc":
+                return surfaceContainer
+            case "sch":
+                return surfaceContainerHigh
+            case "sth":
+            default:
+                return surfaceTextHover
+        }
+    }
+
+    property var widgetBaseHoverColor: {
+        const baseColor = widgetBaseBackgroundColor
+        const factor = 1.2
+        return isLightMode ? Qt.darker(baseColor, factor) : Qt.lighter(baseColor, factor)
+    }
+
+    property var widgetBackground: {
+        const colorMode = typeof SettingsData !== "undefined" ? SettingsData.widgetBackgroundColor : "sth"
+        switch (colorMode) {
+            case "s":
+                return Qt.rgba(surface.r, surface.g, surface.b, widgetTransparency)
+            case "sc":
+                return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, widgetTransparency)
+            case "sch":
+                return Qt.rgba(surfaceContainerHigh.r, surfaceContainerHigh.g, surfaceContainerHigh.b, widgetTransparency)
+            case "sth":
+            default:
+                return Qt.rgba(surfaceContainer.r, surfaceContainer.g, surfaceContainer.b, widgetTransparency)
+        }
     }
 
     function getPopupBackgroundAlpha() {
@@ -372,7 +486,11 @@ Singleton {
     function extractColors() {
         extractionRequested = true
         if (matugenAvailable)
-            fileChecker.running = true
+            if (rawWallpaperPath.startsWith("we:")) {
+                fileCheckerTimer.start()
+            } else {
+                fileChecker.running = true
+            }
         else
             matugenCheck.running = true
     }
@@ -385,11 +503,9 @@ Singleton {
         if (currentTheme === "custom" && customThemeFileView.path) {
             customThemeFileView.reload()
         }
-
-        generateSystemThemesFromCurrentTheme()
     }
 
-    function setDesiredTheme(kind, value, isLight, iconTheme) {
+    function setDesiredTheme(kind, value, isLight, iconTheme, matugenType) {
         if (!matugenAvailable) {
             console.warn("matugen not available - cannot set system theme")
             return
@@ -399,7 +515,8 @@ Singleton {
             "kind": kind,
             "value": value,
             "mode": isLight ? "light" : "dark",
-            "iconTheme": iconTheme || "System Default"
+            "iconTheme": iconTheme || "System Default",
+            "matugenType": matugenType || "scheme-tonal-spot"
         }
 
         const json = JSON.stringify(desired)
@@ -407,7 +524,15 @@ Singleton {
 
         Quickshell.execDetached(["sh", "-c", `mkdir -p '${stateDir}' && cat > '${desiredPath}' << 'EOF'\n${json}\nEOF`])
         workerRunning = true
-        systemThemeGenerator.command = [shellDir + "/scripts/matugen-worker.sh", stateDir, shellDir, "--run"]
+        if (rawWallpaperPath.startsWith("we:")) {
+            console.log("calling matugen worker")
+            systemThemeGenerator.command = [
+                "sh", "-c",
+                `sleep 1 && ${shellDir}/scripts/matugen-worker.sh '${stateDir}' '${shellDir}' --run`
+            ]
+        } else {
+            systemThemeGenerator.command = [shellDir + "/scripts/matugen-worker.sh", stateDir, shellDir, "--run"]
+        }
         systemThemeGenerator.running = true
     }
 
@@ -429,21 +554,24 @@ Singleton {
             }
         } else {
             let primaryColor
+            let matugenType
             if (currentTheme === "custom") {
                 if (!customThemeData || !customThemeData.primary) {
                     console.warn("Custom theme data not available for system theme generation")
                     return
                 }
                 primaryColor = customThemeData.primary
+                matugenType = customThemeData.matugen_type
             } else {
                 primaryColor = currentThemeData.primary
+                matugenType = currentThemeData.matugen_type
             }
 
             if (!primaryColor) {
                 console.warn("No primary color available for theme:", currentTheme)
                 return
             }
-            setDesiredTheme("hex", primaryColor, isLight, iconTheme)
+            setDesiredTheme("hex", primaryColor, isLight, iconTheme, matugenType)
         }
     }
 
@@ -541,7 +669,11 @@ Singleton {
                 return
             }
             if (extractionRequested) {
-                fileChecker.running = true
+                if (rawWallpaperPath.startsWith("we:")) {
+                    fileCheckerTimer.start()
+                } else {
+                    fileChecker.running = true
+                }
             }
 
             const isLight = (typeof SessionData !== "undefined" && SessionData.isLightMode)
@@ -558,17 +690,20 @@ Singleton {
                 }
             } else {
                 let primaryColor
+                let matugenType
                 if (currentTheme === "custom") {
                     if (customThemeData && customThemeData.primary) {
                         primaryColor = customThemeData.primary
+                        matugenType = customThemeData.matugen_type
                     }
                 } else {
                     primaryColor = currentThemeData.primary
+                    matugenType = currentThemeData.matugen_type
                 }
 
                 if (primaryColor) {
                     Quickshell.execDetached(["rm", "-f", stateDir + "/matugen.key"])
-                    setDesiredTheme("hex", primaryColor, isLight, iconTheme)
+                    setDesiredTheme("hex", primaryColor, isLight, iconTheme, matugenType)
                 }
             }
         }
@@ -583,6 +718,15 @@ Singleton {
             } else if (wallpaperPath.startsWith("#")) {
                 colorMatugenProcess.running = true
             }
+        }
+    }
+
+    Timer {
+        id: fileCheckerTimer
+        interval: 1000
+        repeat: false
+        onTriggered: {
+            fileChecker.running = true
         }
     }
 
@@ -752,16 +896,6 @@ Singleton {
                     ToastService.showError("Failed to apply Qt colors: " + qtStderr.text)
                 }
             }
-        }
-    }
-
-    Component.onCompleted: {
-        matugenCheck.running = true
-        if (typeof SessionData !== "undefined")
-        SessionData.isLightModeChanged.connect(root.onLightModeChanged)
-        
-        if (typeof SettingsData !== "undefined" && SettingsData.currentThemeName) {
-            switchTheme(SettingsData.currentThemeName, false)
         }
     }
 

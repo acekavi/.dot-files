@@ -6,6 +6,7 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.Common
 import qs.Services
 
 Singleton {
@@ -50,6 +51,7 @@ Singleton {
     property int maxWorkspaceIcons: 3
     property bool workspacesPerMonitor: true
     property var workspaceNameIcons: ({})
+    property bool waveProgressEnabled: true
     property bool clockCompactMode: false
     property bool focusedWindowCompactMode: false
     property bool runningAppsCompactMode: true
@@ -82,6 +84,24 @@ Singleton {
     property string monoFontFamily: "Fira Code"
     property int fontWeight: Font.Normal
     property real fontScale: 1.0
+    property bool notepadUseMonospace: true
+    property string notepadFontFamily: ""
+    property real notepadFontSize: 14
+    property bool notepadShowLineNumbers: false
+    property real notepadTransparencyOverride: -1
+    property real notepadLastCustomTransparency: 0.7
+
+    onNotepadUseMonospaceChanged: saveSettings()
+    onNotepadFontFamilyChanged: saveSettings()
+    onNotepadFontSizeChanged: saveSettings()
+    onNotepadShowLineNumbersChanged: saveSettings()
+    onNotepadTransparencyOverrideChanged: {
+        if (notepadTransparencyOverride > 0) {
+            notepadLastCustomTransparency = notepadTransparencyOverride
+        }
+        saveSettings()
+    }
+    onNotepadLastCustomTransparencyChanged: saveSettings()
     property bool gtkThemingEnabled: false
     property bool qtThemingEnabled: false
     property bool showDock: false
@@ -96,8 +116,10 @@ Singleton {
     property real topBarInnerPadding: 8
     property bool topBarSquareCorners: false
     property bool topBarNoBackground: false
+    property bool topBarGothCornersEnabled: false
     property bool lockScreenShowPowerActions: true
     property bool hideBrightnessSlider: false
+    property string widgetBackgroundColor: "sth"
     property int notificationTimeoutLow: 5000
     property int notificationTimeoutNormal: 5000
     property int notificationTimeoutCritical: 0
@@ -106,11 +128,13 @@ Singleton {
     readonly property string defaultMonoFontFamily: "Fira Code"
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     readonly property string _configUrl: StandardPaths.writableLocation(StandardPaths.ConfigLocation)
-    readonly property string _configDir: _configUrl.startsWith("file://") ? _configUrl.substring(7) : _configUrl
+    readonly property string _configDir: Paths.strip(_configUrl)
 
     signal forceTopBarLayoutRefresh
     signal widgetDataChanged
     signal workspaceIconsUpdated
+
+    property bool _loading: false
 
     function getEffectiveTimeFormat() {
         if (use24HourClock) {
@@ -148,10 +172,13 @@ Singleton {
     }
 
     function loadSettings() {
+        _loading = true
         parseSettings(settingsFile.text())
+        _loading = false
     }
 
     function parseSettings(content) {
+        _loading = true
         try {
             if (content && content.trim()) {
                 var settings = JSON.parse(content)
@@ -205,6 +232,7 @@ Singleton {
                 maxWorkspaceIcons = settings.maxWorkspaceIcons !== undefined ? settings.maxWorkspaceIcons : 3
                 workspaceNameIcons = settings.workspaceNameIcons !== undefined ? settings.workspaceNameIcons : ({})
                 workspacesPerMonitor = settings.workspacesPerMonitor !== undefined ? settings.workspacesPerMonitor : true
+                waveProgressEnabled = settings.waveProgressEnabled !== undefined ? settings.waveProgressEnabled : true
                 clockCompactMode = settings.clockCompactMode !== undefined ? settings.clockCompactMode : false
                 focusedWindowCompactMode = settings.focusedWindowCompactMode !== undefined ? settings.focusedWindowCompactMode : false
                 runningAppsCompactMode = settings.runningAppsCompactMode !== undefined ? settings.runningAppsCompactMode : true
@@ -246,6 +274,12 @@ Singleton {
                 monoFontFamily = settings.monoFontFamily !== undefined ? settings.monoFontFamily : defaultMonoFontFamily
                 fontWeight = settings.fontWeight !== undefined ? settings.fontWeight : Font.Normal
                 fontScale = settings.fontScale !== undefined ? settings.fontScale : 1.0
+                notepadUseMonospace = settings.notepadUseMonospace !== undefined ? settings.notepadUseMonospace : true
+                notepadFontFamily = settings.notepadFontFamily !== undefined ? settings.notepadFontFamily : ""
+                notepadFontSize = settings.notepadFontSize !== undefined ? settings.notepadFontSize : 14
+                notepadShowLineNumbers = settings.notepadShowLineNumbers !== undefined ? settings.notepadShowLineNumbers : false
+                notepadTransparencyOverride = settings.notepadTransparencyOverride !== undefined ? settings.notepadTransparencyOverride : -1
+                notepadLastCustomTransparency = settings.notepadLastCustomTransparency !== undefined ? settings.notepadLastCustomTransparency : 0.95
                 gtkThemingEnabled = settings.gtkThemingEnabled !== undefined ? settings.gtkThemingEnabled : false
                 qtThemingEnabled = settings.qtThemingEnabled !== undefined ? settings.qtThemingEnabled : false
                 showDock = settings.showDock !== undefined ? settings.showDock : false
@@ -263,8 +297,10 @@ Singleton {
                 topBarInnerPadding = settings.topBarInnerPadding !== undefined ? settings.topBarInnerPadding : 8
                 topBarSquareCorners = settings.topBarSquareCorners !== undefined ? settings.topBarSquareCorners : false
                 topBarNoBackground = settings.topBarNoBackground !== undefined ? settings.topBarNoBackground : false
+                topBarGothCornersEnabled = settings.topBarGothCornersEnabled !== undefined ? settings.topBarGothCornersEnabled : false
                 lockScreenShowPowerActions = settings.lockScreenShowPowerActions !== undefined ? settings.lockScreenShowPowerActions : true
                 hideBrightnessSlider = settings.hideBrightnessSlider !== undefined ? settings.hideBrightnessSlider : false
+                widgetBackgroundColor = settings.widgetBackgroundColor !== undefined ? settings.widgetBackgroundColor : "sth"
                 screenPreferences = settings.screenPreferences !== undefined ? settings.screenPreferences : ({})
                 applyStoredTheme()
                 detectAvailableIconThemes()
@@ -276,10 +312,14 @@ Singleton {
             }
         } catch (e) {
             applyStoredTheme()
+        } finally {
+            _loading = false
         }
     }
 
     function saveSettings() {
+        if (_loading)
+            return
         settingsFile.setText(JSON.stringify({
                                                 "currentThemeName": currentThemeName,
                                                 "customThemeFile": customThemeFile,
@@ -320,6 +360,7 @@ Singleton {
                                                 "maxWorkspaceIcons": maxWorkspaceIcons,
                                                 "workspacesPerMonitor": workspacesPerMonitor,
                                                 "workspaceNameIcons": workspaceNameIcons,
+                                                "waveProgressEnabled": waveProgressEnabled,
                                                 "clockCompactMode": clockCompactMode,
                                                 "focusedWindowCompactMode": focusedWindowCompactMode,
                                                 "runningAppsCompactMode": runningAppsCompactMode,
@@ -343,6 +384,12 @@ Singleton {
                                                 "monoFontFamily": monoFontFamily,
                                                 "fontWeight": fontWeight,
                                                 "fontScale": fontScale,
+                                                "notepadUseMonospace": notepadUseMonospace,
+                                                "notepadFontFamily": notepadFontFamily,
+                                                "notepadFontSize": notepadFontSize,
+                                                "notepadShowLineNumbers": notepadShowLineNumbers,
+                                                "notepadTransparencyOverride": notepadTransparencyOverride,
+                                                "notepadLastCustomTransparency": notepadLastCustomTransparency,
                                                 "gtkThemingEnabled": gtkThemingEnabled,
                                                 "qtThemingEnabled": qtThemingEnabled,
                                                 "showDock": showDock,
@@ -357,8 +404,10 @@ Singleton {
                                                 "topBarInnerPadding": topBarInnerPadding,
                                                 "topBarSquareCorners": topBarSquareCorners,
                                                 "topBarNoBackground": topBarNoBackground,
+                                                "topBarGothCornersEnabled": topBarGothCornersEnabled,
                                                 "lockScreenShowPowerActions": lockScreenShowPowerActions,
                                                 "hideBrightnessSlider": hideBrightnessSlider,
+                                                "widgetBackgroundColor": widgetBackgroundColor,
                                                 "notificationTimeoutLow": notificationTimeoutLow,
                                                 "notificationTimeoutNormal": notificationTimeoutNormal,
                                                 "notificationTimeoutCritical": notificationTimeoutCritical,
@@ -388,6 +437,11 @@ Singleton {
 
     function setWorkspacesPerMonitor(enabled) {
         workspacesPerMonitor = enabled
+        saveSettings()
+    }
+
+    function setWaveProgressEnabled(enabled) {
+        waveProgressEnabled = enabled
         saveSettings()
     }
 
@@ -773,7 +827,7 @@ Singleton {
 
     function updateQtIconTheme(themeName) {
         var qtThemeName = (themeName === "System Default") ? "" : themeName
-        var home = _shq(root._homeUrl.replace("file://", ""))
+        var home = _shq(Paths.strip(root._homeUrl))
         if (!qtThemeName) {
             // When "System Default" is selected, don't modify the config files at all
             // This preserves the user's existing qt6ct configuration
@@ -932,6 +986,11 @@ Singleton {
         saveSettings()
     }
 
+    function setTopBarGothCornersEnabled(enabled) {
+        topBarGothCornersEnabled = enabled
+        saveSettings()
+    }
+
     function setLockScreenShowPowerActions(enabled) {
         lockScreenShowPowerActions = enabled
         saveSettings()
@@ -939,6 +998,11 @@ Singleton {
 
     function setHideBrightnessSlider(enabled) {
         hideBrightnessSlider = enabled
+        saveSettings()
+    }
+
+    function setWidgetBackgroundColor(color) {
+        widgetBackgroundColor = color
         saveSettings()
     }
 
@@ -1006,6 +1070,7 @@ Singleton {
         path: StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/DankMaterialShell/settings.json"
         blockLoading: true
         blockWrites: true
+        atomicWrites: true
         watchChanges: true
         onLoaded: {
             parseSettings(settingsFile.text())

@@ -15,16 +15,17 @@ Rectangle {
     property real barHeight: 48
     readonly property real horizontalPadding: SettingsData.topBarNoBackground ? 0 : Math.max(Theme.spacingXS, Theme.spacingS * (widgetHeight / 30))
 
-    signal toggleBatteryPopup
+    signal toggleBatteryPopup()
 
     width: batteryContent.implicitWidth + horizontalPadding * 2
     height: widgetHeight
     radius: SettingsData.topBarNoBackground ? 0 : Theme.cornerRadius
     color: {
-        if (SettingsData.topBarNoBackground)
+        if (SettingsData.topBarNoBackground) {
             return "transparent";
+        }
 
-        const baseColor = batteryArea.containsMouse || batteryPopupVisible ? Theme.primaryPressed : Theme.secondaryHover;
+        const baseColor = batteryArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor;
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
     }
     visible: true
@@ -33,7 +34,7 @@ Rectangle {
         id: batteryContent
 
         anchors.centerIn: parent
-        spacing: 3
+        spacing: SettingsData.topBarNoBackground ? 1 : 3
 
         DankIcon {
             name: {
@@ -105,6 +106,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: BatteryService.batteryAvailable
         }
+
     }
 
     MouseArea {
@@ -131,7 +133,7 @@ Rectangle {
         width: Math.max(120, tooltipText.contentWidth + Theme.spacingM * 2)
         height: tooltipText.contentHeight + Theme.spacingS * 2
         radius: Theme.cornerRadius
-        color: Theme.surfaceContainer
+        color: Theme.widgetBaseBackgroundColor
         border.color: Theme.surfaceVariantAlpha
         border.width: 1
         visible: batteryArea.containsMouse && !batteryPopupVisible
@@ -175,6 +177,7 @@ Rectangle {
                 color: Theme.surfaceText
                 horizontalAlignment: Text.AlignHCenter
             }
+
         }
 
         Behavior on opacity {
@@ -182,13 +185,10 @@ Rectangle {
                 duration: Theme.shortDuration
                 easing.type: Theme.standardEasing
             }
+
         }
+
     }
 
-    Behavior on color {
-        ColorAnimation {
-            duration: Theme.shortDuration
-            easing.type: Theme.standardEasing
-        }
-    }
+
 }

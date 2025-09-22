@@ -1,3 +1,4 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -141,9 +142,31 @@ Item {
                             CachingImage {
                                 anchors.fill: parent
                                 anchors.margins: 1
+                                property var weExtensions: [".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tga"]
+                                property int weExtIndex: 0
                                 source: {
                                     var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
+                                    if (currentWallpaper && currentWallpaper.startsWith("we:")) {
+                                        var sceneId = currentWallpaper.substring(3)
+                                        return StandardPaths.writableLocation(StandardPaths.HomeLocation)
+                                            + "/.local/share/Steam/steamapps/workshop/content/431960/"
+                                            + sceneId + "/preview" + weExtensions[weExtIndex]
+                                    }
                                     return (currentWallpaper !== "" && !currentWallpaper.startsWith("#")) ? "file://" + currentWallpaper : ""
+                                }
+                                onStatusChanged: {
+                                    var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
+                                    if (currentWallpaper && currentWallpaper.startsWith("we:") && status === Image.Error) {
+                                        if (weExtIndex < weExtensions.length - 1) {
+                                            weExtIndex++
+                                            source = StandardPaths.writableLocation(StandardPaths.HomeLocation)
+                                                + "/.local/share/Steam/steamapps/workshop/content/431960/"
+                                                + currentWallpaper.substring(3)
+                                                + "/preview" + weExtensions[weExtIndex]
+                                        } else {
+                                            visible = false
+                                        }
+                                    }
                                 }
                                 fillMode: Image.PreserveAspectCrop
                                 visible: {
@@ -233,6 +256,7 @@ Item {
                                             }
                                         }
                                     }
+
 
                                     Rectangle {
                                         width: 32
@@ -347,11 +371,11 @@ Item {
                                     iconSize: Theme.iconSizeSmall
                                     enabled: {
                                         var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
-                                        return currentWallpaper && !currentWallpaper.startsWith("#")
+                                        return currentWallpaper && !currentWallpaper.startsWith("#") && !currentWallpaper.startsWith("we")
                                     }
                                     opacity: {
                                         var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
-                                        return (currentWallpaper && !currentWallpaper.startsWith("#")) ? 1 : 0.5
+                                        return (currentWallpaper && !currentWallpaper.startsWith("#") && !currentWallpaper.startsWith("we")) ? 1 : 0.5
                                     }
                                     backgroundColor: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.5)
                                     iconColor: Theme.surfaceText
@@ -370,11 +394,11 @@ Item {
                                     iconSize: Theme.iconSizeSmall
                                     enabled: {
                                         var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
-                                        return currentWallpaper && !currentWallpaper.startsWith("#")
+                                        return currentWallpaper && !currentWallpaper.startsWith("#") && !currentWallpaper.startsWith("we")
                                     }
                                     opacity: {
                                         var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath
-                                        return (currentWallpaper && !currentWallpaper.startsWith("#")) ? 1 : 0.5
+                                        return (currentWallpaper && !currentWallpaper.startsWith("#") && !currentWallpaper.startsWith("we")) ? 1 : 0.5
                                     }
                                     backgroundColor: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.5)
                                     iconColor: Theme.surfaceText
@@ -1321,12 +1345,18 @@ Item {
                                         }
                     }
 
-                    Row {
+                    Rectangle {
                         width: parent.width
-                        spacing: Theme.spacingM
+                        height: 60
+                        radius: Theme.cornerRadius
+                        color: "transparent"
 
                         Column {
-                            width: parent.width - fontScaleControls.width - Theme.spacingM
+                            anchors.left: parent.left
+                            anchors.right: fontScaleControls.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.rightMargin: Theme.spacingM
                             spacing: Theme.spacingXS
 
                             StyledText {
@@ -1337,7 +1367,7 @@ Item {
                             }
 
                             StyledText {
-                                text: "Scale all font sizes (" + (SettingsData.fontScale * 100).toFixed(0) + "%)"
+                                text: "Scale all font sizes"
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceVariantText
                                 width: parent.width
@@ -1347,8 +1377,12 @@ Item {
                         Row {
                             id: fontScaleControls
 
-                            spacing: Theme.spacingS
+                            width: 180
+                            height: 36
+                            anchors.right: parent.right
+                            anchors.rightMargin: 0
                             anchors.verticalCenter: parent.verticalCenter
+                            spacing: Theme.spacingS
 
                             DankActionButton {
                                 buttonSize: 32
@@ -1423,6 +1457,7 @@ Item {
             }
         }
     }
+
 
     DankColorPicker {
         id: colorPicker

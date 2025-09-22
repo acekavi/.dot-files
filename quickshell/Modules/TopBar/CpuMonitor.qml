@@ -25,7 +25,7 @@ Rectangle {
             return "transparent";
         }
 
-        const baseColor = cpuArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover;
+        const baseColor = cpuArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor;
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
     }
     Component.onCompleted: {
@@ -64,7 +64,7 @@ Rectangle {
         spacing: 3
 
         DankIcon {
-            name: "browse_activity"
+            name: "memory"
             size: Theme.iconSize - 8
             color: {
                 if (DgopService.cpuUsage > 80) {
@@ -92,6 +92,24 @@ Rectangle {
             font.weight: Font.Medium
             color: Theme.surfaceText
             anchors.verticalCenter: parent.verticalCenter
+            horizontalAlignment: Text.AlignLeft
+            elide: Text.ElideNone
+
+            StyledTextMetrics {
+                id: cpuBaseline
+                font.pixelSize: Theme.fontSizeSmall
+                font.weight: Font.Medium
+                text: "100%"
+            }
+
+            width: Math.max(cpuBaseline.width, paintedWidth)
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: 120
+                    easing.type: Easing.OutCubic
+                }
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import QtQuick.Shapes
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Mpris
@@ -21,14 +22,22 @@ PanelWindow {
 
     property var modelData
     property var notepadVariants: null
-    
+
+    property bool gothCornersEnabled: SettingsData.topBarGothCornersEnabled
+    property real wingtipsRadius: Theme.cornerRadius
+    readonly property real _wingR: Math.max(0, wingtipsRadius)
+    readonly property color _bgColor: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, topBarCore.backgroundTransparency)
+    readonly property color _tintColor: Qt.rgba(Theme.surfaceTint.r, Theme.surfaceTint.g, Theme.surfaceTint.b, 0.04 * topBarCore.backgroundTransparency)
+
+    signal colorPickerRequested()
+
     function getNotepadInstanceForScreen() {
         if (!notepadVariants || !notepadVariants.instances) return null
-        
+
         for (var i = 0; i < notepadVariants.instances.length; i++) {
-            var loader = notepadVariants.instances[i]
-            if (loader.modelData && loader.modelData.name === root.screen?.name) {
-                return loader.ensureLoaded()
+            var slideout = notepadVariants.instances[i]
+            if (slideout.modelData && slideout.modelData.name === root.screen?.name) {
+                return slideout
             }
         }
         return null
@@ -39,7 +48,7 @@ PanelWindow {
     readonly property real widgetHeight: Math.max(20, 26 + SettingsData.topBarInnerPadding * 0.6)
 
     screen: modelData
-    implicitHeight: effectiveBarHeight + SettingsData.topBarSpacing
+    implicitHeight: effectiveBarHeight + SettingsData.topBarSpacing + (SettingsData.topBarGothCornersEnabled ? _wingR : 0)
     color: "transparent"
     Component.onCompleted: {
         const fonts = Qt.fontFamilies()
@@ -127,11 +136,22 @@ PanelWindow {
         right: true
     }
 
-    exclusiveZone: (!SettingsData.topBarVisible || topBarCore.autoHide) ? -1 : root.effectiveBarHeight + SettingsData.topBarSpacing - 2 + SettingsData.topBarBottomGap
+    exclusiveZone: (!SettingsData.topBarVisible || topBarCore.autoHide) ? -1 : root.effectiveBarHeight + SettingsData.topBarSpacing + SettingsData.topBarBottomGap - 2
+
+    Item {
+        id: inputMask
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+        height: (topBarCore.autoHide && !topBarCore.reveal) ? 8 : (root.effectiveBarHeight + SettingsData.topBarSpacing)
+    }
 
     mask: Region {
-        item: topBarMouseArea
+        item: inputMask
     }
+
 
     Item {
         id: topBarCore
@@ -139,22 +159,24 @@ PanelWindow {
 
         property real backgroundTransparency: SettingsData.topBarTransparency
         property bool autoHide: SettingsData.topBarAutoHide
+        property bool revealSticky: false
+
+        Timer {
+            id: revealHold
+            interval: 250
+            repeat: false
+            onTriggered: topBarCore.revealSticky = false
+        }
+
         property bool reveal: {
-            // Handle Niri overview state first
             if (CompositorService.isNiri && NiriService.inOverview) {
-                // If Show on Overview is enabled, show the bar
-                if (SettingsData.topBarOpenOnOverview) {
-                    return true
-                }
-                // If Show on Overview is disabled, hide the bar
-                return false
+                return SettingsData.topBarOpenOnOverview
             }
-            // Normal visibility logic when not in overview
-            return SettingsData.topBarVisible && (!autoHide || topBarMouseArea.containsMouse || hasActivePopout)
+            return SettingsData.topBarVisible && (!autoHide || topBarMouseArea.containsMouse || hasActivePopout || revealSticky)
         }
 
         property var notepadInstance: null
-        property bool notepadInstanceVisible: notepadInstance?.notepadVisible ?? false
+        property bool notepadInstanceVisible: notepadInstance?.isVisible ?? false
         
         readonly property bool hasActivePopout: {
             const loaders = [{
@@ -181,6 +203,9 @@ PanelWindow {
                              }, {
                                  "loader": clipboardHistoryModalPopup,
                                  "prop": "visible"
+                             }, {
+                                 "loader": systemUpdateLoader,
+                                 "prop": "shouldBeVisible"
                              }]
             return notepadInstanceVisible || loaders.some(item => {
                 if (item.loader) {
@@ -202,22 +227,39 @@ PanelWindow {
             target: SettingsData
         }
 
+        Connections {
+            target: topBarMouseArea
+            function onContainsMouseChanged() {
+                if (topBarMouseArea.containsMouse) {
+                    topBarCore.revealSticky = true
+                    revealHold.stop()
+                } else {
+                    if (topBarCore.autoHide && !topBarCore.hasActivePopout) {
+                        revealHold.restart()
+                    }
+                }
+            }
+        }
+
+        onHasActivePopoutChanged: {
+            if (!hasActivePopout && autoHide && !topBarMouseArea.containsMouse) {
+                revealSticky = true
+                revealHold.restart()
+            }
+        }
+
         MouseArea {
             id: topBarMouseArea
-            height: parent.reveal ? root.effectiveBarHeight + SettingsData.topBarSpacing : 4
+            y: 0
+            height: root.effectiveBarHeight + SettingsData.topBarSpacing
             anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
             }
             hoverEnabled: true
-
-            Behavior on height {
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.OutCubic
-                }
-            }
+            acceptedButtons: Qt.NoButton
+            enabled: true
 
             Item {
                 id: topBarContainer
@@ -225,7 +267,7 @@ PanelWindow {
 
                 transform: Translate {
                     id: topBarSlide
-                    y: topBarCore.reveal ? 0 : -(root.effectiveBarHeight - 4)
+                    y: Math.round(topBarCore.reveal ? 0 : -(root.effectiveBarHeight - 4))
 
                     Behavior on y {
                         NumberAnimation {
@@ -236,71 +278,145 @@ PanelWindow {
                 }
 
                 Item {
+                    id: barUnitInset
                     anchors.fill: parent
-                    anchors.topMargin: SettingsData.topBarSpacing
-                    anchors.bottomMargin: 0
                     anchors.leftMargin: SettingsData.topBarSpacing
                     anchors.rightMargin: SettingsData.topBarSpacing
+                    anchors.topMargin: SettingsData.topBarSpacing
 
-                    Rectangle {
+                    Item {
+                        id: barBackground
                         anchors.fill: parent
-                        radius: SettingsData.topBarSquareCorners ? 0 : Theme.cornerRadius
-                        color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, topBarCore.backgroundTransparency)
-                        layer.enabled: true
+                        anchors.bottomMargin: -(SettingsData.topBarGothCornersEnabled ? root._wingR : 0)
 
-                        Rectangle {
+                    Canvas {
+                            id: barShape
                             anchors.fill: parent
-                            color: "transparent"
-                            border.color: Theme.outlineMedium
-                            border.width: 1
-                            radius: parent.radius
-                        }
+                            antialiasing: true
+                            renderTarget: Canvas.FramebufferObject
 
-                        Rectangle {
-                            anchors.fill: parent
-                            color: Qt.rgba(Theme.surfaceTint.r, Theme.surfaceTint.g, Theme.surfaceTint.b, 0.04)
-                            radius: parent.radius
+                            property real h  : height - (SettingsData.topBarGothCornersEnabled ? root._wingR : 0)
+                            property real rb : SettingsData.topBarGothCornersEnabled ? root._wingR : 0
+                            property real rt : SettingsData.topBarSquareCorners ? 0 : Theme.cornerRadius
 
-                            SequentialAnimation on opacity {
-                                running: false
-                                loops: Animation.Infinite
+                            onRbChanged: requestPaint()
+                            onRtChanged: requestPaint()
 
-                                NumberAnimation {
-                                    to: 0.08
-                                    duration: Theme.extraLongDuration
-                                    easing.type: Theme.standardEasing
-                                }
-
-                                NumberAnimation {
-                                    to: 0.02
-                                    duration: Theme.extraLongDuration
-                                    easing.type: Theme.standardEasing
-                                }
+                            Connections {
+                                target: root
+                                function on_BgColorChanged() { barShape.requestPaint() }
                             }
+
+                            onPaint: {
+                                const ctx = getContext("2d")
+                                const W = width, H = barShape.h, R = barShape.rb, RT = barShape.rt
+
+                                ctx.reset()
+                                ctx.clearRect(0, 0, width, height)
+
+                                function outline() {
+                                    ctx.beginPath()
+
+                                    ctx.moveTo(RT, 0)
+                                    ctx.lineTo(W - RT, 0)
+                                    ctx.arcTo(W, 0, W, RT, RT)
+                                    ctx.lineTo(W, H)
+
+                                    if (R > 0) {
+                                        ctx.lineTo(W, H + R)
+                                        ctx.arc(W - R, H + R, R, 0, -Math.PI / 2, true)
+                                        ctx.lineTo(R, H)
+                                        ctx.arc(R, H + R, R, -Math.PI / 2, -Math.PI, true)
+                                        ctx.lineTo(0, H + R)
+                                    } else {
+                                        ctx.lineTo(W, H - RT)
+                                        ctx.arcTo(W, H, W - RT, H, RT)
+                                        ctx.lineTo(RT, H)
+                                        ctx.arcTo(0, H, 0, H - RT, RT)
+                                    }
+
+                                    ctx.lineTo(0, RT)
+                                    ctx.arcTo(0, 0, RT, 0, RT)
+
+                                    ctx.closePath()
+                                }
+
+                                ctx.fillStyle = root._bgColor
+                                outline()
+                                ctx.fill()
+                            }
+
                         }
 
-                        layer.effect: MultiEffect {
-                            shadowEnabled: true
-                            shadowHorizontalOffset: 0
-                            shadowVerticalOffset: 4
-                            shadowBlur: 0.5 // radius/32, adjusted for visual match
-                            shadowColor: Qt.rgba(0, 0, 0, 0.15)
-                            shadowOpacity: 0.15
+                        Canvas {
+                            id: barTint
+                            anchors.fill: parent
+                            antialiasing: true
+                            renderTarget: Canvas.FramebufferObject
+
+                            Connections {
+                                target: barShape
+                                function onRbChanged() { barTint.requestPaint() }
+                                function onRtChanged() { barTint.requestPaint() }
+                            }
+
+                            Connections {
+                                target: root
+                                function on_BgColorChanged() { barTint.requestPaint() }
+                            }
+
+                            onPaint: {
+                                const ctx = getContext("2d")
+                                const W = width, H = barShape.h, R = barShape.rb, RT = barShape.rt
+
+                                ctx.reset()
+                                ctx.clearRect(0, 0, width, height)
+
+                                ctx.beginPath()
+                                ctx.moveTo(RT, 0)
+                                ctx.lineTo(W - RT, 0)
+                                ctx.arcTo(W, 0, W, RT, RT)
+                                ctx.lineTo(W, H)
+                                if (R > 0) {
+                                    ctx.lineTo(W, H + R)
+                                    ctx.arc(W - R, H + R, R, 0, -Math.PI / 2, true)
+                                    ctx.lineTo(R, H)
+                                    ctx.arc(R, H + R, R, -Math.PI / 2, -Math.PI, true)
+                                    ctx.lineTo(0, H + R)
+                                } else {
+                                    ctx.lineTo(W, H - RT)
+                                    ctx.arcTo(W, H, W - RT, H, RT)
+                                    ctx.lineTo(RT, H)
+                                    ctx.arcTo(0, H, 0, H - RT, RT)
+                                }
+                                ctx.lineTo(0, RT)
+                                ctx.arcTo(0, 0, RT, 0, RT)
+                                ctx.closePath()
+
+                                ctx.fillStyle = root._tintColor
+                                ctx.fill()
+                            }
                         }
                     }
 
                     Item {
                         id: topBarContent
+                        anchors.fill: parent
+                        anchors.leftMargin: Math.max(Theme.spacingXS, SettingsData.topBarInnerPadding * 0.8)
+                        anchors.rightMargin: Math.max(Theme.spacingXS, SettingsData.topBarInnerPadding * 0.8)
+                        anchors.topMargin: SettingsData.topBarInnerPadding / 2
+                        anchors.bottomMargin: SettingsData.topBarInnerPadding / 2
+                        clip: true
 
-                        readonly property int availableWidth: width
+                    readonly property int availableWidth: width
                         readonly property int launcherButtonWidth: 40
-                        readonly property int workspaceSwitcherWidth: 120 // Approximate
-                        readonly property int focusedAppMaxWidth: 456 // Fixed width since we don't have focusedApp reference
+                        readonly property int workspaceSwitcherWidth: 120
+                        readonly property int focusedAppMaxWidth: 456
                         readonly property int estimatedLeftSectionWidth: launcherButtonWidth + workspaceSwitcherWidth + focusedAppMaxWidth + (Theme.spacingXS * 2)
                         readonly property int rightSectionWidth: rightSection.width
-                        readonly property int clockWidth: 120 // Approximate clock width
-                        readonly property int mediaMaxWidth: 280 // Normal max width
-                        readonly property int weatherWidth: 80 // Approximate weather width
+                        readonly property int clockWidth: 120
+                        readonly property int mediaMaxWidth: 280
+                        readonly property int weatherWidth: 80
                         readonly property bool validLayout: availableWidth > 100 && estimatedLeftSectionWidth > 0 && rightSectionWidth > 0
                         readonly property int clockLeftEdge: (availableWidth - clockWidth) / 2
                         readonly property int clockRightEdge: clockLeftEdge + clockWidth
@@ -370,19 +486,14 @@ PanelWindow {
                                                                  "network_speed_monitor": networkComponent,
                                                                  "keyboard_layout_name": keyboardLayoutNameComponent,
                                                                  "vpn": vpnComponent,
-                                                                 "notepadButton": notepadButtonComponent
+                                                                 "notepadButton": notepadButtonComponent,
+                                                                 "colorPicker": colorPickerComponent,
+                                                                 "systemUpdate": systemUpdateComponent
                                                              })
 
                         function getWidgetComponent(widgetId) {
                             return componentMap[widgetId] || null
                         }
-
-                        anchors.fill: parent
-                        anchors.leftMargin: Math.max(Theme.spacingXS, SettingsData.topBarInnerPadding * 0.8)
-                        anchors.rightMargin: Math.max(Theme.spacingXS, SettingsData.topBarInnerPadding * 0.8)
-                        anchors.topMargin: SettingsData.topBarInnerPadding / 2
-                        anchors.bottomMargin: SettingsData.topBarInnerPadding / 2
-                        clip: true
 
                         Row {
                             id: leftSection
@@ -591,7 +702,7 @@ PanelWindow {
                                     if (SettingsData.topBarNoBackground) {
                                         return "transparent"
                                     }
-                                    const baseColor = clipboardArea.containsMouse ? Theme.primaryHover : Theme.secondaryHover
+                                    const baseColor = clipboardArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor
                                     return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency)
                                 }
 
@@ -614,12 +725,6 @@ PanelWindow {
                                     }
                                 }
 
-                                Behavior on color {
-                                    ColorAnimation {
-                                        duration: Theme.shortDuration
-                                        easing.type: Theme.standardEasing
-                                    }
-                                }
                             }
                         }
 
@@ -686,7 +791,7 @@ PanelWindow {
                                     dankDashPopoutLoader.active = true
                                     if (dankDashPopoutLoader.item) {
                                         dankDashPopoutLoader.item.dashVisible = !dankDashPopoutLoader.item.dashVisible
-                                        dankDashPopoutLoader.item.currentTabIndex = 0 // Overview tab
+                                        dankDashPopoutLoader.item.currentTabIndex = 0
                                     }
                                 }
                             }
@@ -709,7 +814,7 @@ PanelWindow {
                                     dankDashPopoutLoader.active = true
                                     if (dankDashPopoutLoader.item) {
                                         dankDashPopoutLoader.item.dashVisible = !dankDashPopoutLoader.item.dashVisible
-                                        dankDashPopoutLoader.item.currentTabIndex = 1 // Media tab
+                                        dankDashPopoutLoader.item.currentTabIndex = 1
                                     }
                                 }
                             }
@@ -731,7 +836,7 @@ PanelWindow {
                                     dankDashPopoutLoader.active = true
                                     if (dankDashPopoutLoader.item) {
                                         dankDashPopoutLoader.item.dashVisible = !dankDashPopoutLoader.item.dashVisible
-                                        dankDashPopoutLoader.item.currentTabIndex = 2 // Weather tab
+                                        dankDashPopoutLoader.item.currentTabIndex = 2
                                     }
                                 }
                             }
@@ -986,7 +1091,7 @@ PanelWindow {
 
                             NotepadButton {
                                 property var notepadInstance: topBarCore.notepadInstance
-                                isActive: notepadInstance?.notepadVisible ?? false
+                                isActive: notepadInstance?.isVisible ?? false
                                 widgetHeight: root.widgetHeight
                                 barHeight: root.effectiveBarHeight
                                 section: topBarContent.getWidgetSection(parent) || "right"
@@ -999,9 +1104,45 @@ PanelWindow {
                                 }
                             }
                         }
+
+                        Component {
+                            id: colorPickerComponent
+
+                            ColorPicker {
+                                widgetHeight: root.widgetHeight
+                                barHeight: root.effectiveBarHeight
+                                section: topBarContent.getWidgetSection(parent) || "right"
+                                parentScreen: root.screen
+                                onColorPickerRequested: {
+                                    root.colorPickerRequested()
+                                }
+                            }
+                        }
+
+                        Component {
+                            id: systemUpdateComponent
+
+                            SystemUpdate {
+                                isActive: systemUpdateLoader.item ? systemUpdateLoader.item.shouldBeVisible : false
+                                widgetHeight: root.widgetHeight
+                                barHeight: root.effectiveBarHeight
+                                section: topBarContent.getWidgetSection(parent) || "right"
+                                popupTarget: {
+                                    systemUpdateLoader.active = true
+                                    return systemUpdateLoader.item
+                                }
+                                parentScreen: root.screen
+                                onClicked: {
+                                    systemUpdateLoader.active = true
+                                    systemUpdateLoader.item?.toggle()
+                                }
+                            }
+                        }
                     }
+                }
                 }
             }
         }
-    }
+
+
 }

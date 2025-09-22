@@ -65,74 +65,19 @@ Rectangle {
             height: parent.height
         }
         
-        Row {
+        DankButtonGroup {
             id: preferenceControls
-            spacing: Theme.spacingS
             anchors.verticalCenter: parent.verticalCenter
             visible: NetworkService.ethernetConnected && NetworkService.wifiConnected
-            
-            Rectangle {
-                property bool isActive: NetworkService.userPreference === "ethernet"
-                
-                width: 90
-                height: 36
-                radius: 18
-                color: isActive ? Theme.surfaceContainerHigh : ethernetMouseArea.containsMouse ? Theme.surfaceHover : "transparent"
-                
-                StyledText {
-                    anchors.centerIn: parent
-                    text: "Ethernet"
-                    color: parent.isActive ? Theme.primary : Theme.surfaceText
-                    font.pixelSize: Theme.fontSizeMedium
-                    font.weight: parent.isActive ? Font.Medium : Font.Normal
-                }
-                
-                MouseArea {
-                    id: ethernetMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: NetworkService.setNetworkPreference("ethernet")
-                    cursorShape: Qt.PointingHandCursor
-                }
-                
-                Behavior on color {
-                    ColorAnimation {
-                        duration: Theme.shortDuration
-                        easing.type: Theme.standardEasing
-                    }
-                }
-            }
-            
-            Rectangle {
-                property bool isActive: NetworkService.userPreference === "wifi"
-                
-                width: 70
-                height: 36
-                radius: 18
-                color: isActive ? Theme.surfaceContainerHigh : wifiMouseArea.containsMouse ? Theme.surfaceHover : "transparent"
-                
-                StyledText {
-                    anchors.centerIn: parent
-                    text: "WiFi"
-                    color: parent.isActive ? Theme.primary : Theme.surfaceText
-                    font.pixelSize: Theme.fontSizeMedium
-                    font.weight: parent.isActive ? Font.Medium : Font.Normal
-                }
-                
-                MouseArea {
-                    id: wifiMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: NetworkService.setNetworkPreference("wifi")
-                    cursorShape: Qt.PointingHandCursor
-                }
-                
-                Behavior on color {
-                    ColorAnimation {
-                        duration: Theme.shortDuration
-                        easing.type: Theme.standardEasing
-                    }
-                }
+
+            property int currentPreferenceIndex: NetworkService.userPreference === "ethernet" ? 0 : 1
+
+            model: ["Ethernet", "WiFi"]
+            currentIndex: currentPreferenceIndex
+            selectionMode: "single"
+            onSelectionChanged: (index, selected) => {
+                if (!selected) return
+                NetworkService.setNetworkPreference(index === 0 ? "ethernet" : "wifi")
             }
         }
     }
@@ -310,11 +255,9 @@ Rectangle {
                         DankIcon {
                             name: {
                                 let strength = modelData.signal || 0
-                                if (strength >= 70) return "signal_wifi_4_bar"
-                                if (strength >= 50) return "network_wifi_3_bar"
-                                if (strength >= 25) return "network_wifi_2_bar"
-                                if (strength >= 10) return "network_wifi_1_bar"
-                                return "signal_wifi_bad"
+                                if (strength >= 50) return "wifi"
+                                if (strength >= 25) return "wifi_2_bar"
+                                return "wifi_1_bar"
                             }
                             size: Theme.iconSize - 4
                             color: modelData.ssid === NetworkService.currentWifiSSID ? Theme.primary : Theme.surfaceText

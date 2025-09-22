@@ -29,36 +29,36 @@ mods = "Control"
 [terminal]
 
 [colors.bright]
-black = "#534341"
-blue = "#ffb4aa"
-cyan = "#dfc38c"
-green = "#e7bdb7"
-magenta = "#73342c"
+black = "#4e4639"
+blue = "#ecc06c"
+cyan = "#b2cfa7"
+green = "#d9c4a0"
+magenta = "#5d4200"
 red = "#ffb4ab"
-white = "#f1dedc"
-yellow = "#574419"
+white = "#ece1d4"
+yellow = "#354d2f"
 
 [colors.cursor]
-cursor = "#f1dedc"
-text = "#1a1110"
+cursor = "#ece1d4"
+text = "#17130b"
 
 [colors.normal]
-black = "#1a1110"
-blue = "#ffb4aa"
-cyan = "#dfc38c"
-green = "#e7bdb7"
-magenta = "#73342c"
+black = "#17130b"
+blue = "#ecc06c"
+cyan = "#b2cfa7"
+green = "#d9c4a0"
+magenta = "#5d4200"
 red = "#ffb4ab"
-white = "#d8c2be"
-yellow = "#574419"
+white = "#d1c5b4"
+yellow = "#354d2f"
 
 [colors.primary]
-background = "#1a1110"
-foreground = "#f1dedc"
+background = "#17130b"
+foreground = "#ece1d4"
 
 [colors.selection]
-background = "#e7bdb7"
-text = "#442926"
+background = "#d9c4a0"
+text = "#3c2e15"
 
 [cursor]
 blink_interval = 700

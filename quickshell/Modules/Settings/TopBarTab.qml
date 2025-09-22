@@ -157,6 +157,18 @@ Item {
             "description": "Quick access to notepad",
             "icon": "assignment",
             "enabled": true
+        }, {
+            "id": "colorPicker",
+            "text": "Color Picker",
+            "description": "Quick access to color picker",
+            "icon": "palette",
+            "enabled": true
+        }, {
+            "id": "systemUpdate",
+            "text": "System Update",
+            "description": "Check for system updates",
+            "icon": "update",
+            "enabled": SystemUpdateService.distributionSupported
         }]
     property var defaultLeftWidgets: [{
             "id": "launcherButton",
@@ -745,6 +757,7 @@ Item {
                             unit: ""
                             showValue: true
                             wheelEnabled: false
+                            thumbOutlineColor: Theme.surfaceContainer
                             onSliderValueChanged: newValue => {
                                                       SettingsData.setTopBarSpacing(
                                                           newValue)
@@ -772,6 +785,7 @@ Item {
                             unit: ""
                             showValue: true
                             wheelEnabled: false
+                            thumbOutlineColor: Theme.surfaceContainer
                             onSliderValueChanged: newValue => {
                                                       SettingsData.setTopBarBottomGap(
                                                           newValue)
@@ -799,6 +813,7 @@ Item {
                             unit: ""
                             showValue: true
                             wheelEnabled: false
+                            thumbOutlineColor: Theme.surfaceContainer
                             onSliderValueChanged: newValue => {
                                                       SettingsData.setTopBarInnerPadding(
                                                           newValue)
@@ -806,32 +821,6 @@ Item {
                         }
                     }
 
-                    Column {
-                        width: parent.width
-                        spacing: Theme.spacingS
-
-                        StyledText {
-                            text: "Corner Radius (0 = square corners)"
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceText
-                            font.weight: Font.Medium
-                        }
-
-                        DankSlider {
-                            width: parent.width
-                            height: 24
-                            value: SettingsData.cornerRadius
-                            minimum: 0
-                            maximum: 32
-                            unit: ""
-                            showValue: true
-                            wheelEnabled: false
-                            onSliderValueChanged: newValue => {
-                                                      SettingsData.setCornerRadius(
-                                                          newValue)
-                                                  }
-                        }
-                    }
 
                     DankToggle {
                         width: parent.width
@@ -851,6 +840,17 @@ Item {
                         checked: SettingsData.topBarNoBackground
                         onToggled: checked => {
                                        SettingsData.setTopBarNoBackground(
+                                           checked)
+                                   }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: "Goth Corners"
+                        description: "Add curved swooping tips at the bottom of the bar."
+                        checked: SettingsData.topBarGothCornersEnabled
+                        onToggled: checked => {
+                                       SettingsData.setTopBarGothCornersEnabled(
                                            checked)
                                    }
                     }

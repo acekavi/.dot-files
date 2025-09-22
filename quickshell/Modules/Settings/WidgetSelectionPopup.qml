@@ -80,10 +80,12 @@ Popup {
     width: 500
     height: 550
     modal: true
+    focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     onOpened: {
         isOpening = false
         Qt.callLater(() => {
+            contentItem.forceActiveFocus()
             searchField.forceActiveFocus()
         })
     }
@@ -108,6 +110,7 @@ Popup {
     contentItem: Item {
         anchors.fill: parent
         focus: true
+        
         Keys.onPressed: event => {
             if (event.key === Qt.Key_Escape) {
                 root.close()
@@ -127,8 +130,10 @@ Popup {
                     root.close()
                 }
                 event.accepted = true
-            } else if (!searchField.activeFocus && event.text && event.text.length > 0 && event.text.match(/[a-zA-Z0-9\\s]/)) {
-                searchField.forceActiveFocus()
+            } else if (event.text && event.text.length > 0 && event.text.match(/[a-zA-Z0-9\\s]/)) {
+                if (!searchField.activeFocus) {
+                    searchField.forceActiveFocus()
+                }
                 searchField.insertText(event.text)
                 event.accepted = true
             }

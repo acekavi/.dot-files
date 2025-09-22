@@ -1,10 +1,10 @@
-//@ pragma Env QS_NO_RELOAD_POPUP=1
 //@ pragma Env QSG_RENDER_LOOP=threaded
 //@ pragma UseQApplication
 import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals
 import qs.Modals.Clipboard
@@ -18,6 +18,8 @@ import qs.Modules.ControlCenter
 import qs.Modules.Dock
 import qs.Modules.Lock
 import qs.Modules.Notifications.Center
+import qs.Widgets
+import "./Modules/Notepad"
 import qs.Modules.Notifications.Popup
 import qs.Modules.OSD
 import qs.Modules.ProcessList
@@ -48,6 +50,7 @@ ShellRoot {
         delegate: TopBar {
             modelData: item
             notepadVariants: notepadSlideoutVariants
+            onColorPickerRequested: colorPickerModal.show()
         }
     }
 
@@ -200,6 +203,9 @@ ShellRoot {
                                                 case "suspend":
                                                     SessionService.suspend()
                                                     break
+                                                case "hibernate":
+                                                    SessionService.hibernate()
+                                                    break
                                                 case "reboot":
                                                     SessionService.reboot()
                                                     break
@@ -258,6 +264,9 @@ ShellRoot {
     NotificationModal {
         id: notificationModal
     }
+    ColorPickerModal {
+        id: colorPickerModal
+    }
 
     LazyLoader {
         id: processListModalLoader
@@ -269,33 +278,43 @@ ShellRoot {
         }
     }
 
+    LazyLoader {
+        id: systemUpdateLoader
+
+        active: false
+
+        SystemUpdatePopout {
+            id: systemUpdatePopout
+        }
+    }
+
     Variants {
         id: notepadSlideoutVariants
         model: SettingsData.getFilteredScreens("notepad")
 
-        delegate: Loader {
-            id: notepadLoader
-            property var modelData: item
-            active: false
-            
-            sourceComponent: Component {
-                NotepadSlideout {
-                    id: notepadSlideout
-                    modelData: notepadLoader.modelData
-                    
-                    Component.onCompleted: {
-                        notepadLoader.loaded = true
+        delegate: DankSlideout {
+            id: notepadSlideout
+            modelData: item
+            title: qsTr("Notepad")
+            slideoutWidth: 480
+            expandable: true
+            expandedWidthValue: 960
+            customTransparency: SettingsData.notepadTransparencyOverride
+
+            content: Component {
+                Notepad {
+                    onHideRequested: {
+                        notepadSlideout.hide()
                     }
                 }
             }
-            
-            property bool loaded: false
-            
-            function ensureLoaded() {
-                if (!active) {
-                    active = true
+
+            function toggle() {
+                if (isVisible) {
+                    hide()
+                } else {
+                    show()
                 }
-                return item
             }
         }
     }
@@ -456,45 +475,33 @@ ShellRoot {
             return ""
         }
 
-        function getNotepadInstanceForScreen(screenName: string) {
-            if (!screenName || notepadSlideoutVariants.instances.length === 0) {
-                return
-            }
-            
-            for (var i = 0; i < notepadSlideoutVariants.instances.length; i++) {
-                var loader = notepadSlideoutVariants.instances[i]
-                if (loader.modelData && loader.modelData.name === screenName) {
-                    loader.ensureLoaded()
-                    return
-                }
-            }
-        }
-
         function getActiveNotepadInstance() {
             if (notepadSlideoutVariants.instances.length === 0) {
                 return null
             }
-            
+
             if (notepadSlideoutVariants.instances.length === 1) {
-                return notepadSlideoutVariants.instances[0].ensureLoaded()
+                return notepadSlideoutVariants.instances[0]
             }
-            
+
             var focusedScreen = getFocusedScreenName()
-            if (focusedScreen) {
-                var focusedInstance = getNotepadInstanceForScreen(focusedScreen)
-                if (focusedInstance) {
-                    return focusedInstance
+            if (focusedScreen && notepadSlideoutVariants.instances.length > 0) {
+                for (var i = 0; i < notepadSlideoutVariants.instances.length; i++) {
+                    var slideout = notepadSlideoutVariants.instances[i]
+                    if (slideout.modelData && slideout.modelData.name === focusedScreen) {
+                        return slideout
+                    }
                 }
             }
-            
+
             for (var i = 0; i < notepadSlideoutVariants.instances.length; i++) {
-                var loader = notepadSlideoutVariants.instances[i]
-                if (loader.active && loader.item && loader.item.notepadVisible) {
-                    return loader.item
+                var slideout = notepadSlideoutVariants.instances[i]
+                if (slideout.isVisible) {
+                    return slideout
                 }
             }
-            
-            return notepadSlideoutVariants.instances[0].ensureLoaded()
+
+            return notepadSlideoutVariants.instances[0]
         }
 
         function open(): string {

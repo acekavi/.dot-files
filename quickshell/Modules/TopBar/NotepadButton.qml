@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Common
+import qs.Services
 import qs.Widgets
 
 Rectangle {
@@ -23,7 +24,7 @@ Rectangle {
             return "transparent";
         }
 
-        const baseColor = notepadArea.containsMouse || root.isActive ? Theme.primaryPressed : Theme.secondaryHover;
+        const baseColor = notepadArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor;
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency);
     }
 
@@ -45,7 +46,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.rightMargin: SettingsData.topBarNoBackground ? 0 : 4
         anchors.topMargin: SettingsData.topBarNoBackground ? 0 : 4
-        visible: SessionData.notepadContent.length > 0
+        visible: NotepadStorageService.tabs && NotepadStorageService.tabs.length > 0
         opacity: 0.8
     }
 
@@ -60,12 +61,5 @@ Rectangle {
         }
     }
 
-    Behavior on color {
-        ColorAnimation {
-            duration: Theme.shortDuration
-            easing.type: Theme.standardEasing
-        }
-
-    }
 
 }

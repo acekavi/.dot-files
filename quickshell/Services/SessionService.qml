@@ -13,13 +13,16 @@ Singleton {
 
     property bool hasUwsm: false
     property bool isElogind: false
+    property bool hibernateSupported: false
     property bool inhibitorAvailable: true
     property bool idleInhibited: false
     property string inhibitReason: "Keep system awake"
 
     Component.onCompleted: {
         detectElogindProcess.running = true
+        detectHibernateProcess.running = true
     }
+
 
     Process {
         id: detectUwsmProcess
@@ -39,6 +42,16 @@ Singleton {
         onExited: function (exitCode) {
             console.log("SessionService: Elogind detection exited with code", exitCode)
             isElogind = (exitCode === 0)
+        }
+    }
+
+    Process {
+        id: detectHibernateProcess
+        running: false
+        command: ["grep", "-q", "disk", "/sys/power/state"]
+
+        onExited: function (exitCode) {
+            hibernateSupported = (exitCode === 0)
         }
     }
 
@@ -64,6 +77,21 @@ Singleton {
         }
     }
 
+    // * Apps
+    function launchDesktopEntry(desktopEntry) {
+        let cmd = desktopEntry.command
+        if (SessionData.launchPrefix && SessionData.launchPrefix.length > 0) {
+            const launchPrefix = SessionData.launchPrefix.trim().split(" ")
+            cmd = launchPrefix.concat(cmd)
+        }
+
+        Quickshell.execDetached({
+            command: cmd,
+            workingDirectory: desktopEntry.workingDirectory,
+        });
+    }
+
+    // * Session management
     function logout() {
         if (hasUwsm) {
             uwsmLogout.running = true
@@ -83,6 +111,10 @@ Singleton {
 
     function suspend() {
         Quickshell.execDetached([isElogind ? "loginctl" : "systemctl", "suspend"])
+    }
+
+    function hibernate() {
+        Quickshell.execDetached([isElogind ? "loginctl" : "systemctl", "hibernate"])
     }
 
     function reboot() {

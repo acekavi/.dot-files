@@ -8,6 +8,8 @@ import qs.Widgets
 Card {
     id: root
 
+    signal clicked()
+
     Component.onCompleted: WeatherService.addRef()
     Component.onDestruction: WeatherService.removeRef()
 
@@ -40,8 +42,10 @@ Card {
     }
 
     Row {
-        anchors.centerIn: parent
-        spacing: Theme.spacingM
+        anchors.left: parent.left
+        anchors.leftMargin: Theme.spacingL
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: Theme.spacingL
         visible: WeatherService.weather.available && WeatherService.weather.temp !== 0
         
         DankIcon {
@@ -69,10 +73,19 @@ Card {
             }
             
             StyledText {
-                text: WeatherService.weather.city || "Unknown"
+                text: WeatherService.getWeatherCondition(WeatherService.weather.wCode)
                 font.pixelSize: Theme.fontSizeSmall
                 color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.7)
+                elide: Text.ElideRight
+                width: parent.parent.parent.width - 48 - Theme.spacingL * 2
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: root.clicked()
     }
 }

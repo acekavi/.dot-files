@@ -147,7 +147,7 @@ Rectangle {
 
     function getHyprlandWorkspaces() {
         const workspaces = Hyprland.workspaces?.values || []
-        
+
         if (!root.screenName || !SettingsData.workspacesPerMonitor) {
             // Show all workspaces on all monitors if per-monitor filtering is disabled
             const sorted = workspaces.slice().sort((a, b) => a.id - b.id)
@@ -162,7 +162,7 @@ Rectangle {
         const monitorWorkspaces = workspaces.filter(ws => {
             return ws.lastIpcObject && ws.lastIpcObject.monitor === root.screenName
         })
-        
+
         if (monitorWorkspaces.length === 0) {
             // Fallback if no workspaces exist for this monitor
             return [{
@@ -183,7 +183,7 @@ Rectangle {
         // Find the monitor object for this screen
         const monitors = Hyprland.monitors?.values || []
         const currentMonitor = monitors.find(monitor => monitor.name === root.screenName)
-        
+
         if (!currentMonitor) {
             return 1
         }
@@ -227,7 +227,7 @@ Rectangle {
     color: {
         if (SettingsData.topBarNoBackground)
             return "transparent"
-        const baseColor = Theme.surfaceTextHover
+        const baseColor = Theme.widgetBaseBackgroundColor
         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * Theme.widgetTransparency)
     }
     visible: CompositorService.isNiri || CompositorService.isHyprland
@@ -444,14 +444,6 @@ Rectangle {
                     }
                 }
 
-                Behavior on color {
-		    // When having more icons, animation becomes clunky
-		    enabled: (!SettingsData.showWorkspaceApps || SettingsData.maxWorkspaceIcons <= 3)
-                    ColorAnimation {
-                        duration: Theme.mediumDuration
-                        easing.type: Theme.emphasizedEasing
-                    }
-                }
             }
         }
     }

@@ -34,13 +34,16 @@ Singleton {
                            })
 
     property var location: null
-    property int updateInterval: 300000 // 5 minutes
+    property int updateInterval: 900000 // 15 minutes
     property int retryAttempts: 0
     property int maxRetryAttempts: 3
     property int retryDelay: 30000
     property int lastFetchTime: 0
     property int minFetchInterval: 30000
     property int persistentRetryCount: 0
+
+    readonly property var lowPriorityCmd: ["nice", "-n", "19", "ionice", "-c3"]
+    readonly property var curlBaseCmd: ["curl", "-sS", "--fail", "--connect-timeout", "3", "--max-time", "6", "--limit-rate", "100k", "--compressed"]
 
     property var weatherIcons: ({
                                     "0": "clear_day",
@@ -110,6 +113,40 @@ Singleton {
         }
         const iconMap = isDay ? weatherIcons : nightWeatherIcons
         return iconMap[String(code)] || "cloud"
+    }
+    
+    function getWeatherCondition(code) {
+        const conditions = {
+            "0": "Clear",
+            "1": "Clear", 
+            "2": "Partly cloudy",
+            "3": "Overcast",
+            "45": "Fog",
+            "48": "Fog",
+            "51": "Drizzle",
+            "53": "Drizzle", 
+            "55": "Drizzle",
+            "56": "Freezing drizzle",
+            "57": "Freezing drizzle",
+            "61": "Light rain",
+            "63": "Rain",
+            "65": "Heavy rain", 
+            "66": "Light rain",
+            "67": "Heavy rain",
+            "71": "Light snow",
+            "73": "Snow",
+            "75": "Heavy snow",
+            "77": "Snow",
+            "80": "Light rain",
+            "81": "Rain",
+            "82": "Heavy rain",
+            "85": "Light snow showers",
+            "86": "Heavy snow showers",
+            "95": "Thunderstorm",
+            "96": "Thunderstorm with hail",
+            "99": "Thunderstorm with hail"
+        }
+        return conditions[String(code)] || "Unknown"
     }
     
     function formatTime(isoString) {
@@ -201,12 +238,13 @@ Singleton {
     }
     
     function getLocationFromCoords(lat, lon) {
-        reverseGeocodeFetcher.command = ["bash", "-c", "curl -s --connect-timeout 10 --max-time 30 'https://nominatim.openstreetmap.org/reverse?lat=" + lat + "&lon=" + lon + "&format=json&addressdetails=1&accept-language=en' -H 'User-Agent: DankMaterialShell Weather Widget'"]
+        const url = "https://nominatim.openstreetmap.org/reverse?lat=" + lat + "&lon=" + lon + "&format=json&addressdetails=1&accept-language=en"
+        reverseGeocodeFetcher.command = lowPriorityCmd.concat(curlBaseCmd).concat(["-H", "User-Agent: DankMaterialShell Weather Widget", url])
         reverseGeocodeFetcher.running = true
     }
     
     function getLocationFromCity(city) {
-        cityGeocodeFetcher.command = ["bash", "-c", "curl -s --connect-timeout 10 --max-time 30 '" + getGeocodingUrl(city) + "'"]
+        cityGeocodeFetcher.command = lowPriorityCmd.concat(curlBaseCmd).concat([getGeocodingUrl(city)])
         cityGeocodeFetcher.running = true
     }
     
@@ -240,13 +278,19 @@ Singleton {
 
         root.lastFetchTime = now
         root.weather.loading = true
-        weatherFetcher.command = ["bash", "-c", "curl -s --connect-timeout 10 --max-time 30 '" + apiUrl + "'"]
+        const weatherCmd = lowPriorityCmd.concat(["curl", "-sS", "--fail", "--connect-timeout", "3", "--max-time", "6", "--limit-rate", "150k", "--compressed"])
+        weatherFetcher.command = weatherCmd.concat([apiUrl])
         weatherFetcher.running = true
     }
 
     function forceRefresh() {
         root.lastFetchTime = 0 // Reset throttle
         fetchWeather()
+    }
+    
+    function nextInterval() {
+        const jitter = Math.floor(Math.random() * 15000) - 7500
+        return Math.max(60000, root.updateInterval + jitter)
     }
 
     function handleWeatherSuccess() {
@@ -278,7 +322,7 @@ Singleton {
 
     Process {
         id: ipLocationFetcher
-        command: ["curl", "-s", "--connect-timeout", "5", "--max-time", "10", "http://ipinfo.io/json"]
+        command: lowPriorityCmd.concat(curlBaseCmd).concat(["http://ipinfo.io/json"])
         running: false
         
         stdout: StdioCollector {
@@ -499,12 +543,13 @@ Singleton {
 
     Timer {
         id: updateTimer
-        interval: root.updateInterval
+        interval: nextInterval()
         running: root.refCount > 0 && SettingsData.weatherEnabled
         repeat: true
         triggeredOnStart: true
         onTriggered: {
             root.fetchWeather()
+            interval = nextInterval()
         }
     }
 
