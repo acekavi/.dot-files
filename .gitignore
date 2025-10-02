@@ -13,6 +13,7 @@
 !/quickshell/
 !/alacritty/
 !/fastfetch/
+!/starship.toml
 
 # Within those directories, ignore everything by default, then re-allow all
 DankMaterialShell/*
