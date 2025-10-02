@@ -1,0 +1,95 @@
+# Alacritty Configuration with Matugen Colors
+# Based on user's existing configuration with dynamic color theming
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "SearchForward"
+key = "F"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SearchBackward"
+key = "B"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Control"
+
+[terminal]
+
+[colors.bright]
+black = "{{colors.surface_variant.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.tertiary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.primary_container.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface.default.hex}}"
+yellow = "{{colors.tertiary_container.default.hex}}"
+
+[colors.cursor]
+cursor = "{{colors.on_surface.default.hex}}"
+text = "{{colors.surface.default.hex}}"
+
+[colors.normal]
+black = "{{colors.surface.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.tertiary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.primary_container.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface_variant.default.hex}}"
+yellow = "{{colors.tertiary_container.default.hex}}"
+
+[colors.primary]
+background = "{{colors.surface.default.hex}}"
+foreground = "{{colors.on_surface.default.hex}}"
+
+[colors.selection]
+background = "{{colors.secondary_fixed_dim.default.hex}}"
+text = "{{colors.on_secondary.default.hex}}"
+
+[cursor]
+blink_interval = 700
+blink_timeout = 5
+style = "Block"
+
+[font]
+size = 12.0
+
+[font.bold]
+family = "JetBrains Mono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrains Mono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "Regular"
+
+[selection]
+save_to_clipboard = true
+
+[terminal.shell]
+program = "/usr/bin/bash"
+
+[window]
+decorations = "none"
+opacity = 0.9
+
+[window.padding]
+x = 20
+y = 0
