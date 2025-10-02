@@ -3,90 +3,90 @@
 * Generated with Matugen
 */
 
-@define-color accent_color #ffb4a7;
-@define-color accent_fg_color #561e16;
-@define-color accent_bg_color #ffb4a7;
-@define-color window_bg_color #1a1110;
-@define-color window_fg_color #f1dfdb;
-@define-color headerbar_bg_color #1a1110;
-@define-color headerbar_fg_color #f1dfdb;
-@define-color popover_bg_color #1a1110;
-@define-color popover_fg_color #f1dfdb;
-@define-color view_bg_color #1a1110;
-@define-color view_fg_color #f1dfdb;
-@define-color card_bg_color #1a1110;
-@define-color card_fg_color #f1dfdb;
+@define-color accent_color #95cdf8;
+@define-color accent_fg_color #00344e;
+@define-color accent_bg_color #95cdf8;
+@define-color window_bg_color #101417;
+@define-color window_fg_color #e0e3e8;
+@define-color headerbar_bg_color #101417;
+@define-color headerbar_fg_color #e0e3e8;
+@define-color popover_bg_color #101417;
+@define-color popover_fg_color #e0e3e8;
+@define-color view_bg_color #101417;
+@define-color view_fg_color #e0e3e8;
+@define-color card_bg_color #101417;
+@define-color card_fg_color #e0e3e8;
 @define-color sidebar_bg_color @window_bg_color;
 @define-color sidebar_fg_color @window_fg_color;
 @define-color sidebar_border_color @window_bg_color;
 @define-color sidebar_backdrop_color @window_bg_color;
 
 /* Titlebar and headerbar specific colors for window decorations */
-@define-color theme_bg_color #1a1110;
-@define-color theme_fg_color #f1dfdb;
-@define-color theme_base_color #1a1110;
-@define-color theme_text_color #f1dfdb;
-@define-color theme_selected_bg_color #ffb4a7;
-@define-color theme_selected_fg_color #561e16;
-@define-color theme_button_background_normal #271d1c;
-@define-color theme_button_foreground_normal #f1dfdb;
-@define-color theme_button_background_hover alpha(#f1dfdb, 0.08);
-@define-color theme_button_foreground_hover #f1dfdb;
-@define-color theme_button_background_active alpha(#f1dfdb, 0.12);
-@define-color theme_button_foreground_active #f1dfdb;
-@define-color theme_button_background_disabled alpha(#f1dfdb, 0.04);
-@define-color theme_button_foreground_disabled alpha(#f1dfdb, 0.38);
+@define-color theme_bg_color #101417;
+@define-color theme_fg_color #e0e3e8;
+@define-color theme_base_color #101417;
+@define-color theme_text_color #e0e3e8;
+@define-color theme_selected_bg_color #95cdf8;
+@define-color theme_selected_fg_color #00344e;
+@define-color theme_button_background_normal #1c2024;
+@define-color theme_button_foreground_normal #e0e3e8;
+@define-color theme_button_background_hover alpha(#e0e3e8, 0.08);
+@define-color theme_button_foreground_hover #e0e3e8;
+@define-color theme_button_background_active alpha(#e0e3e8, 0.12);
+@define-color theme_button_foreground_active #e0e3e8;
+@define-color theme_button_background_disabled alpha(#e0e3e8, 0.04);
+@define-color theme_button_foreground_disabled alpha(#e0e3e8, 0.38);
 
 /* Additional headerbar-specific colors for GTK4 compatibility */
-@define-color headerbar_backdrop_color #231918;
-@define-color headerbar_border_color #a08c89;
-@define-color headerbar_darker_shade_color #534340;
-@define-color headerbar_shade_color #534340;
+@define-color headerbar_backdrop_color #181c20;
+@define-color headerbar_border_color #8b9198;
+@define-color headerbar_darker_shade_color #41474d;
+@define-color headerbar_shade_color #41474d;
 
 /* Window control and decoration colors */
-@define-color wm_bg_a #1a1110;
-@define-color wm_bg_b #271d1c;
-@define-color wm_border_a #a08c89;
-@define-color wm_border_b #534340;
+@define-color wm_bg_a #101417;
+@define-color wm_bg_b #1c2024;
+@define-color wm_border_a #8b9198;
+@define-color wm_border_b #41474d;
 @define-color wm_shadow #000000;
-@define-color wm_outline #a08c89;
+@define-color wm_outline #8b9198;
 
 /* Menu and popover colors */
-@define-color menu_bg_color #1a1110;
-@define-color menu_fg_color #f1dfdb;
-@define-color menu_selected_bg_color #ffb4a7;
-@define-color menu_selected_fg_color #561e16;
+@define-color menu_bg_color #101417;
+@define-color menu_fg_color #e0e3e8;
+@define-color menu_selected_bg_color #95cdf8;
+@define-color menu_selected_fg_color #00344e;
 
 /* Button and control colors */
-@define-color button_bg_color #271d1c;
-@define-color button_fg_color #f1dfdb;
-@define-color button_border_color #534340;
-@define-color button_active_bg_color #ffb4a7;
-@define-color button_active_fg_color #561e16;
+@define-color button_bg_color #1c2024;
+@define-color button_fg_color #e0e3e8;
+@define-color button_border_color #41474d;
+@define-color button_active_bg_color #95cdf8;
+@define-color button_active_fg_color #00344e;
 
 /* Entry and input colors */
-@define-color entry_bg_color #534340;
-@define-color entry_fg_color #d8c2be;
-@define-color entry_border_color #a08c89;
-@define-color entry_focus_border_color #ffb4a7;
+@define-color entry_bg_color #41474d;
+@define-color entry_fg_color #c1c7ce;
+@define-color entry_border_color #8b9198;
+@define-color entry_focus_border_color #95cdf8;
 
 /* Scrollbar colors */
-@define-color scrollbar_bg_color #534340;
-@define-color scrollbar_fg_color #d8c2be;
-@define-color scrollbar_hover_color #ffb4a7;
+@define-color scrollbar_bg_color #41474d;
+@define-color scrollbar_fg_color #c1c7ce;
+@define-color scrollbar_hover_color #95cdf8;
 
 /* Selection and highlight colors */
-@define-color selection_bg_color #ffb4a7;
-@define-color selection_fg_color #561e16;
+@define-color selection_bg_color #95cdf8;
+@define-color selection_fg_color #00344e;
 
 /* Tooltip colors */
-@define-color tooltip_bg_color #f1dfdb;
-@define-color tooltip_fg_color #392e2c;
+@define-color tooltip_bg_color #e0e3e8;
+@define-color tooltip_fg_color #2d3135;
 
 /* Warning and error colors */
-@define-color warning_color #ddc48c;
-@define-color warning_fg_color #3e2e04;
+@define-color warning_color #cfc0e8;
+@define-color warning_fg_color #352b4b;
 @define-color error_color #ffb4ab;
 @define-color error_fg_color #690005;
-@define-color success_color #564519;
-@define-color success_fg_color #fbe0a6;
+@define-color success_color #4c4162;
+@define-color success_fg_color #eaddff;
