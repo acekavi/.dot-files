@@ -1,0 +1,38 @@
+# Ignore everything by default
+/*
+
+# But not these directories
+!/.gitignore
+!/DankMaterialShell/
+!/dgop/
+!/gtk-3.0/
+!/gtk-4.0/
+!/niri/
+!/qt5ct/
+!/qt6ct/
+!/quickshell/
+
+# Within those directories, ignore everything by default, then re-allow all
+DankMaterialShell/*
+!DankMaterialShell/**
+
+dgop/*
+!dgop/**
+
+gtk-3.0/*
+!gtk-3.0/**
+
+gtk-4.0/*
+!gtk-4.0/**
+
+niri/*
+!niri/**
+
+qt5ct/*
+!qt5ct/**
+
+qt6ct/*
+!qt6ct/**
+
+quickshell/*
+!quickshell/**
