@@ -14,6 +14,7 @@
 !/alacritty/
 !/fastfetch/
 !/starship.toml
+!/nvim/
 
 # Within those directories, ignore everything by default, then re-allow all
 DankMaterialShell/*
@@ -45,3 +46,6 @@ alacritty/*
 
 fastfetch/*
 !fastfetch/**
+
+nvim/*
+!nvim/**
