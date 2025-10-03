@@ -187,5 +187,6 @@
   "notificationTimeoutCritical": 0,
   "notificationPopupPosition": 0,
   "screenPreferences": {},
+  "pluginSettings": {},
   "animationSpeed": 2
 }

@@ -244,6 +244,14 @@ window-rule {
     match app-id=r#"^(code(-oss)?|com\.visualstudio\.code)$"#
     open-maximized true
 }
+
+// Block out certain apps from screen capture for privacy/security.
+window-rule {
+    match app-id="elecwhat$"
+    match app-id="firefox$" title="- Gmail "
+    block-out-from "screen-capture"
+}
+
 binds {
     // === System & Overview ===
     Mod+D { spawn "niri" "msg" "action" "toggle-overview"; }
