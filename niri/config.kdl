@@ -1,3 +1,7 @@
+// include "dms/colors.kdl"
+// include "dms/binds.kdl"
+// include "dms/layout.kdl"
+
 prefer-no-csd
 // This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
@@ -84,10 +88,6 @@ layout {
     // behind windows. That is, they will show up through semitransparent windows.
     // This is because windows using client-side decorations can have an arbitrary shape.
     //
-    // If you don't like that, you should uncomment `prefer-no-csd` below.
-    // Niri will draw focus ring and border *around* windows that agree to omit their
-    // client-side decorations.
-    //
     // Alternatively, you can override it with a window rule called
     // `draw-border-with-background`.
     border {
@@ -135,8 +135,8 @@ environment {
   XDG_CURRENT_DESKTOP "niri"
   QT_QPA_PLATFORM "wayland"
   ELECTRON_OZONE_PLATFORM_HINT "auto"
-  QT_QPA_PLATFORMTHEME "gtk3"
-  QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+  QT_QPA_PLATFORMTHEME "gtk4"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk4"
   TERMINAL "alacritty"
 }
 hotkey-overlay {

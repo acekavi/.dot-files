@@ -29,36 +29,36 @@ mods = "Control"
 [terminal]
 
 [colors.bright]
-black = "#3d484e"
-blue = "#5fd4ff"
-cyan = "#e7b3ff"
-green = "#a2cde1"
-magenta = "#12b3e0"
+black = "#41474d"
+blue = "#9dccf1"
+cyan = "#e3b8eb"
+green = "#b7c9d9"
+magenta = "#77a6c9"
 red = "#ffb4ab"
-white = "#dee3e7"
-yellow = "#cb8ee9"
+white = "#e2e2e5"
+yellow = "#bb93c4"
 
 [colors.cursor]
-cursor = "#dee3e7"
-text = "#0f1417"
+cursor = "#e2e2e5"
+text = "#111416"
 
 [colors.normal]
-black = "#0f1417"
-blue = "#5fd4ff"
-cyan = "#e7b3ff"
-green = "#a2cde1"
-magenta = "#12b3e0"
+black = "#111416"
+blue = "#9dccf1"
+cyan = "#e3b8eb"
+green = "#b7c9d9"
+magenta = "#77a6c9"
 red = "#ffb4ab"
-white = "#bcc8cf"
-yellow = "#cb8ee9"
+white = "#c1c7ce"
+yellow = "#bb93c4"
 
 [colors.primary]
-background = "#0f1417"
-foreground = "#dee3e7"
+background = "#111416"
+foreground = "#e2e2e5"
 
 [colors.selection]
-background = "#a2cde1"
-text = "#003545"
+background = "#b7c9d9"
+text = "#21323f"
 
 [cursor]
 blink_interval = 700
