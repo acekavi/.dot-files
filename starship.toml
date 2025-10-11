@@ -1,13 +1,13 @@
 format = """
-[](#111416)\
+[](#0f1418)\
 $python\
 $username\
-[](bg:#1e2022 fg:#111416)\
+[](bg:#1b2024 fg:#0f1418)\
 $directory\
-[](fg:#1e2022 bg:#282a2c)\
+[](fg:#1b2024 bg:#252b2f)\
 $git_branch\
 $git_status\
-[](fg:#282a2c bg:#77a6c9)\
+[](fg:#252b2f bg:#02adeb)\
 $c\
 $elixir\
 $elm\
@@ -18,11 +18,11 @@ $julia\
 $nodejs\
 $nim\
 $rust\
-[](fg:#77a6c9 bg:#d0e2f2)\
+[](fg:#02adeb bg:#b9e2fe)\
 $docker_context\
-[](fg:#d0e2f2 bg:#bb93c4)\
+[](fg:#b9e2fe bg:#c988ea)\
 $time\
-[ ](fg:#bb93c4)\
+[ ](fg:#c988ea)\
 """
 command_timeout = 5000
 # Disable the blank line at the start of the prompt
@@ -31,12 +31,12 @@ command_timeout = 5000
 # You can also replace your username with a neat symbol like  to save some space
 [username]
 show_always = true
-style_user = "bg:#111416"
-style_root = "bg:#111416"
+style_user = "bg:#0f1418"
+style_root = "bg:#0f1418"
 format = '[󰣇 ]($style)'
 
 [directory]
-style = "bg:#1e2022"
+style = "bg:#1b2024"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = " "
@@ -56,74 +56,74 @@ truncation_symbol = " "
 
 [c]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-style = "bg:#384956"
+style = "bg:#204b62"
 format = '[ $symbol $context ]($style)$path'
 
 [elixir]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
 symbol = ""
-style = "bg:#282a2c"
+style = "bg:#252b2f"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#282a2c"
+style = "bg:#252b2f"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
-style = "bg:#111416"
+style = "bg:#0f1418"
 format = '[(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#77a6c9"
+style = "bg:#02adeb"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = true
 time_format = "%R" # Hour:Minute Format
-style = "bg:#bb93c4"
+style = "bg:#c988ea"
 format = '[ $time ]($style)'
