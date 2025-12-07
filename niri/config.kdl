@@ -88,7 +88,6 @@ overview {
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "dms" "run" "-c" "/home/reaper/.config/quickshell/dms"
 spawn-at-startup "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
-spawn-at-startup "sh" "-c" "sleep 3 && dms ipc call lock lock"
 
 environment {
   XDG_CURRENT_DESKTOP "niri"
@@ -185,10 +184,6 @@ window-rule {
     match app-id="zoom"
     open-floating true
     opacity 1.0
-}
-window-rule {
-    geometry-corner-radius 4
-    clip-to-geometry true
 }
 window-rule {
     // Open Firefox main windows fullscreen, but keep PiP floating.

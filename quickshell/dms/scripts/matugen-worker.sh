@@ -128,6 +128,7 @@ EOF
   append_config "alacritty" "alacritty.toml" "$cfg_file"
   append_config "wezterm" "wezterm.toml" "$cfg_file"
   append_config "dgop" "dgop.toml" "$cfg_file"
+  append_config "starship" "starship.toml" "$cfg_file"
 
   append_vscode_config "vscode" "$HOME/.vscode/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
   append_vscode_config "codium" "$HOME/.vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"

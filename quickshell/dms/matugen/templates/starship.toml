@@ -1,13 +1,13 @@
 format = """
-[](#131318)\
+[]({{colors.background.default.hex}})\
 $python\
 $username\
-[](bg:#1b1b20 fg:#131318)\
+[](bg:{{colors.surface_container_low.default.hex}} fg:{{colors.background.default.hex}})\
 $directory\
-[](fg:#1b1b20 bg:#1f1f24)\
+[](fg:{{colors.surface_container_low.default.hex}} bg:{{colors.surface_container.default.hex}})\
 $git_branch\
 $git_status\
-[](fg:#1f1f24 bg:#ffaceb)\
+[](fg:{{colors.surface_container.default.hex}} bg:{{colors.tertiary.default.hex}})\
 $c\
 $elixir\
 $elm\
@@ -18,11 +18,11 @@ $julia\
 $nodejs\
 $nim\
 $rust\
-[](fg:#ffaceb bg:#c477b3)\
+[](fg:{{colors.tertiary.default.hex}} bg:{{colors.tertiary_container.default.hex}})\
 $docker_context\
-[](fg:#c477b3 bg:#8689db)\
+[](fg:{{colors.tertiary_container.default.hex}} bg:{{colors.primary_container.default.hex}})\
 $time\
-[ ](fg:#8689db)\
+[ ](fg:{{colors.primary_container.default.hex}})\
 """
 command_timeout = 5000
 # Disable the blank line at the start of the prompt
@@ -31,12 +31,12 @@ command_timeout = 5000
 # You can also replace your username with a neat symbol like  to save some space
 [username]
 show_always = true
-style_user = "bg:#131318"
-style_root = "bg:#131318"
+style_user = "bg:{{colors.background.default.hex}}"
+style_root = "bg:{{colors.background.default.hex}}"
 format = '[󰣇 ]($style)'
 
 [directory]
-style = "bg:#1b1b20"
+style = "bg:{{colors.surface_container_low.default.hex}}"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = " "
@@ -56,74 +56,74 @@ truncation_symbol = " "
 
 [c]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-style = "bg:#c477b3"
+style = "bg:{{colors.tertiary_container.default.hex}}"
 format = '[ $symbol $context ]($style)$path'
 
 [elixir]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
 symbol = ""
-style = "bg:#1f1f24"
+style = "bg:{{colors.surface_container.default.hex}}"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#1f1f24"
+style = "bg:{{colors.surface_container.default.hex}}"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
-style = "bg:#131318"
+style = "bg:{{colors.background.default.hex}}"
 format = '[(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#ffaceb"
+style = "bg:{{colors.tertiary.default.hex}}"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = true
 time_format = "%R" # Hour:Minute Format
-style = "bg:#8689db"
+style = "bg:{{colors.primary_container.default.hex}}"
 format = '[ $time ]($style)'
