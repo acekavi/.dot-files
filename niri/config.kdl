@@ -53,6 +53,12 @@ output "eDP-1" {
     mode "2240x1400@60.021"
     scale 1.33
 }
+
+output "HDMI-A-1" {
+    mode "1920x1080@60.000"
+    scale 1.0
+}
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
@@ -204,7 +210,7 @@ window-rule {
     match app-id=r#"^gnome-calculator$"#
     match app-id=r#"^galculator$"#
     match app-id=r#"^blueman-manager$"#
-    match app-id=r#"^org\.gnome\.Nautilus$"#
+    // match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id=r#"^steam$"#
     match app-id=r#"^xdg-desktop-portal$"#
     open-floating true

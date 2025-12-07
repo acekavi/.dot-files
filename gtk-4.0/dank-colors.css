@@ -3,90 +3,36 @@
 * Generated with Matugen
 */
 
-@define-color accent_color #5fd4ff;
-@define-color accent_fg_color #003545;
-@define-color accent_bg_color #5fd4ff;
-@define-color window_bg_color #0f1417;
-@define-color window_fg_color #dee3e7;
-@define-color headerbar_bg_color #0f1417;
-@define-color headerbar_fg_color #dee3e7;
-@define-color popover_bg_color #0f1417;
-@define-color popover_fg_color #dee3e7;
-@define-color view_bg_color #0f1417;
-@define-color view_fg_color #dee3e7;
-@define-color card_bg_color #0f1417;
-@define-color card_fg_color #dee3e7;
-@define-color sidebar_bg_color @window_bg_color;
-@define-color sidebar_fg_color @window_fg_color;
-@define-color sidebar_border_color @window_bg_color;
-@define-color sidebar_backdrop_color @window_bg_color;
+/* via thairanaru on GitHub: */
 
-/* Titlebar and headerbar specific colors for window decorations */
-@define-color theme_bg_color #0f1417;
-@define-color theme_fg_color #dee3e7;
-@define-color theme_base_color #0f1417;
-@define-color theme_text_color #dee3e7;
-@define-color theme_selected_bg_color #5fd4ff;
-@define-color theme_selected_fg_color #003545;
-@define-color theme_button_background_normal #1b2023;
-@define-color theme_button_foreground_normal #dee3e7;
-@define-color theme_button_background_hover alpha(#dee3e7, 0.08);
-@define-color theme_button_foreground_hover #dee3e7;
-@define-color theme_button_background_active alpha(#dee3e7, 0.12);
-@define-color theme_button_foreground_active #dee3e7;
-@define-color theme_button_background_disabled alpha(#dee3e7, 0.04);
-@define-color theme_button_foreground_disabled alpha(#dee3e7, 0.38);
-
-/* Additional headerbar-specific colors for GTK4 compatibility */
-@define-color headerbar_backdrop_color #171c1f;
-@define-color headerbar_border_color #879299;
-@define-color headerbar_darker_shade_color #3d484e;
-@define-color headerbar_shade_color #3d484e;
-
-/* Window control and decoration colors */
-@define-color wm_bg_a #0f1417;
-@define-color wm_bg_b #1b2023;
-@define-color wm_border_a #879299;
-@define-color wm_border_b #3d484e;
-@define-color wm_shadow #000000;
-@define-color wm_outline #879299;
-
-/* Menu and popover colors */
-@define-color menu_bg_color #0f1417;
-@define-color menu_fg_color #dee3e7;
-@define-color menu_selected_bg_color #5fd4ff;
-@define-color menu_selected_fg_color #003545;
-
-/* Button and control colors */
-@define-color button_bg_color #1b2023;
-@define-color button_fg_color #dee3e7;
-@define-color button_border_color #3d484e;
-@define-color button_active_bg_color #5fd4ff;
-@define-color button_active_fg_color #003545;
-
-/* Entry and input colors */
-@define-color entry_bg_color #3d484e;
-@define-color entry_fg_color #bcc8cf;
-@define-color entry_border_color #879299;
-@define-color entry_focus_border_color #5fd4ff;
-
-/* Scrollbar colors */
-@define-color scrollbar_bg_color #3d484e;
-@define-color scrollbar_fg_color #bcc8cf;
-@define-color scrollbar_hover_color #5fd4ff;
-
-/* Selection and highlight colors */
-@define-color selection_bg_color #5fd4ff;
-@define-color selection_fg_color #003545;
-
-/* Tooltip colors */
-@define-color tooltip_bg_color #dee3e7;
-@define-color tooltip_fg_color #2c3134;
-
-/* Warning and error colors */
-@define-color warning_color #e7b3ff;
-@define-color warning_fg_color #4c1369;
-@define-color error_color #ffb4ab;
+/* Destructive colors are basically error colors */
+@define-color destructive_bg_color #ffb4ab;
+@define-color destructive_fg_color #690005;
+/* Follow material spec */
+@define-color error_bg_color #ffb4ab;
 @define-color error_fg_color #690005;
-@define-color success_color #cb8ee9;
-@define-color success_fg_color #300048;
+/* Follow material spec (also I think looks nicer) */
+@define-color accent_fg_color #680011;
+@define-color accent_bg_color #ffb3b1;
+/* Use surface instead of background */
+@define-color window_bg_color #1d1010;
+@define-color window_fg_color #f7dcdb;
+/* Make it more similar to Adwaita */
+@define-color view_bg_color #170b0b;
+@define-color view_fg_color #f7dcdb;
+@define-color headerbar_bg_color #1d1010;
+@define-color headerbar_fg_color #f7dcdb;
+@define-color sidebar_bg_color #2a1c1b;
+@define-color sidebar_fg_color #f7dcdb;
+/* There is only like one application I know that uses this, and there isn't a good way to get
+a color between surface and surface container so I think just giving this surface is a good enough fallback*/
+@define-color secondary_sidebar_bg_color #1d1010;
+@define-color secondary_sidebar_fg_color #f7dcdb;
+@define-color card_bg_color #2a1c1b;
+@define-color card_fg_color #f7dcdb;
+@define-color overview_bg_color #2a1c1b;
+@define-color overview_fg_color #f7dcdb;
+@define-color popover_bg_color #170b0b;
+@define-color popover_fg_color #f7dcdb;
+@define-color dialog_bg_color #170b0b;
+@define-color dialog_fg_color #f7dcdb;
