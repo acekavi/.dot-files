@@ -125,73 +125,7 @@ DankPopout {
                     spacing: Theme.spacingM
 
                     DankIcon {
-                        name: {
-                            if (!BatteryService.batteryAvailable)
-                                return "power";
-
-                            if (!BatteryService.isCharging && BatteryService.isPluggedIn) {
-                                if (BatteryService.batteryLevel >= 90) {
-                                    return "battery_charging_full";
-                                }
-                                if (BatteryService.batteryLevel >= 80) {
-                                    return "battery_charging_90";
-                                }
-                                if (BatteryService.batteryLevel >= 60) {
-                                    return "battery_charging_80";
-                                }
-                                if (BatteryService.batteryLevel >= 50) {
-                                    return "battery_charging_60";
-                                }
-                                if (BatteryService.batteryLevel >= 30) {
-                                    return "battery_charging_50";
-                                }
-                                if (BatteryService.batteryLevel >= 20) {
-                                    return "battery_charging_30";
-                                }
-                                return "battery_charging_20";
-                            }
-                            if (BatteryService.isCharging) {
-                                if (BatteryService.batteryLevel >= 90) {
-                                    return "battery_charging_full";
-                                }
-                                if (BatteryService.batteryLevel >= 80) {
-                                    return "battery_charging_90";
-                                }
-                                if (BatteryService.batteryLevel >= 60) {
-                                    return "battery_charging_80";
-                                }
-                                if (BatteryService.batteryLevel >= 50) {
-                                    return "battery_charging_60";
-                                }
-                                if (BatteryService.batteryLevel >= 30) {
-                                    return "battery_charging_50";
-                                }
-                                if (BatteryService.batteryLevel >= 20) {
-                                    return "battery_charging_30";
-                                }
-                                return "battery_charging_20";
-                            } else {
-                                if (BatteryService.batteryLevel >= 95) {
-                                    return "battery_full";
-                                }
-                                if (BatteryService.batteryLevel >= 85) {
-                                    return "battery_6_bar";
-                                }
-                                if (BatteryService.batteryLevel >= 70) {
-                                    return "battery_5_bar";
-                                }
-                                if (BatteryService.batteryLevel >= 55) {
-                                    return "battery_4_bar";
-                                }
-                                if (BatteryService.batteryLevel >= 40) {
-                                    return "battery_3_bar";
-                                }
-                                if (BatteryService.batteryLevel >= 25) {
-                                    return "battery_2_bar";
-                                }
-                                return "battery_1_bar";
-                            }
-                        }
+                        name: BatteryService.getBatteryIcon()
                         size: Theme.iconSizeLarge
                         color: {
                             if (BatteryService.isLowBattery && !BatteryService.isCharging)

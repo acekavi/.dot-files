@@ -946,11 +946,8 @@ Singleton {
     }
 
     function generateNiriLayoutConfig() {
-        if (!CompositorService.isNiri || configGenerationPending)
-            return;
-        suppressNextToast();
-        configGenerationPending = true;
-        configGenerationDebounce.restart();
+        console.log("NiriService: layout.kdl dynamic generation is disabled (manual management enabled)");
+        return;
     }
 
     function doGenerateNiriLayoutConfig() {
@@ -977,12 +974,6 @@ window-rule {
     draw-border-with-background false
 }`;
 
-        const alttabContent = `recent-windows {
-    highlight {
-        corner-radius ${cornerRadius}
-    }
-}`;
-
         const configDir = Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation));
         const niriDmsDir = configDir + "/niri/dms";
         const configPath = niriDmsDir + "/layout.kdl";
@@ -992,11 +983,6 @@ window-rule {
         writeConfigProcess.configPath = configPath;
         writeConfigProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${configPath}" << 'EOF'\n${configContent}\nEOF`];
         writeConfigProcess.running = true;
-
-        writeAlttabProcess.alttabContent = alttabContent;
-        writeAlttabProcess.alttabPath = alttabPath;
-        writeAlttabProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${alttabPath}" << 'EOF'\n${alttabContent}\nEOF`];
-        writeAlttabProcess.running = true;
 
         configGenerationPending = false;
     }
