@@ -1,5 +1,8 @@
 recent-windows {
     highlight {
-        corner-radius 15
+        active-color "#000000"
+        urgent-color "#000000"
+        padding 0
+        corner-radius 0
     }
 }
