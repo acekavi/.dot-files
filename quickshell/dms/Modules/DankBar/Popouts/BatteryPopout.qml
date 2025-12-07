@@ -570,6 +570,7 @@ DankPopout {
                         return profileModel.findIndex(profile => root.isActiveProfile(profile))
                     }
 
+                    visible: !TLPService.isActive && typeof PowerProfiles !== "undefined"
                     model: profileModel.map(profile => Theme.getPowerProfileLabel(profile))
                     currentIndex: currentProfileIndex
                     selectionMode: "single"
@@ -577,6 +578,53 @@ DankPopout {
                     onSelectionChanged: (index, selected) => {
                         if (!selected) return
                         root.setProfile(profileModel[index])
+                    }
+                }
+
+                StyledRect {
+                    width: parent.width
+                    height: tlpContent.implicitHeight + Theme.spacingM * 2
+                    radius: Theme.cornerRadius
+                    color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                    border.width: 0
+                    visible: TLPService.isActive
+
+                    Column {
+                        id: tlpContent
+                        width: parent.width - Theme.spacingM * 2
+                        anchors.centerIn: parent
+                        spacing: Theme.spacingS
+
+                        Row {
+                            width: parent.width
+                            spacing: Theme.spacingM
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            DankIcon {
+                                name: TLPService.getModeIcon()
+                                size: Theme.iconSize
+                                color: Theme.primary
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Column {
+                                spacing: 2
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                StyledText {
+                                    text: "TLP Power Management"
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: TLPService.getModeDescription()
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceTextMedium
+                                }
+                            }
+                        }
                     }
                 }
 

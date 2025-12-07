@@ -5,6 +5,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.UPower
 import qs.Common
+import qs.Services
 
 Singleton {
     id: root
@@ -72,13 +73,18 @@ Singleton {
             }
         }
 
+        if (TLPService.isActive) {
+            previousPluggedState = isPluggedIn;
+            return;
+        }
+
         const profileValue = BatteryService.isPluggedIn
-            ? SettingsData.acProfileName 
+            ? SettingsData.acProfileName
             : SettingsData.batteryProfileName;
 
         if (profileValue !== "") {
             const targetProfile = parseInt(profileValue);
-            if (!isNaN(targetProfile) && PowerProfiles.profile !== targetProfile) {
+            if (!isNaN(targetProfile) && typeof PowerProfiles !== "undefined" && PowerProfiles.profile !== targetProfile) {
                 PowerProfiles.profile = targetProfile;
             }
         }

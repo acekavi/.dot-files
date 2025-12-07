@@ -193,6 +193,7 @@ Rectangle {
                 return profileModel.findIndex(profile => isActiveProfile(profile))
             }
 
+            visible: !TLPService.isActive && typeof PowerProfiles !== "undefined"
             model: profileModel.map(profile => Theme.getPowerProfileLabel(profile))
             currentIndex: currentProfileIndex
             selectionMode: "single"
@@ -200,6 +201,111 @@ Rectangle {
             onSelectionChanged: (index, selected) => {
                 if (!selected) return
                 setProfile(profileModel[index])
+            }
+        }
+
+        StyledRect {
+            width: parent.width
+            height: tlpContent.implicitHeight + Theme.spacingL * 2
+            radius: Theme.cornerRadius
+            color: Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency)
+            border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
+            border.width: 0
+            visible: TLPService.isActive
+
+            Column {
+                id: tlpContent
+                width: parent.width - Theme.spacingL * 2
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.margins: Theme.spacingL
+                spacing: Theme.spacingM
+
+                Row {
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    DankIcon {
+                        name: TLPService.getModeIcon()
+                        size: Theme.iconSize
+                        color: Theme.primary
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Column {
+                        spacing: Theme.spacingXS
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: parent.width - Theme.iconSize - Theme.spacingM
+
+                        StyledText {
+                            text: "TLP Power Management"
+                            font.pixelSize: Theme.fontSizeLarge
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        StyledText {
+                            text: TLPService.getModeDescription()
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceTextMedium
+                        }
+                    }
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    color: Theme.withAlpha(Theme.outline, 0.12)
+                }
+
+                Row {
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    Column {
+                        width: (parent.width - Theme.spacingM) / 2
+                        spacing: Theme.spacingXS
+
+                        StyledText {
+                            text: "Power Source"
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceTextMedium
+                        }
+
+                        StyledText {
+                            text: TLPService.powerSource
+                            font.pixelSize: Theme.fontSizeMedium
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+                    }
+
+                    Column {
+                        width: (parent.width - Theme.spacingM) / 2
+                        spacing: Theme.spacingXS
+
+                        StyledText {
+                            text: "TLP Version"
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceTextMedium
+                        }
+
+                        StyledText {
+                            text: TLPService.tlpVersion
+                            font.pixelSize: Theme.fontSizeMedium
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+                    }
+                }
+
+                StyledText {
+                    text: "TLP automatically manages power settings based on your configuration. Profile switching is handled by TLP."
+                    font.pixelSize: Theme.fontSizeXSmall
+                    color: Theme.surfaceTextMedium
+                    wrapMode: Text.WordWrap
+                    width: parent.width
+                }
             }
         }
 

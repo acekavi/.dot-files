@@ -28,35 +28,35 @@ mods = "Control"
 
 [terminal]
 [colors.primary]
-background = '#0e1417'
-foreground = '#dee3e7'
+background = '#131318'
+foreground = '#e4e1e9'
 
 [colors.selection]
-text = '#dee3e7'
-background = '#12b8e9'
+text = '#e4e1e9'
+background = '#8689db'
 
 [colors.cursor]
-text = '#0e1417'
-cursor = '#66d3ff'
+text = '#131318'
+cursor = '#c0c1ff'
 
 [colors.normal]
-black   = '#0e1417'
-red     = '#e64c4c'
-green   = '#74d66e'
-yellow  = '#dbce7b'
-blue    = '#2591bc'
-magenta = '#63a4bf'
-cyan    = '#66d3ff'
+black   = '#131318'
+red     = '#e24e43'
+green   = '#6ed671'
+yellow  = '#dbd67b'
+blue    = '#7a73e9'
+magenta = '#999abf'
+cyan    = '#c0c1ff'
 white   = '#abb2bf'
 
 [colors.bright]
 black   = '#5c6370'
-red     = '#e05f64'
-green   = '#8be086'
-yellow  = '#e8dd97'
-blue    = '#6ce2ff'
-magenta = '#2e8d99'
-cyan    = '#4e7ea2'
+red     = '#e0655f'
+green   = '#86e088'
+yellow  = '#e8e397'
+blue    = '#cecfff'
+magenta = '#6773c2'
+cyan    = '#7a6fbb'
 white   = '#ffffff'
 
 [cursor]
