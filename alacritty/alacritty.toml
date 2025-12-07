@@ -27,43 +27,42 @@ key = "N"
 mods = "Control"
 
 [terminal]
-
-[colors.bright]
-black = "#3f4852"
-blue = "#c5cd71"
-cyan = "#a4caf5"
-green = "#debcdf"
-magenta = "#454b00"
-red = "#ffb4ab"
-white = "#dee3eb"
-yellow = "#21496e"
-
-[colors.cursor]
-cursor = "#dee3eb"
-text = "#0f141a"
-
-[colors.normal]
-black = "#0f141a"
-blue = "#c5cd71"
-cyan = "#a4caf5"
-green = "#debcdf"
-magenta = "#454b00"
-red = "#ffb4ab"
-white = "#bec7d5"
-yellow = "#21496e"
-
 [colors.primary]
-background = "#0f141a"
-foreground = "#dee3eb"
+background = '#0e1417'
+foreground = '#dee3e7'
 
 [colors.selection]
-background = "#debcdf"
-text = "#402843"
+text = '#dee3e7'
+background = '#12b8e9'
+
+[colors.cursor]
+text = '#0e1417'
+cursor = '#66d3ff'
+
+[colors.normal]
+black   = '#0e1417'
+red     = '#e64c4c'
+green   = '#74d66e'
+yellow  = '#dbce7b'
+blue    = '#2591bc'
+magenta = '#63a4bf'
+cyan    = '#66d3ff'
+white   = '#abb2bf'
+
+[colors.bright]
+black   = '#5c6370'
+red     = '#e05f64'
+green   = '#8be086'
+yellow  = '#e8dd97'
+blue    = '#6ce2ff'
+magenta = '#2e8d99'
+cyan    = '#4e7ea2'
+white   = '#ffffff'
 
 [cursor]
 blink_interval = 700
 blink_timeout = 5
-style = { shape = "Block", blinking = "Off" }
+style = { shape = "Block", blinking = "On" }
 
 [font]
 size = 12.0
