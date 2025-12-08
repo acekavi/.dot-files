@@ -10,7 +10,7 @@ Singleton {
     id: root
 
     property int refCount: 0
-    property int updateInterval: refCount > 0 ? 3000 : 30000
+    property int updateInterval: refCount > 0 ? 5000 : 60000
     property bool isUpdating: false
     property bool dgopAvailable: false
 
@@ -74,7 +74,7 @@ Singleton {
     property string uptime: ""
     property string shortUptime: ""
 
-    property int historySize: 60
+    property int historySize: 30
     property var cpuHistory: []
     property var memoryHistory: []
     property var networkHistory: ({

@@ -258,7 +258,7 @@ Singleton {
     }
 
     Timer {
-        interval: 30 * 60 * 1000
+        interval: 60 * 60 * 1000
         repeat: true
         running: refCount > 0 && distributionSupported && (pkgManager || updChecker)
         onTriggered: checkForUpdates()

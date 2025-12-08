@@ -141,7 +141,7 @@ Singleton {
 
     Timer {
         id: timeUpdateTimer
-        interval: 30000
+        interval: 60000
         repeat: true
         running: root.allWrappers.length > 0 || visibleNotifications.length > 0
         triggeredOnStart: false

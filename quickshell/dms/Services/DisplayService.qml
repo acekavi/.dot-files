@@ -705,7 +705,7 @@ Singleton {
     Timer {
         id: restartTimer
         property string nextAction: ""
-        interval: 250
+        interval: 500
         repeat: false
 
         onTriggered: {

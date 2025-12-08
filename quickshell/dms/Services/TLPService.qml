@@ -79,7 +79,7 @@ Singleton {
 
     Timer {
         id: refreshTimer
-        interval: 5000
+        interval: 10000
         repeat: true
         running: false
 

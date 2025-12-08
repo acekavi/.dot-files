@@ -56,13 +56,13 @@ Singleton {
 
     Timer {
         id: suppressResetTimer
-        interval: 2000
+        interval: 3000
         onTriggered: root.matugenSuppression = false
     }
 
     Timer {
         id: configGenerationDebounce
-        interval: 100
+        interval: 200
         onTriggered: root.doGenerateNiriLayoutConfig()
     }
 
