@@ -228,7 +228,6 @@
     "reboot",
     "logout",
     "poweroff",
-    "lock",
     "suspend"
   ],
   "powerMenuDefaultAction": "logout",

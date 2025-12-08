@@ -18,6 +18,7 @@ DankPopout {
     property bool editMode: false
     property int expandedWidgetIndex: -1
     property var expandedWidgetData: null
+    property bool powerOptionsExpanded: false
     property bool powerMenuOpen: powerMenuModalLoader?.item?.shouldBeVisible ?? false
 
     signal lockRequested
@@ -26,6 +27,7 @@ DankPopout {
         expandedSection = "";
         expandedWidgetIndex = -1;
         expandedWidgetData = null;
+        powerOptionsExpanded = false;
     }
 
     onEditModeChanged: {
@@ -152,13 +154,7 @@ DankPopout {
                     editMode: root.editMode
                     onEditModeToggled: root.editMode = !root.editMode
                     onPowerButtonClicked: {
-                        if (powerMenuModalLoader) {
-                            powerMenuModalLoader.active = true;
-                            if (powerMenuModalLoader.item) {
-                                const bounds = Qt.rect(root.alignedX, root.alignedY, root.popupWidth, root.popupHeight);
-                                powerMenuModalLoader.item.openFromControlCenter(bounds, root.screen);
-                            }
-                        }
+                        root.powerOptionsExpanded = !root.powerOptionsExpanded;
                     }
                     onLockRequested: {
                         root.close();
@@ -166,6 +162,19 @@ DankPopout {
                     }
                     onSettingsButtonClicked: {
                         root.close();
+                    }
+                }
+
+                PowerOptionsPane {
+                    id: powerOptionsPane
+                    width: parent.width
+                    expanded: root.powerOptionsExpanded
+                    onCloseRequested: {
+                        root.powerOptionsExpanded = false;
+                        root.close();
+                    }
+                    onLockRequested: {
+                        root.lockRequested();
                     }
                 }
 
