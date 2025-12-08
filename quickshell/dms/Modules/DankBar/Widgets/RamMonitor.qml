@@ -62,6 +62,7 @@ BasePill {
                         return DgopService.memoryUsage.toFixed(0);
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -70,6 +71,7 @@ BasePill {
                     visible: root.showSwap && DgopService.totalSwapKB > 0
                     text: root.swapUsage.toFixed(0)
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.surfaceVariantText
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -119,6 +121,7 @@ BasePill {
                     StyledTextMetrics {
                         id: ramBaseline
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        font.family: Theme.monoFontFamily
                         text: {
                             if (!root.showSwap) {
                                 return "88%";
@@ -144,6 +147,7 @@ BasePill {
                             return ramText;
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        font.family: Theme.monoFontFamily
                         color: Theme.widgetTextColor
 
                         anchors.fill: parent

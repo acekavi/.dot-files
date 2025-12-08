@@ -683,8 +683,8 @@ Item {
                 property bool loadedHasIcon: false
                 property var loadedIcons: []
 
-                readonly property real baseWidth: root.isVertical ? (SettingsData.showWorkspaceApps ? widgetHeight * 0.7 : widgetHeight * 0.5) : (isActive ? root.widgetHeight * 1.05 : root.widgetHeight * 0.7)
-                readonly property real baseHeight: root.isVertical ? (isActive ? root.widgetHeight * 1.05 : root.widgetHeight * 0.7) : (SettingsData.showWorkspaceApps ? widgetHeight * 0.7 : widgetHeight * 0.5)
+                readonly property real baseWidth: root.isVertical ? (SettingsData.showWorkspaceApps ? widgetHeight * 0.5 : widgetHeight * 0.5) : (isActive ? root.widgetHeight * 0.8 : root.widgetHeight * 0.5)
+                readonly property real baseHeight: root.isVertical ? (isActive ? root.widgetHeight * 0.8 : root.widgetHeight * 0.5) : (SettingsData.showWorkspaceApps ? widgetHeight * 0.5 : widgetHeight * 0.5)
 
                 readonly property real iconsExtraWidth: {
                     if (!root.isVertical && SettingsData.showWorkspaceApps && loadedIcons.length > 0) {

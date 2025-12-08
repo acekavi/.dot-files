@@ -44,6 +44,7 @@ BasePill {
                         return temp;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -71,6 +72,7 @@ BasePill {
                         return temp + "°" + (SettingsData.useFahrenheit ? "F" : "C");
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }

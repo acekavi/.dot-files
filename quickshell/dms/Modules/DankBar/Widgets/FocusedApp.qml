@@ -178,6 +178,7 @@ BasePill {
                     return appName.charAt(0).toUpperCase();
                 }
                 font.pixelSize: 10
+                font.family: Theme.monoFontFamily
                 color: Theme.widgetTextColor
             }
 
@@ -195,6 +196,7 @@ BasePill {
                         return Paths.getAppName(activeWindow.appId, activeDesktopEntry);
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
@@ -206,6 +208,7 @@ BasePill {
                 StyledText {
                     text: "•"
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.outlineButton
                     anchors.verticalCenter: parent.verticalCenter
                     visible: !compactMode && appText.text && titleText.text
@@ -231,6 +234,7 @@ BasePill {
                         return title;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                    font.family: Theme.monoFontFamily
                     color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
