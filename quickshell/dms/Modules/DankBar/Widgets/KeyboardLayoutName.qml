@@ -41,8 +41,6 @@ BasePill {
     property string currentLayout: {
         if (CompositorService.isNiri) {
             return NiriService.getCurrentKeyboardLayoutName();
-        } else if (CompositorService.isDwl) {
-            return DwlService.currentKeyboardLayout;
         }
         return "";
     }

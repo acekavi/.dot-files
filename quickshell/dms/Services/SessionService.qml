@@ -238,11 +238,6 @@ Singleton {
                 return;
             }
 
-            if (CompositorService.isDwl) {
-                DwlService.quit();
-                return;
-            }
-
             if (CompositorService.isSway) {
                 try {
                     I3.dispatch("exit");

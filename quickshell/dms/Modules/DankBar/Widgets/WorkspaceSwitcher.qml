@@ -23,7 +23,7 @@ Item {
         return CompositorService.filterCurrentWorkspace(CompositorService.sortedToplevels, screenName);
     }
 
-    readonly property bool useExtWorkspace: DMSService.forceExtWorkspace || (!CompositorService.isNiri && !CompositorService.isHyprland && !CompositorService.isDwl && !CompositorService.isSway && ExtWorkspaceService.extWorkspaceAvailable)
+    readonly property bool useExtWorkspace: false
 
     Connections {
         target: DesktopEntries
@@ -207,12 +207,6 @@ Item {
         } else if (CompositorService.isSway) {
             const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
             isActiveWs = focusedWs ? (focusedWs.num === targetWorkspaceId) : false;
-        } else if (CompositorService.isDwl) {
-            const output = DwlService.getOutputState(root.screenName);
-            if (output && output.tags) {
-                const tag = output.tags.find(t => t.tag === targetWorkspaceId);
-                isActiveWs = tag ? (tag.state === 1) : false;
-            }
         } else {
             isActiveWs = targetWorkspaceId === root.currentWorkspace;
         }
@@ -336,94 +330,9 @@ Item {
         return activeWs ? activeWs.idx + 1 : 1;
     }
 
-    function getDwlTags() {
-        if (!DwlService.dwlAvailable) {
-            return [];
-        }
-
-        const output = DwlService.getOutputState(root.screenName);
-        if (!output || !output.tags || output.tags.length === 0) {
-            return [];
-        }
-
-        if (SettingsData.dwlShowAllTags) {
-            return output.tags.map(tag => ({
-                        "tag": tag.tag,
-                        "state": tag.state,
-                        "clients": tag.clients,
-                        "focused": tag.focused
-                    }));
-        }
-
-        const visibleTagIndices = DwlService.getVisibleTags(root.screenName);
-        return visibleTagIndices.map(tagIndex => {
-            const tagData = output.tags.find(t => t.tag === tagIndex);
-            return {
-                "tag": tagIndex,
-                "state": tagData?.state ?? 0,
-                "clients": tagData?.clients ?? 0,
-                "focused": tagData?.focused ?? false
-            };
-        });
-    }
-
-    function getDwlActiveTags() {
-        if (!DwlService.dwlAvailable) {
-            return [];
-        }
-
-        const activeTags = DwlService.getActiveTags(root.screenName);
-        return activeTags;
-    }
 
     function getExtWorkspaceWorkspaces() {
-        const groups = ExtWorkspaceService.groups;
-        if (!ExtWorkspaceService.extWorkspaceAvailable || groups.length === 0) {
-            return [
-                {
-                    "id": "1",
-                    "name": "1",
-                    "active": false
-                }
-            ];
-        }
-
-        const group = groups.find(g => g.outputs && g.outputs.includes(root.screenName));
-        if (!group || !group.workspaces) {
-            return [
-                {
-                    "id": "1",
-                    "name": "1",
-                    "active": false
-                }
-            ];
-        }
-
-        let visible = group.workspaces.filter(ws => !ws.hidden);
-
-        const hasValidCoordinates = visible.some(ws => ws.coordinates && ws.coordinates.length > 0);
-        if (hasValidCoordinates) {
-            visible = visible.sort((a, b) => {
-                const coordsA = a.coordinates || [0, 0];
-                const coordsB = b.coordinates || [0, 0];
-                if (coordsA[0] !== coordsB[0])
-                    return coordsA[0] - coordsB[0];
-                return coordsA[1] - coordsB[1];
-            });
-        }
-
-        visible = visible.map(ws => ({
-                    id: ws.id,
-                    name: ws.name,
-                    coordinates: ws.coordinates,
-                    state: ws.state,
-                    active: ws.active,
-                    urgent: ws.urgent,
-                    hidden: ws.hidden,
-                    groupID: group.id
-                }));
-
-        return visible.length > 0 ? visible : [
+        return [
             {
                 "id": "1",
                 "name": "1",
@@ -433,12 +342,7 @@ Item {
     }
 
     function getExtWorkspaceActiveWorkspace() {
-        if (!ExtWorkspaceService.extWorkspaceAvailable) {
-            return 1;
-        }
-
-        const activeWs = ExtWorkspaceService.getActiveWorkspaceForOutput(root.screenName);
-        return activeWs ? (activeWs.id || activeWs.name || "1") : "1";
+        return 1;
     }
 
     readonly property real padding: Math.max(Theme.spacingXS, Theme.spacingS * (widgetHeight / 30))

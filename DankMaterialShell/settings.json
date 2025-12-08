@@ -1,7 +1,7 @@
 {
   "currentThemeName": "dynamic",
   "customThemeFile": "",
-  "matugenScheme": "scheme-content",
+  "matugenScheme": "scheme-fidelity",
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 0.9,
@@ -14,14 +14,14 @@
   "useFahrenheit": false,
   "nightModeEnabled": false,
   "animationSpeed": 2,
-  "customAnimationDuration": 500,
+  "customAnimationDuration": 200,
   "wallpaperFillMode": "Fill",
   "blurredWallpaperLayer": false,
   "blurWallpaperOnOverview": false,
   "showLauncherButton": true,
   "showWorkspaceSwitcher": true,
   "showFocusedWindow": true,
-  "showWeather": true,
+  "showWeather": false,
   "showMusic": true,
   "showClipboard": true,
   "showCpuUsage": true,
@@ -39,7 +39,7 @@
   "controlCenterShowNetworkIcon": true,
   "controlCenterShowBluetoothIcon": true,
   "controlCenterShowAudioIcon": true,
-  "controlCenterShowVpnIcon": true,
+  "controlCenterShowVpnIcon": false,
   "controlCenterShowBrightnessIcon": false,
   "controlCenterShowMicIcon": false,
   "controlCenterShowBatteryIcon": false,
@@ -110,7 +110,7 @@
   "workspaceScrolling": false,
   "showWorkspaceApps": false,
   "maxWorkspaceIcons": 3,
-  "workspacesPerMonitor": false,
+  "workspacesPerMonitor": true,
   "showOccupiedWorkspacesOnly": false,
   "dwlShowAllTags": false,
   "workspaceNameIcons": {},
@@ -135,7 +135,7 @@
   "weatherLocation": "Hikkaduwa, Southern Province",
   "weatherCoordinates": "6.1407530,80.1028181",
   "useAutoLocation": false,
-  "weatherEnabled": true,
+  "weatherEnabled": false,
   "networkPreference": "wifi",
   "vpnLastConnected": "",
   "iconTheme": "WhiteSur",
@@ -161,9 +161,9 @@
   "soundNewNotification": true,
   "soundVolumeChanged": true,
   "soundPluggedIn": true,
-  "acMonitorTimeout": 600,
-  "acLockTimeout": 300,
-  "acSuspendTimeout": 900,
+  "acMonitorTimeout": 0,
+  "acLockTimeout": 0,
+  "acSuspendTimeout": 0,
   "acSuspendBehavior": 0,
   "acProfileName": "1",
   "batteryMonitorTimeout": 600,
@@ -172,7 +172,7 @@
   "batterySuspendBehavior": 0,
   "batteryProfileName": "",
   "lockBeforeSuspend": false,
-  "preventIdleForMedia": false,
+  "preventIdleForMedia": true,
   "loginctlLockIntegration": false,
   "fadeToLockEnabled": false,
   "fadeToLockGracePeriod": 5,
@@ -203,7 +203,7 @@
   "notificationOverlayEnabled": false,
   "modalDarkenBackground": false,
   "lockScreenShowPowerActions": false,
-  "enableFprint": false,
+  "enableFprint": true,
   "maxFprintTries": 3,
   "lockScreenActiveMonitor": "all",
   "lockScreenInactiveColor": "#000000",
@@ -213,7 +213,7 @@
   "notificationTimeoutCritical": 0,
   "notificationPopupPosition": 0,
   "osdAlwaysShowValue": false,
-  "osdPosition": 5,
+  "osdPosition": 7,
   "osdVolumeEnabled": true,
   "osdMediaVolumeEnabled": true,
   "osdBrightnessEnabled": true,
@@ -222,7 +222,7 @@
   "osdCapsLockEnabled": true,
   "osdPowerProfileEnabled": false,
   "osdAudioOutputEnabled": true,
-  "powerActionConfirm": true,
+  "powerActionConfirm": false,
   "powerActionHoldDuration": 0.5,
   "powerMenuActions": [
     "reboot",
@@ -232,7 +232,7 @@
     "suspend"
   ],
   "powerMenuDefaultAction": "logout",
-  "powerMenuGridLayout": true,
+  "powerMenuGridLayout": false,
   "customPowerActionLock": "",
   "customPowerActionLogout": "",
   "customPowerActionSuspend": "",
@@ -243,8 +243,14 @@
   "updaterCustomCommand": "",
   "updaterTerminalAdditionalParams": "",
   "displayNameMode": "system",
-  "screenPreferences": {},
-  "showOnLastDisplay": {},
+  "screenPreferences": {
+    "dock": [
+      "all"
+    ]
+  },
+  "showOnLastDisplay": {
+    "dock": true
+  },
   "barConfigs": [
     {
       "id": "default",
@@ -260,9 +266,12 @@
         "focusedWindow"
       ],
       "centerWidgets": [
-        "music",
-        "clock",
-        "weather"
+        {
+          "id": "music",
+          "enabled": true,
+          "mediaSize": 2
+        },
+        "clock"
       ],
       "rightWidgets": [
         {
@@ -271,10 +280,6 @@
         },
         {
           "id": "clipboard",
-          "enabled": true
-        },
-        {
-          "id": "memUsage",
           "enabled": true
         },
         {
@@ -294,8 +299,8 @@
       "innerPadding": 4,
       "bottomGap": 0,
       "transparency": 0.7,
-      "widgetTransparency": 0.9,
-      "squareCorners": false,
+      "widgetTransparency": 0.5,
+      "squareCorners": true,
       "noBackground": false,
       "gothCornersEnabled": false,
       "gothCornerRadiusOverride": false,
@@ -307,10 +312,13 @@
       "fontScale": 1,
       "autoHide": false,
       "autoHideDelay": 250,
-      "openOnOverview": true,
+      "openOnOverview": false,
       "visible": true,
       "popupGapsAuto": true,
-      "popupGapsManual": 4
+      "popupGapsManual": 4,
+      "maximizeDetection": true,
+      "widgetOutlineEnabled": false,
+      "widgetOutlineColor": "secondary"
     }
   ],
   "configVersion": 2

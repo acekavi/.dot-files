@@ -56,12 +56,6 @@ Singleton {
                 return hyprlandMonitor.scale;
         }
 
-        if (isDwl && screen) {
-            const dwlScale = DwlService.getOutputScale(screen.name);
-            if (dwlScale !== undefined && dwlScale > 0)
-                return dwlScale;
-        }
-
         return screen?.devicePixelRatio || 1;
     }
 
@@ -74,8 +68,7 @@ Singleton {
         else if (isSway) {
             const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
             screenName = focusedWs?.monitor?.name || "";
-        } else if (isDwl && DwlService.activeOutput)
-            screenName = DwlService.activeOutput;
+        }
 
         if (!screenName)
             return Quickshell.screens.length > 0 ? Quickshell.screens[0] : null;

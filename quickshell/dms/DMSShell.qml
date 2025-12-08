@@ -326,12 +326,8 @@ Item {
 
         active: false
 
-        DWLLayoutPopout {
+        Item {
             id: layoutPopout
-
-            Component.onCompleted: {
-                PopoutService.layoutPopout = layoutPopout;
-            }
         }
     }
 

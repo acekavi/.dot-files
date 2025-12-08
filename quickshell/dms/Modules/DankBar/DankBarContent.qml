@@ -1087,28 +1087,8 @@ Item {
     Component {
         id: layoutComponent
 
-        DWLLayout {
-            layoutPopupVisible: layoutPopoutLoader.item ? layoutPopoutLoader.item.shouldBeVisible : false
-            widgetThickness: barWindow.widgetThickness
-            barThickness: barWindow.effectiveBarThickness
-            axis: barWindow.axis
-            section: topBarContent.getWidgetSection(parent) || "center"
-            popoutTarget: {
-                layoutPopoutLoader.active = true;
-                return layoutPopoutLoader.item;
-            }
-            parentScreen: barWindow.screen
-            onToggleLayoutPopup: {
-                layoutPopoutLoader.active = true;
-                const effectiveBarConfig = topBarContent.barConfig;
-                const barPosition = barWindow.axis?.edge === "left" ? 2 : (barWindow.axis?.edge === "right" ? 3 : (barWindow.axis?.edge === "top" ? 0 : 1));
-                if (layoutPopoutLoader.item && layoutPopoutLoader.item.setBarContext) {
-                    layoutPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
-                }
-                if (layoutPopoutLoader.item) {
-                    PopoutManager.requestPopout(layoutPopoutLoader.item, undefined, "layout");
-                }
-            }
+        Item {
+            visible: false
         }
     }
 

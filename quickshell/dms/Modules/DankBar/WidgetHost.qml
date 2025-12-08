@@ -258,8 +258,7 @@ Loader {
             "memUsage": dgopAvailable,
             "cpuTemp": dgopAvailable,
             "gpuTemp": dgopAvailable,
-            "network_speed_monitor": dgopAvailable,
-            "layout": CompositorService.isDwl && DwlService.dwlAvailable
+            "network_speed_monitor": dgopAvailable
         };
 
         return widgetVisibility[widgetId] ?? true;
